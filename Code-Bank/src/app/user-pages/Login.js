@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 
 export class Login extends Component {
 
-
   state ={
     form:{
         "Username":"",
@@ -16,7 +15,6 @@ export class Login extends Component {
     error: false,
     errorMsg:""
   }
-
 
   manejadorSubmit =e=>{
     e.preventDefault();
@@ -39,15 +37,13 @@ export class Login extends Component {
         'El campo de nombre de usuario esta vacio',
         'error'
       )
-
     }
-
     else if (!this.state.form.Password)  {
-          Swal.fire(
-                'Error de inicio de sesión',
-                'El campo de contraseña esta vacio',
-                'error'
-          )
+      Swal.fire(
+        'Error de inicio de sesión',
+        'El campo de contraseña esta vacio',
+        'error'
+      )  
     }
     else{
       let url = Apiurl + 'login/authenticate';
@@ -65,22 +61,20 @@ axios
     });
   });
     }
-
-    
-
   }
 
-    componentDidUpdate() {
-        if (this.state.error) {
-            Swal.fire(
-                'Error de inicio de sesión',
-                'Verifique sus credenciales',
-                'error'
-            ).then((res) => {
-                this.setState({ error: false });
-            })
-        }
+  componentDidUpdate() {
+    if (this.state.error) {
+        Swal.fire(
+            'Error de inicio de sesión',
+            'Verifique sus credenciales',
+            'error'
+        ).then((res) => {
+            this.setState({ error: false });
+        })
     }
+  }
+  
   render() {
     return (
       <div>

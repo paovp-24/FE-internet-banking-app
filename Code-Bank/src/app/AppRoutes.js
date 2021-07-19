@@ -13,6 +13,8 @@ const BasicElements = lazy(() => import('./form-elements/BasicElements'));
 
 const BasicTable = lazy(() => import('./tables/BasicTable'));
 
+const Moneda = lazy(() => import('./tables/Moneda'));
+
 const Mdi = lazy(() => import('./icons/Mdi'));
 
 const ChartJs = lazy(() => import('./charts/ChartJs'));
@@ -40,6 +42,8 @@ class AppRoutes extends Component {
           />
 
           <Route path="/tables/basic-table" component={BasicTable} />
+
+          <Route path="/tables/moneda" component={Moneda} />
 
           <Route path="/icons/mdi" component={Mdi} />
 

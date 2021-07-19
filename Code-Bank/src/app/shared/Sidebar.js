@@ -320,17 +320,17 @@ class Sidebar extends Component {
           </li>
           <li
             className={
-              this.isPathActive('/prestamos')
+              this.isPathActive('/error-pages/error-404')
                 ? 'nav-item menu-items active'
                 : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/prestamos">
+            <Link className="nav-link" to="/error-pages/error-404">
               <span className="menu-icon">
                 <i className="mdi mdi-speedometer"></i>
               </span>
               <span className="menu-title">
-                <Trans>Prestamos</Trans>
+                <Trans>Prestamo</Trans>
               </span>
             </Link>
           </li>
@@ -495,6 +495,19 @@ class Sidebar extends Component {
                       to="/tables/basic-table"
                     >
                       <Trans>Basic Table</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/moneda')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/moneda"
+                    >
+                      <Trans>Moneda</Trans>
                     </Link>
                   </li>
                 </ul>
