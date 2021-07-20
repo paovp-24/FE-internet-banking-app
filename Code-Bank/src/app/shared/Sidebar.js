@@ -501,13 +501,78 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/moneda')
+                        this.isPathActive('/tables/emisor')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/moneda"
+                      to="/tables/emisor"
                     >
-                      <Trans>Moneda</Trans>
+                      <Trans>Emisor</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/prestamo')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/prestamo"
+                    >
+                      <Trans>Prestamo</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/promocion')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/promocion"
+                    >
+                      <Trans>Promocion</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/sucursal')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/sucursal"
+                    >
+                      <Trans>Sucursal</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/inversion')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/inversion"
+                    >
+                      <Trans>Inversion</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/marchamo')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/marchamo"
+                    >
+                      <Trans>Marchamo</Trans>
                     </Link>
                   </li>
                 </ul>

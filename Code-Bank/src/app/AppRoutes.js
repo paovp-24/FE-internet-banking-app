@@ -13,7 +13,12 @@ const BasicElements = lazy(() => import('./form-elements/BasicElements'));
 
 const BasicTable = lazy(() => import('./tables/BasicTable'));
 
-const Moneda = lazy(() => import('./tables/Moneda'));
+const Emisor = lazy(() => import('./tables/Emisor'));
+const Sucursal = lazy(() => import('./tables/Sucursal'));
+const Prestamo = lazy(() => import('./tables/Prestamo'));
+const Promocion = lazy(() => import('./tables/Promocion'));
+const Inversion = lazy(() => import('./tables/Inversion'));
+const Marchamo = lazy(() => import('./tables/Marchamo'));
 
 const Mdi = lazy(() => import('./icons/Mdi'));
 
@@ -43,7 +48,12 @@ class AppRoutes extends Component {
 
           <Route path="/tables/basic-table" component={BasicTable} />
 
-          <Route path="/tables/moneda" component={Moneda} />
+          <Route path="/tables/emisor" component={Emisor} />
+          <Route path="/tables/sucursal" component={Sucursal} />
+          <Route path="/tables/prestamo" component={Prestamo} />
+          <Route path="/tables/promocion" component={Promocion} />
+          <Route path="/tables/inversion" component={Inversion} />
+          <Route path="/tables/marchamo" component={Marchamo} />
 
           <Route path="/icons/mdi" component={Mdi} />
 
