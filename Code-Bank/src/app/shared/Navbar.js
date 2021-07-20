@@ -31,7 +31,8 @@ class Navbar extends Component {
           </button>
 
           <ul className="navbar-nav navbar-nav-right">
-            <Dropdown alignRight as="li" className="nav-item border-left">
+            {/* Mensajes y Correos
+ <Dropdown alignRight as="li" className="nav-item border-left">
               <Dropdown.Toggle
                 as="a"
                 className="nav-link count-indicator cursor-pointer"
@@ -124,7 +125,7 @@ class Navbar extends Component {
                 </p>
               </Dropdown.Menu>
             </Dropdown>
-            <Dropdown alignRight as="li" className="nav-item border-left">
+            Dropdown alignRight as="li" className="nav-item border-left">
               <Dropdown.Toggle
                 as="a"
                 className="nav-link count-indicator cursor-pointer"
@@ -201,6 +202,7 @@ class Navbar extends Component {
                 </p>
               </Dropdown.Menu>
             </Dropdown>
+        */}
             <Dropdown alignRight as="li" className="nav-item">
               <Dropdown.Toggle
                 as="a"
@@ -209,7 +211,7 @@ class Navbar extends Component {
                 <div className="navbar-profile">
                   <img
                     className="img-xs rounded-circle"
-                    src={require('../../assets/images/faces/face15.jpg')}
+                    src={require('../../assets/images/faces/face0.jpg')}
                     alt="profile"
                   />
                   <p className="mb-0 d-none d-sm-block navbar-profile-name">
@@ -235,19 +237,14 @@ class Navbar extends Component {
                   </div>
                   <div className="preview-item-content">
                     <p className="preview-subject mb-1">
-                    {' '}
-                    <Link
-                      className={"nav-link"}
-                      to="/user-pages/Login"
-                    >
-                     <Trans >Cerrar Sesión</Trans>
-                    </Link>
-                
+                      {' '}
+                      <Link className={'nav-link'} to="/user-pages/Login">
+                        <Trans>Cerrar Sesión</Trans>
+                      </Link>
                     </p>
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Divider />
-              
               </Dropdown.Menu>
             </Dropdown>
           </ul>

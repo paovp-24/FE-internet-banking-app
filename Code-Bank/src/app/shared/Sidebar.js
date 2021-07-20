@@ -1,7 +1,6 @@
-
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Collapse, Dropdown } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
 
 class Sidebar extends Component {
@@ -52,13 +51,13 @@ class Sidebar extends Component {
 
   render() {
     return (
-       /* eslint-disable */
+      /* eslint-disable */
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a className="sidebar-brand brand-logo" > 
-            <img src={require('../../assets/images/logo2.svg')}  alt="logo" />
-          </a>    
-          <a className="sidebar-brand brand-logo-mini" > 
+          <a className="sidebar-brand brand-logo">
+            <img src={require('../../assets/images/logo2.svg')} alt="logo" />
+          </a>
+          <a className="sidebar-brand brand-logo-mini">
             <img
               src={require('../../assets/images/logo2-mini.svg')}
               alt="logo"
@@ -72,7 +71,7 @@ class Sidebar extends Component {
                 <div className="count-indicator">
                   <img
                     className="img-xs rounded-circle "
-                    src={require('../../assets/images/faces/face15.jpg')}
+                    src={require('../../assets/images/faces/face0.jpg')}
                     alt="profile"
                   />
                   <span className="count bg-success"></span>
@@ -86,10 +85,12 @@ class Sidebar extends Component {
                   </span>
                 </div>
               </div>
-              <Dropdown alignRight>
-                <Dropdown.Toggle as="a" className="cursor-pointer no-caret">
+              {/* 
+           <Dropdown.Toggle as="a" className="cursor-pointer no-caret">
                   <i className="mdi mdi-dots-vertical"></i>
                 </Dropdown.Toggle>
+
+<Dropdown alignRight>
                 <Dropdown.Menu className="sidebar-dropdown preview-list">
                   <a
                     href="!#"
@@ -143,6 +144,9 @@ class Sidebar extends Component {
                   </a>
                 </Dropdown.Menu>
               </Dropdown>
+
+
+           */}
             </div>
           </li>
           <li className="nav-item nav-category">
@@ -166,79 +170,6 @@ class Sidebar extends Component {
               </span>
             </Link>
           </li>
-          <li
-            className={
-              this.isPathActive('/error-pages')
-                ? 'nav-item menu-items active'
-                : 'nav-item menu-items'
-            }
-          >
-            <div
-              className={
-                this.state.errorPagesMenuOpen
-                  ? 'nav-link menu-expanded'
-                  : 'nav-link'
-              }
-              onClick={() => this.toggleMenuState('errorPagesMenuOpen')}
-              data-toggle="collapse"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-lock"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Error Pages</Trans>
-              </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.errorPagesMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/error-pages/error-404')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/error-pages/error-404"
-                    >
-                      404
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/error-pages/error-500')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/error-pages/error-500"
-                    >
-                      500
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
-          </li>
-          <li className="nav-item menu-items">
-            <a
-              className="nav-link"
-              href="http://bootstrapdash.com/demo/corona-react-free/documentation/documentation.html"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-file-document-box"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Documentation</Trans>
-              </span>
-            </a>
-          </li>
-
 
           <li className="nav-item nav-category">
             <span className="nav-link">
@@ -270,11 +201,11 @@ class Sidebar extends Component {
           >
             <div
               className={
-                this.state.errorPagesMenuOpen
+                this.state.cuentasPagesMenuOpen
                   ? 'nav-link menu-expanded'
                   : 'nav-link'
               }
-              onClick={() => this.toggleMenuState('errorPagesMenuOpen')}
+              onClick={() => this.toggleMenuState('cuentasPagesMenuOpen')}
               data-toggle="collapse"
             >
               <span className="menu-icon">
@@ -285,7 +216,7 @@ class Sidebar extends Component {
               </span>
               <i className="menu-arrow"></i>
             </div>
-            <Collapse in={this.state.errorPagesMenuOpen}>
+            <Collapse in={this.state.cuentasPagesMenuOpen}>
               <div>
                 <ul className="nav flex-column sub-menu">
                   <li className="nav-item">
@@ -334,9 +265,6 @@ class Sidebar extends Component {
               </span>
             </Link>
           </li>
-
-
-
 
           <li className="nav-item nav-category">
             <span className="nav-link">
@@ -722,9 +650,78 @@ class Sidebar extends Component {
               </div>
             </Collapse>
           </li>
-
-
-
+          <li
+            className={
+              this.isPathActive('/error-pages')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <div
+              className={
+                this.state.errorPagesMenuOpen
+                  ? 'nav-link menu-expanded'
+                  : 'nav-link'
+              }
+              onClick={() => this.toggleMenuState('errorPagesMenuOpen')}
+              data-toggle="collapse"
+            >
+              <span className="menu-icon">
+                <i className="mdi mdi-lock"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Error Pages</Trans>
+              </span>
+              <i className="menu-arrow"></i>
+            </div>
+            <Collapse in={this.state.errorPagesMenuOpen}>
+              <div>
+                <ul className="nav flex-column sub-menu">
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/error-pages/error-404')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/error-pages/error-404"
+                    >
+                      404
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/error-pages/error-500')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/error-pages/error-500"
+                    >
+                      500
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </Collapse>
+          </li>
+          <li className="nav-item menu-items">
+            <a
+              className="nav-link"
+              href="http://bootstrapdash.com/demo/corona-react-free/documentation/documentation.html"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span className="menu-icon">
+                <i className="mdi mdi-file-document-box"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Documentation</Trans>
+              </span>
+            </a>
+          </li>
         </ul>
       </nav>
     );
