@@ -33,6 +33,8 @@ export class Register extends Component {
   };
 
   manejadorboton = () => {
+    var regex = new RegExp (/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    
     if (!this.state.form.Identificacion) {
       Swal.fire(
         'Error de Registro',
@@ -53,7 +55,15 @@ export class Register extends Component {
       );
     } else if (!this.state.form.Email) {
       Swal.fire('Error de Registro', 'El campo de email esta vacio', 'error');
-    } else if (!this.state.form.Password) {
+    } 
+    else if (!regex.test(this.state.form.Email)) {
+      Swal.fire(
+        'Error de Registro',
+        'Ingrese el campo de email un email valido',
+        'error'
+      );
+    }
+    else if (!this.state.form.Password) {
       Swal.fire(
         'Error de inicio de sesión',
         'El campo de contraseña esta vacio',
