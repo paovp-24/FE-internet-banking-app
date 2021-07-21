@@ -20,7 +20,7 @@ const Emisor = () => {
     Codigo: '',
     Descripcion: '',
     Prefijo: '',
-    NumeroDigitos: ''
+    NumeroDigitos: '',
   };
 
   const [emisores, setEmisores] = useState([]);
@@ -41,22 +41,29 @@ const Emisor = () => {
   };
 
   const getEmisores = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setEmisores(data);
     });
   };
 
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
   // eslint-disable-next-line
-  const getEmisoresById = async() => {
-    await axios.get(url+emisor.Codigo).then(res=>{
+  const getEmisoresById = async () => {
+    console.log(localStorage.getItem('token'));
+    await axios.get(url + emisor.Codigo, config).then((res) => {
       const data = res.data;
       setEmisor(data);
-    })
-  }
+    });
+  };
 
   const postEmisor = async () => {
-    await axios.post(url, emisor).then((res) => {
+    await axios.post(url, emisor, config).then((res) => {
       const data = res.data;
       setEmisores(emisores.concat(data));
       clearEmisor();
@@ -90,7 +97,7 @@ const Emisor = () => {
   };
 
   const putEmisor = async () => {
-    await axios.put(url + emisor.Codigo, emisor).then((res) => {
+    await axios.put(url + emisor.Codigo, emisor, config).then((res) => {
       const newData = emisores;
       newData.map((item) => {
         if (emisor.Codigo === item.Codigo) {
@@ -131,9 +138,9 @@ const Emisor = () => {
     }
   };
 
-  const deleteEmisor = async (emisor) => { 
+  const deleteEmisor = async (emisor) => {
     if (emisor.Codigo) {
-      await axios.delete(url + emisor.Codigo).then((res) => {
+      await axios.delete(url + emisor.Codigo, config).then((res) => {
         setEmisores(emisores.filter((item) => item.Codigo !== emisor.Codigo));
         clearEmisor();
       });
@@ -160,7 +167,7 @@ const Emisor = () => {
         );
       }
     });
-  }
+  };
 
   useEffect(() => {
     getEmisores();
@@ -186,7 +193,8 @@ const Emisor = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {emisores && emisores.map((emisor) => {
+                    {emisores &&
+                      emisores.map((emisor) => {
                         return (
                           <tr key={emisor && emisor.Codigo}>
                             <td>{emisor && emisor.Codigo}</td>
@@ -194,10 +202,23 @@ const Emisor = () => {
                             <td>{emisor && emisor.Prefijo}</td>
                             <td>{emisor && emisor.NumeroDigitos}</td>
                             <td>
-                              <button className="btn btn-primary" onClick={() => {setEmisor(emisor); setModalUpdate(!modalUpdate)}}>Editar</button>
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  setEmisor(emisor);
+                                  setModalUpdate(!modalUpdate);
+                                }}
+                              >
+                                Editar
+                              </button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteEmisor(emisor)}>Eliminar</button>
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteEmisor(emisor)}
+                              >
+                                Eliminar
+                              </button>
                             </td>
                           </tr>
                         );
@@ -208,7 +229,12 @@ const Emisor = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -261,7 +287,13 @@ const Emisor = () => {
           <Button color="primary" onClick={() => handlePostEmisor()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearEmisor()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearEmisor();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -333,7 +365,13 @@ const Emisor = () => {
           <Button color="primary" onClick={() => handlePutEmisor()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearEmisor()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearEmisor();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
