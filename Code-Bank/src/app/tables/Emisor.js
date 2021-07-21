@@ -63,7 +63,7 @@ const Emisor = () => {
   };
 
   const postEmisor = async () => {
-    await axios.post(url, emisor).then((res) => {
+    await axios.post(url, emisor, config).then((res) => {
       const data = res.data;
       setEmisores(emisores.concat(data));
       clearEmisor();
@@ -97,7 +97,7 @@ const Emisor = () => {
   };
 
   const putEmisor = async () => {
-    await axios.put(url + emisor.Codigo, emisor).then((res) => {
+    await axios.put(url + emisor.Codigo, emisor, config).then((res) => {
       const newData = emisores;
       newData.map((item) => {
         if (emisor.Codigo === item.Codigo) {
@@ -140,7 +140,7 @@ const Emisor = () => {
 
   const deleteEmisor = async (emisor) => {
     if (emisor.Codigo) {
-      await axios.delete(url + emisor.Codigo).then((res) => {
+      await axios.delete(url + emisor.Codigo, config).then((res) => {
         setEmisores(emisores.filter((item) => item.Codigo !== emisor.Codigo));
         clearEmisor();
       });
