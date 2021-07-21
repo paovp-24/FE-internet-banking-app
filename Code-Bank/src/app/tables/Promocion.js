@@ -41,8 +41,14 @@ const Promocion = () => {
     }));
   };
 
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
   const getPromociones = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setPromociones(data);
     });
@@ -50,14 +56,14 @@ const Promocion = () => {
 
   // eslint-disable-next-line
   const getPromocionById = async() => {
-    await axios.get(url+promocion.Codigo).then(res=>{
+    await axios.get(url+promocion.Codigo, config).then(res=>{
       const data = res.data;
       setPromocion(data);
     })
   }
 
   const postPromocion = async () => {
-    await axios.post(url, promocion).then((res) => {
+    await axios.post(url, promocion, config).then((res) => {
       const data = res.data;
       setPromociones(promociones.concat(data));
       clearPromocion();
@@ -103,7 +109,7 @@ const Promocion = () => {
   };
 
   const putPromocion = async () => {
-    await axios.put(url + promocion.Codigo, promocion).then((res) => {
+    await axios.put(url + promocion.Codigo, promocion, config).then((res) => {
       const newData = promociones;
       newData.map((item) => {
         if (promocion.Codigo === item.Codigo) {
@@ -160,7 +166,7 @@ const Promocion = () => {
 
   const deletePromocion = async (promocion) => { 
     if (promocion.Codigo) {
-      await axios.delete(url + promocion.Codigo).then((res) => {
+      await axios.delete(url + promocion.Codigo, config).then((res) => {
         setPromociones(promociones.filter((item) => item.Codigo !== promocion.Codigo));
         clearPromocion();
       });

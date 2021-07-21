@@ -33,6 +33,12 @@ const Marchamo = () => {
     setMarchamo({ ...emptyMarchamo });
   };
 
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setMarchamo((prevState) => ({
@@ -42,7 +48,7 @@ const Marchamo = () => {
   };
 
   const getMarchamos = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setMarchamos(data);
     });
@@ -50,14 +56,14 @@ const Marchamo = () => {
 
   // eslint-disable-next-line
   const getMarchamoById = async() => {
-    await axios.get(url+marchamo.Codigo).then(res=>{
+    await axios.get(url+marchamo.Codigo, config).then(res=>{
       const data = res.data;
       setMarchamo(data);
     })
   }
 
   const postMarchamo = async () => {
-    await axios.post(url, marchamo).then((res) => {
+    await axios.post(url, marchamo, config).then((res) => {
       const data = res.data;
       setMarchamos(marchamos.concat(data));
       clearMarchamo();
@@ -103,7 +109,7 @@ const Marchamo = () => {
   };
 
   const putMarchamo = async () => {
-    await axios.put(url + marchamo.Codigo, marchamo).then((res) => {
+    await axios.put(url + marchamo.Codigo, marchamo, config).then((res) => {
       const newData = marchamos;
       newData.map((item) => {
         if (marchamo.Codigo === item.Codigo) {
@@ -160,7 +166,7 @@ const Marchamo = () => {
 
   const deleteMarchamo = async (marchamo) => { 
     if (marchamo.Codigo) {
-      await axios.delete(url + marchamo.Codigo).then((res) => {
+      await axios.delete(url + marchamo.Codigo, config).then((res) => {
         setMarchamos(marchamos.filter((item) => item.Codigo !== marchamo.Codigo));
         clearMarchamo();
       });
