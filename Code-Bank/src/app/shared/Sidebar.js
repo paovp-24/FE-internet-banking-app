@@ -503,6 +503,71 @@ class Sidebar extends Component {
                       <Trans>Marchamo</Trans>
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/fiador')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/fiador"
+                    >
+                      <Trans>Fiador</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/tarjeta')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/tarjeta"
+                    >
+                      <Trans>Tarjeta</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/propiedad')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/propiedad"
+                    >
+                      <Trans>Propiedad</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/cuenta_debito')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/cuenta_debito"
+                    >
+                      <Trans>Cuenta Debito</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/tables/cuenta_credito')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/tables/cuenta_credito"
+                    >
+                      <Trans>Cuenta Credito</Trans>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </Collapse>

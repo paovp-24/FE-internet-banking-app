@@ -15,159 +15,159 @@ import { Apiurl } from '../../services/apirest';
 const url = Apiurl + 'Fiador/';
 
 const Fiador = () => {
-  const emptyMarchamo = {
+  const emptyFiador = {
     Codigo: '',
     CodigoPrestamo: '',
-    Placa: '',
-    Monto: '',
-    FechaLimite: '',
-    Estado: ''
+    Cedula: '',
+    Nombre: '',
+    Apellidos: '',
+    Ocupacion: ''
   };
 
-  const [marchamos, setMarchamos] = useState([]);
+  const [fiadores, setFiadores] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [marchamo, setMarchamo] = useState(emptyMarchamo);
+  const [fiador, setFiador] = useState(emptyFiador);
 
-  const clearMarchamo = () => {
-    setMarchamo({ ...emptyMarchamo });
+  const clearFiador = () => {
+    setFiador({ ...emptyFiador });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setMarchamo((prevState) => ({
+    setFiador((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const getMarchamos = async () => {
+  const getFiadores = async () => {
     await axios.get(url).then((res) => {
       const data = res.data;
-      setMarchamos(data);
+      setFiadores(data);
     });
   };
 
   // eslint-disable-next-line
-  const getMarchamoById = async() => {
-    await axios.get(url+marchamo.Codigo).then(res=>{
+  const getFiadorById = async() => {
+    await axios.get(url+fiador.Codigo).then(res=>{
       const data = res.data;
-      setMarchamo(data);
+      setFiador(data);
     })
   }
 
-  const postMarchamo = async () => {
-    await axios.post(url, marchamo).then((res) => {
+  const postFiador = async () => {
+    await axios.post(url, fiador).then((res) => {
       const data = res.data;
-      setMarchamos(marchamos.concat(data));
-      clearMarchamo();
-      getMarchamos();
+      setFiadores(fiadores.concat(data));
+      clearFiador();
+      getFiadores();
       setModalInsert(!modalInsert);
     })
   };
 
-  const handlePostMarchamo = () => {
-    if (!marchamo.CodigoUsuario) {
+  const handlePostFiador = () => {
+    if (!fiador.CodigoPrestamo) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de codigo de usuario esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de codigo de prestamo esta vacio',
         'error'
       );
-    } else if (!marchamo.Placa) {
+    } else if (!fiador.Cedula) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de placa esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de cedula esta vacio',
         'error'
       );
-    } else if (!marchamo.Monto) {
+    } else if (!fiador.Nombre) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de monto esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de nombre esta vacio',
         'error'
       );
-    } else if (!marchamo.FechaLimite) {
+    } else if (!fiador.Apellidos) {
         Swal.fire(
-          'Error de ingreso de marchamo',
-          'El campo de fecha limite esta vacio',
+          'Error de ingreso de fiador',
+          'El campo de apellidos esta vacio',
           'error'
         );
-      } else if (!marchamo.Estado) {
+      } else if (!fiador.Ocupacion) {
         Swal.fire(
-          'Error de ingreso de marchamo',
-          'El campo de estado esta vacio',
+          'Error de ingreso de fiador',
+          'El campo de ocupacion esta vacio',
           'error'
         );
       } else {
-      postMarchamo();
+      postFiador();
     }
   };
 
-  const putMarchamo = async () => {
-    await axios.put(url + marchamo.Codigo, marchamo).then((res) => {
-      const newData = marchamos;
+  const putFiador = async () => {
+    await axios.put(url + fiador.Codigo, fiador).then((res) => {
+      const newData = fiadores;
       newData.map((item) => {
-        if (marchamo.Codigo === item.Codigo) {
-          item.CodigoUsuario = marchamo.CodigoUsuario;
-          item.Placa = marchamo.Placa;
-          item.Monto = marchamo.Monto;
-          item.FechaLimite = marchamo.FechaLimite;
-          item.Estado = marchamo.Estado;
+        if (fiador.Codigo === item.Codigo) {
+          item.CodigoPrestamo = fiador.CodigoPrestamo;
+          item.Cedula = fiador.Cedula;
+          item.Nombre = fiador.Nombre;
+          item.Apellidos = fiador.Apellidos;
+          item.Ocupacion = fiador.Ocupacion;
         }
         return newData;
       });
-      setMarchamos(newData);
-      clearMarchamo();
-      getMarchamos();
+      setFiadores(newData);
+      clearFiador();
+      getFiadores();
       setModalUpdate(!modalUpdate);
     });
   };
 
-  const handlePutMarchamo = () => {
-    if (!marchamo.CodigoUsuario) {
+  const handlePutFiador = () => {
+    if (!fiador.CodigoPrestamo) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de codigo de usuario esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de codigo de prestamo esta vacio',
         'error'
       );
-    } else if (!marchamo.Placa) {
+    } else if (!fiador.Cedula) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de placa esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de cedula esta vacio',
         'error'
       );
-    } else if (!marchamo.Monto) {
+    } else if (!fiador.Nombre) {
       Swal.fire(
-        'Error de ingreso de marchamo',
-        'El campo de monto esta vacio',
+        'Error de ingreso de fiador',
+        'El campo de nombre esta vacio',
         'error'
       );
-    } else if (!marchamo.FechaLimite) {
+    } else if (!fiador.Apellidos) {
         Swal.fire(
-          'Error de ingreso de marchamo',
-          'El campo de fecha limite esta vacio',
+          'Error de ingreso de fiador',
+          'El campo de apellidos esta vacio',
           'error'
         );
-      } else if (!marchamo.Estado) {
+      } else if (!fiador.Ocupacion) {
         Swal.fire(
-          'Error de ingreso de marchamo',
-          'El campo de estado esta vacio',
+          'Error de ingreso de fiador',
+          'El campo de ocupacion esta vacio',
           'error'
         );
       } else {
-        putMarchamo();
+        putFiador();
     }
   };
 
-  const deleteMarchamo = async (marchamo) => { 
-    if (marchamo.Codigo) {
-      await axios.delete(url + marchamo.Codigo).then((res) => {
-        setMarchamos(marchamos.filter((item) => item.Codigo !== marchamo.Codigo));
-        clearMarchamo();
+  const deleteFiador = async (fiador) => { 
+    if (fiador.Codigo) {
+      await axios.delete(url + fiador.Codigo).then((res) => {
+        setFiadores(fiadores.filter((item) => item.Codigo !== fiador.Codigo));
+        clearFiador();
       });
     }
   };
 
-  const handleDeleteMarchamo = (marchamo) => {
+  const handleDeleteFiador = (fiador) => {
     Swal.fire({
       title: 'Esta seguro de eliminar?',
       text: 'Esta accion no se puede devolver!',
@@ -179,10 +179,10 @@ const Fiador = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteMarchamo(marchamo);
+        deleteFiador(fiador);
         Swal.fire(
           'Transacción Completa',
-          'El marchamo se ha eliminado',
+          'El fiador se ha eliminado',
           'success'
         );
       }
@@ -190,7 +190,7 @@ const Fiador = () => {
   }
 
   useEffect(() => {
-    getMarchamos();
+    getFiadores();
   }, []);
 
   return (
@@ -199,36 +199,36 @@ const Fiador = () => {
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Mantenimiento Marchamo</h4>
+              <h4 className="card-title">Mantenimiento Fiador</h4>
               <div className="table-responsive">
                 <table className="table">
                   <thead>
                     <tr>
                       <th>Codigo</th>
-                      <th>Codigo de Usuario</th>
-                      <th>Placa</th>
-                      <th>Monto</th>
-                      <th>Fecha Limite</th>
-                      <th>Estado</th>
+                      <th>Codigo de Prestamo</th>
+                      <th>Cedula</th>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Ocupacion</th>
                       <th>Editar</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {marchamos && marchamos.map((marchamo) => {
-                        return (marchamo.Estado === "A" &&
-                          <tr key={marchamo && marchamo.Codigo}>
-                            <td>{marchamo && marchamo.Codigo}</td>
-                            <td>{marchamo && marchamo.CodigoUsuario}</td>
-                            <td>{marchamo && marchamo.Placa}</td>
-                            <td>{marchamo && marchamo.Monto}</td>
-                            <td>{marchamo && marchamo.FechaLimite}</td>
-                            <td>{marchamo && marchamo.Estado === "A" ? "Activo" : "Inactivo"}</td>
+                    {fiadores && fiadores.map((fiador) => {
+                        return (
+                          <tr key={fiador && fiador.Codigo}>
+                            <td>{fiador && fiador.Codigo}</td>
+                            <td>{fiador && fiador.CodigoPrestamo}</td>
+                            <td>{fiador && fiador.Cedula}</td>
+                            <td>{fiador && fiador.Nombre}</td>
+                            <td>{fiador && fiador.Apellidos}</td>
+                            <td>{fiador && fiador.Ocupacion}</td>
                             <td>
-                              <button className="btn btn-primary" onClick={() => {setMarchamo(marchamo); setModalUpdate(!modalUpdate)}}>Editar</button>
+                              <button className="btn btn-primary" onClick={() => {setFiador(fiador); setModalUpdate(!modalUpdate)}}>Editar</button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteMarchamo(marchamo)}>Eliminar</button>
+                              <button className="btn btn-danger" onClick={() => handleDeleteFiador(fiador)}>Eliminar</button>
                             </td>
                           </tr>
                         );
@@ -245,79 +245,80 @@ const Fiador = () => {
       <Modal isOpen={modalInsert}>
         <ModalHeader>
           <div>
-            <h3>Insertar Marchamo</h3>
+            <h3>Insertar Fiador</h3>
           </div>
         </ModalHeader>
 
         <ModalBody>
           <FormGroup>
-            <label>Codigo de Usuario:</label>
+            <label>Codigo de Prestamo:</label>
             <input
               className="form-control"
-              placeholder="Codigo de Usuario"
-              name="CodigoUsuario"
+              placeholder="Codigo de Prestamo"
+              name="CodigoPrestamo"
               type="number"
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Placa:</label>
+            <label>Cedula:</label>
             <input
               className="form-control"
-              placeholder="Placa"
-              name="Placa"
+              placeholder="Cedula"
+              name="Cedula"
               type="text"
-              maxLength="10"
-              size="10"
+              maxLength="50"
+              size="50"
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Monto:</label>
+            <label>Nombre:</label>
             <input
               className="form-control"
-              placeholder="Monto"
-              name="Monto"
-              type="number"
-              step="0.01"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Fecha Limite:</label>
-            <input
-              className="form-control"
-              placeholder="Fecha Limite"
-              name="FechaLimite"
-              type="date"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Estado:</label>
-            <select
-              className="form-control"
-              value={marchamo && marchamo.Estado}
-              name="Estado"
+              placeholder="Nombre"
+              name="Nombre"
               type="text"
+              maxLength="50"
+              size="50"
               onChange={handleChange}
-            >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
-            </select>
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Apellidos:</label>
+            <input
+              className="form-control"
+              placeholder="Apellidos"
+              name="Apellidos"
+              type="text"
+              maxLength="50"
+              size="50"
+              onChange={handleChange}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Ocupacion:</label>
+            <input
+              className="form-control"
+              placeholder="Ocupacion"
+              name="Ocupacion"
+              type="text"
+              maxLength="50"
+              size="50"
+              onChange={handleChange}
+            />
           </FormGroup>
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePostMarchamo()}>
+          <Button color="primary" onClick={() => handlePostFiador()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearMarchamo()}}>
+          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearFiador()}}>
             Cancelar
           </Button>
         </ModalFooter>
@@ -326,7 +327,7 @@ const Fiador = () => {
       <Modal isOpen={modalUpdate}>
         <ModalHeader>
           <div>
-            <h3>Editar Marchamo</h3>
+            <h3>Editar Fiador</h3>
           </div>
         </ModalHeader>
 
@@ -337,82 +338,84 @@ const Fiador = () => {
               className="form-control"
               readOnly
               type="text"
-              value={marchamo && marchamo.Codigo}
+              value={fiador && fiador.Codigo}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Codigo de Usuario:</label>
+            <label>Codigo de Prestamo:</label>
             <input
               className="form-control"
-              placeholder="Codigo de Usuario"
-              name="CodigoUsuario"
+              placeholder="Codigo de Prestamo"
+              name="CodigoPrestamo"
               type="number"
-              value={marchamo && marchamo.CodigoUsuario}
+              value={fiador && fiador.CodigoPrestamo}
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Placa:</label>
+            <label>Cedula:</label>
             <input
               className="form-control"
-              placeholder="Placa"
-              name="Placa"
+              placeholder="Cedula"
+              name="Cedula"
               type="text"
-              maxLength="10"
-              size="10"
-              value={marchamo && marchamo.Placa}
+              maxLength="50"
+              size="50"
+              value={fiador && fiador.Cedula}
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Monto:</label>
+            <label>Nombre:</label>
             <input
               className="form-control"
-              placeholder="Monto"
-              name="Monto"
-              type="number"
-              step="0.01"
-              value={marchamo && marchamo.Monto}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Fecha Limite:</label>
-            <input
-              className="form-control"
-              placeholder="Fecha Limite"
-              name="FechaLimite"
-              type="date"
-              value={marchamo && marchamo.FechaLimite}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Estado:</label>
-            <select
-              className="form-control"
-              value={marchamo && marchamo.Estado}
-              name="Estado"
+              placeholder="Nombre"
+              name="Nombre"
               type="text"
+              maxLength="50"
+              size="50"
+              value={fiador && fiador.Nombre}
               onChange={handleChange}
-            >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
-            </select>
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Apellidos:</label>
+            <input
+              className="form-control"
+              placeholder="Apellidos"
+              name="Apellidos"
+              type="text"
+              maxLength="50"
+              size="50"
+              value={fiador && fiador.Apellidos}
+              onChange={handleChange}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Ocupacion:</label>
+            <input
+              className="form-control"
+              placeholder="Ocupacion"
+              name="Ocupacion"
+              type="text"
+              maxLength="50"
+              size="50"
+              value={fiador && fiador.Ocupacion}
+              onChange={handleChange}
+            />
           </FormGroup>
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePutMarchamo()}>
+          <Button color="primary" onClick={() => handlePutFiador()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearMarchamo()}}>
+          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearFiador()}}>
             Cancelar
           </Button>
         </ModalFooter>

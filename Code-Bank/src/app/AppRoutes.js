@@ -19,6 +19,11 @@ const Prestamo = lazy(() => import('./tables/Prestamo'));
 const Promocion = lazy(() => import('./tables/Promocion'));
 const Inversion = lazy(() => import('./tables/Inversion'));
 const Marchamo = lazy(() => import('./tables/Marchamo'));
+const Fiador = lazy(() => import('./tables/Fiador'));
+const Tarjeta = lazy(() => import('./tables/Tarjeta'));
+const Propiedad = lazy(() => import('./tables/Propiedad'));
+const Cuenta_Debito = lazy(() => import('./tables/Cuenta_Debito'));
+const Cuenta_Credito = lazy(() => import('./tables/Cuenta_Credito'));
 
 const Mdi = lazy(() => import('./icons/Mdi'));
 
@@ -54,6 +59,11 @@ class AppRoutes extends Component {
           <Route path="/tables/promocion" component={Promocion} />
           <Route path="/tables/inversion" component={Inversion} />
           <Route path="/tables/marchamo" component={Marchamo} />
+          <Route path="/tables/fiador" component={Fiador} />
+          <Route path="/tables/tarjeta" component={Tarjeta} />
+          <Route path="/tables/propiedad" component={Propiedad} />
+          <Route path="/tables/cuenta_debito" component={Cuenta_Debito} />
+          <Route path="/tables/cuenta_credito" component={Cuenta_Credito} />
 
           <Route path="/icons/mdi" component={Mdi} />
 
