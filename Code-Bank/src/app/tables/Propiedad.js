@@ -42,8 +42,14 @@ const Propiedad = () => {
     }));
   };
 
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
   const getPropiedades = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setPropiedades(data);
     });
@@ -51,14 +57,14 @@ const Propiedad = () => {
 
   // eslint-disable-next-line
   const getPropiedadById = async() => {
-    await axios.get(url+propiedad.Codigo).then(res=>{
+    await axios.get(url+propiedad.Codigo, config).then(res=>{
       const data = res.data;
       setPropiedad(data);
     })
   }
 
   const postPropiedad = async () => {
-    await axios.post(url, propiedad).then((res) => {
+    await axios.post(url, propiedad, config).then((res) => {
       const data = res.data;
       setPropiedades(propiedades.concat(data));
       clearPropiedad();
@@ -110,7 +116,7 @@ const Propiedad = () => {
   };
 
   const putPropiedad = async () => {
-    await axios.put(url + propiedad.Codigo, propiedad).then((res) => {
+    await axios.put(url + propiedad.Codigo, propiedad, config).then((res) => {
       const newData = propiedades;
       newData.map((item) => {
         if (propiedad.Codigo === item.Codigo) {
@@ -174,7 +180,7 @@ const Propiedad = () => {
 
   const deletePropiedad = async (propiedad) => { 
     if (propiedad.Codigo) {
-      await axios.delete(url + propiedad.Codigo).then((res) => {
+      await axios.delete(url + propiedad.Codigo, config).then((res) => {
         setPropiedades(propiedades.filter((item) => item.Codigo !== propiedad.Codigo));
         clearPropiedad();
       });

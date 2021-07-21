@@ -23,6 +23,12 @@ const Inversion = () => {
     Interes: '',
     Liquidez: ''
   };
+  
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
 
   const [inversiones, setInversiones] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
@@ -42,7 +48,7 @@ const Inversion = () => {
   };
 
   const getInversiones = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setInversiones(data);
     });
@@ -50,14 +56,14 @@ const Inversion = () => {
 
   // eslint-disable-next-line
   const getInversionById = async() => {
-    await axios.get(url+inversion.Codigo).then(res=>{
+    await axios.get(url+inversion.Codigo, config).then(res=>{
       const data = res.data;
       setInversion(data);
     })
   }
 
   const postInversion = async () => {
-    await axios.post(url, inversion).then((res) => {
+    await axios.post(url, inversion, config).then((res) => {
       const data = res.data;
       setInversiones(inversiones.concat(data));
       clearInversion();
@@ -103,7 +109,7 @@ const Inversion = () => {
   };
 
   const putInversion = async () => {
-    await axios.put(url + inversion.Codigo, inversion).then((res) => {
+    await axios.put(url + inversion.Codigo, inversion, config).then((res) => {
       const newData = inversiones;
       newData.map((item) => {
         if (inversion.Codigo === item.Codigo) {
@@ -160,7 +166,7 @@ const Inversion = () => {
 
   const deleteInversion = async (inversion) => { 
     if (inversion.Codigo) {
-      await axios.delete(url + inversion.Codigo).then((res) => {
+      await axios.delete(url + inversion.Codigo, config).then((res) => {
         setInversiones(inversiones.filter((item) => item.Codigo !== inversion.Codigo));
         clearInversion();
       });

@@ -36,6 +36,12 @@ const Prestamo = () => {
     setPrestamo({ ...emptyPrestamo });
   };
 
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPrestamo((prevState) => ({
@@ -45,7 +51,7 @@ const Prestamo = () => {
   };
 
   const getPrestamos = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setPrestamos(data);
     });
@@ -53,14 +59,14 @@ const Prestamo = () => {
 
   // eslint-disable-next-line
   const getPrestamosById = async() => {
-    await axios.get(url+prestamo.Codigo).then(res=>{
+    await axios.get(url+prestamo.Codigo, config).then(res=>{
       const data = res.data;
       setPrestamo(data);
     })
   }
 
   const postPrestamo = async () => {
-    await axios.post(url, prestamo).then((res) => {
+    await axios.post(url, prestamo, config).then((res) => {
       const data = res.data;
       setPrestamos(prestamos.concat(data));
       clearPrestamo();
@@ -124,7 +130,7 @@ const Prestamo = () => {
   };
 
   const putPrestamo = async () => {
-    await axios.put(url + prestamo.Codigo, prestamo).then((res) => {
+    await axios.put(url + prestamo.Codigo, prestamo, config).then((res) => {
       const newData = prestamos;
       newData.map((item) => {
         if (prestamo.Codigo === item.Codigo) {
@@ -202,7 +208,7 @@ const Prestamo = () => {
 
   const deletePrestamo = async (prestamo) => { 
     if (prestamo.Codigo) {
-      await axios.delete(url + prestamo.Codigo).then((res) => {
+      await axios.delete(url + prestamo.Codigo, config).then((res) => {
         setPrestamos(prestamos.filter((item) => item.Codigo !== prestamo.Codigo));
         clearPrestamo();
       });
