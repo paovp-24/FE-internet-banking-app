@@ -48,6 +48,8 @@ export class Login extends Component {
         .then((response) => {
           if (response.status === 200) {
             console.log(response.data);
+            var data1 = response.data;
+            localStorage.setItem('token', data1.Token);
             this.props.history.push('/dashboard');
           }
         })
