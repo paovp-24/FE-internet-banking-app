@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Tarjeta/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Tarjeta = () => {
   const emptyTarjeta = {
     Codigo: '',
@@ -21,7 +27,7 @@ const Tarjeta = () => {
     Numero: '',
     FechaEmision: '',
     FechaVencimiento: '',
-    Estado: ''
+    Estado: '',
   };
 
   const [tarjetas, setTarjetas] = useState([]);
@@ -42,28 +48,28 @@ const Tarjeta = () => {
   };
 
   const getTarjetas = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setTarjetas(data);
     });
   };
 
   // eslint-disable-next-line
-  const getTarjetaById = async() => {
-    await axios.get(url+tarjeta.Codigo).then(res=>{
+  const getTarjetaById = async () => {
+    await axios.get(url + tarjeta.Codigo, config).then((res) => {
       const data = res.data;
       setTarjeta(data);
-    })
-  }
+    });
+  };
 
   const postTarjeta = async () => {
-    await axios.post(url, tarjeta).then((res) => {
+    await axios.post(url, tarjeta, config).then((res) => {
       const data = res.data;
       setTarjetas(tarjetas.concat(data));
       clearTarjeta();
       getTarjetas();
       setModalInsert(!modalInsert);
-    })
+    });
   };
 
   const handlePostTarjeta = () => {
@@ -86,24 +92,24 @@ const Tarjeta = () => {
         'error'
       );
     } else if (!tarjeta.FechaVencimiento) {
-        Swal.fire(
-          'Error de ingreso de tarjeta',
-          'El campo de fecha de vencimiento esta vacio',
-          'error'
-        );
-      } else if (!tarjeta.Estado) {
-        Swal.fire(
-          'Error de ingreso de tarjeta',
-          'El campo de estado esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de tarjeta',
+        'El campo de fecha de vencimiento esta vacio',
+        'error'
+      );
+    } else if (!tarjeta.Estado) {
+      Swal.fire(
+        'Error de ingreso de tarjeta',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
       postTarjeta();
     }
   };
 
   const putTarjeta = async () => {
-    await axios.put(url + tarjeta.Codigo, tarjeta).then((res) => {
+    await axios.put(url + tarjeta.Codigo, tarjeta, config).then((res) => {
       const newData = tarjetas;
       newData.map((item) => {
         if (tarjeta.Codigo === item.Codigo) {
@@ -142,25 +148,25 @@ const Tarjeta = () => {
         'error'
       );
     } else if (!tarjeta.FechaVencimiento) {
-        Swal.fire(
-          'Error de ingreso de tarjeta',
-          'El campo de fecha de vencimiento esta vacio',
-          'error'
-        );
-      } else if (!tarjeta.Estado) {
-        Swal.fire(
-          'Error de ingreso de tarjeta',
-          'El campo de estado esta vacio',
-          'error'
-        );
-      } else {
-        putTarjeta();
+      Swal.fire(
+        'Error de ingreso de tarjeta',
+        'El campo de fecha de vencimiento esta vacio',
+        'error'
+      );
+    } else if (!tarjeta.Estado) {
+      Swal.fire(
+        'Error de ingreso de tarjeta',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
+      putTarjeta();
     }
   };
 
-  const deleteTarjeta = async (tarjeta) => { 
+  const deleteTarjeta = async (tarjeta) => {
     if (tarjeta.Codigo) {
-      await axios.delete(url + tarjeta.Codigo).then((res) => {
+      await axios.delete(url + tarjeta.Codigo, config).then((res) => {
         setTarjetas(tarjetas.filter((item) => item.Codigo !== tarjeta.Codigo));
         clearTarjeta();
       });
@@ -187,7 +193,7 @@ const Tarjeta = () => {
         );
       }
     });
-  }
+  };
 
   useEffect(() => {
     getTarjetas();
@@ -215,22 +221,42 @@ const Tarjeta = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tarjetas && tarjetas.map((tarjeta) => {
-                        return (tarjeta.Estado === "A" &&
-                          <tr key={tarjeta && tarjeta.Codigo}>
-                            <td>{tarjeta && tarjeta.Codigo}</td>
-                            <td>{tarjeta && tarjeta.CodigoEmisor}</td>
-                            <td>{tarjeta && tarjeta.Numero}</td>
-                            <td>{tarjeta && tarjeta.FechaEmision}</td>
-                            <td>{tarjeta && tarjeta.FechaVencimiento}</td>
-                            <td>{tarjeta && tarjeta.Estado === "A" ? "Activo" : "Inactivo"}</td>
-                            <td>
-                              <button className="btn btn-primary" onClick={() => {setTarjeta(tarjeta); setModalUpdate(!modalUpdate)}}>Editar</button>
-                            </td>
-                            <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteTarjeta(tarjeta)}>Eliminar</button>
-                            </td>
-                          </tr>
+                    {tarjetas &&
+                      tarjetas.map((tarjeta) => {
+                        return (
+                          tarjeta.Estado === 'A' && (
+                            <tr key={tarjeta && tarjeta.Codigo}>
+                              <td>{tarjeta && tarjeta.Codigo}</td>
+                              <td>{tarjeta && tarjeta.CodigoEmisor}</td>
+                              <td>{tarjeta && tarjeta.Numero}</td>
+                              <td>{tarjeta && tarjeta.FechaEmision}</td>
+                              <td>{tarjeta && tarjeta.FechaVencimiento}</td>
+                              <td>
+                                {tarjeta && tarjeta.Estado === 'A'
+                                  ? 'Activo'
+                                  : 'Inactivo'}
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    setTarjeta(tarjeta);
+                                    setModalUpdate(!modalUpdate);
+                                  }}
+                                >
+                                  Editar
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => handleDeleteTarjeta(tarjeta)}
+                                >
+                                  Eliminar
+                                </button>
+                              </td>
+                            </tr>
+                          )
                         );
                       })}
                   </tbody>
@@ -239,7 +265,12 @@ const Tarjeta = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -305,9 +336,9 @@ const Tarjeta = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -316,7 +347,13 @@ const Tarjeta = () => {
           <Button color="primary" onClick={() => handlePostTarjeta()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearTarjeta()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearTarjeta();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -399,9 +436,9 @@ const Tarjeta = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -410,7 +447,13 @@ const Tarjeta = () => {
           <Button color="primary" onClick={() => handlePutTarjeta()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearTarjeta()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearTarjeta();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>

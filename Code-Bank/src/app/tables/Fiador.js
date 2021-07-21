@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Fiador/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Fiador = () => {
   const emptyFiador = {
     Codigo: '',
@@ -21,7 +27,7 @@ const Fiador = () => {
     Cedula: '',
     Nombre: '',
     Apellidos: '',
-    Ocupacion: ''
+    Ocupacion: '',
   };
 
   const [fiadores, setFiadores] = useState([]);
@@ -42,28 +48,28 @@ const Fiador = () => {
   };
 
   const getFiadores = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setFiadores(data);
     });
   };
 
   // eslint-disable-next-line
-  const getFiadorById = async() => {
-    await axios.get(url+fiador.Codigo).then(res=>{
+  const getFiadorById = async () => {
+    await axios.get(url + fiador.Codigo, config).then((res) => {
       const data = res.data;
       setFiador(data);
-    })
-  }
+    });
+  };
 
   const postFiador = async () => {
-    await axios.post(url, fiador).then((res) => {
+    await axios.post(url, fiador, config).then((res) => {
       const data = res.data;
       setFiadores(fiadores.concat(data));
       clearFiador();
       getFiadores();
       setModalInsert(!modalInsert);
-    })
+    });
   };
 
   const handlePostFiador = () => {
@@ -86,24 +92,24 @@ const Fiador = () => {
         'error'
       );
     } else if (!fiador.Apellidos) {
-        Swal.fire(
-          'Error de ingreso de fiador',
-          'El campo de apellidos esta vacio',
-          'error'
-        );
-      } else if (!fiador.Ocupacion) {
-        Swal.fire(
-          'Error de ingreso de fiador',
-          'El campo de ocupacion esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de fiador',
+        'El campo de apellidos esta vacio',
+        'error'
+      );
+    } else if (!fiador.Ocupacion) {
+      Swal.fire(
+        'Error de ingreso de fiador',
+        'El campo de ocupacion esta vacio',
+        'error'
+      );
+    } else {
       postFiador();
     }
   };
 
   const putFiador = async () => {
-    await axios.put(url + fiador.Codigo, fiador).then((res) => {
+    await axios.put(url + fiador.Codigo, fiador, config).then((res) => {
       const newData = fiadores;
       newData.map((item) => {
         if (fiador.Codigo === item.Codigo) {
@@ -142,25 +148,25 @@ const Fiador = () => {
         'error'
       );
     } else if (!fiador.Apellidos) {
-        Swal.fire(
-          'Error de ingreso de fiador',
-          'El campo de apellidos esta vacio',
-          'error'
-        );
-      } else if (!fiador.Ocupacion) {
-        Swal.fire(
-          'Error de ingreso de fiador',
-          'El campo de ocupacion esta vacio',
-          'error'
-        );
-      } else {
-        putFiador();
+      Swal.fire(
+        'Error de ingreso de fiador',
+        'El campo de apellidos esta vacio',
+        'error'
+      );
+    } else if (!fiador.Ocupacion) {
+      Swal.fire(
+        'Error de ingreso de fiador',
+        'El campo de ocupacion esta vacio',
+        'error'
+      );
+    } else {
+      putFiador();
     }
   };
 
-  const deleteFiador = async (fiador) => { 
+  const deleteFiador = async (fiador) => {
     if (fiador.Codigo) {
-      await axios.delete(url + fiador.Codigo).then((res) => {
+      await axios.delete(url + fiador.Codigo, config).then((res) => {
         setFiadores(fiadores.filter((item) => item.Codigo !== fiador.Codigo));
         clearFiador();
       });
@@ -187,7 +193,7 @@ const Fiador = () => {
         );
       }
     });
-  }
+  };
 
   useEffect(() => {
     getFiadores();
@@ -215,7 +221,8 @@ const Fiador = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {fiadores && fiadores.map((fiador) => {
+                    {fiadores &&
+                      fiadores.map((fiador) => {
                         return (
                           <tr key={fiador && fiador.Codigo}>
                             <td>{fiador && fiador.Codigo}</td>
@@ -225,10 +232,23 @@ const Fiador = () => {
                             <td>{fiador && fiador.Apellidos}</td>
                             <td>{fiador && fiador.Ocupacion}</td>
                             <td>
-                              <button className="btn btn-primary" onClick={() => {setFiador(fiador); setModalUpdate(!modalUpdate)}}>Editar</button>
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  setFiador(fiador);
+                                  setModalUpdate(!modalUpdate);
+                                }}
+                              >
+                                Editar
+                              </button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteFiador(fiador)}>Eliminar</button>
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteFiador(fiador)}
+                              >
+                                Eliminar
+                              </button>
                             </td>
                           </tr>
                         );
@@ -239,7 +259,12 @@ const Fiador = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -318,7 +343,13 @@ const Fiador = () => {
           <Button color="primary" onClick={() => handlePostFiador()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearFiador()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearFiador();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -415,7 +446,13 @@ const Fiador = () => {
           <Button color="primary" onClick={() => handlePutFiador()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearFiador()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearFiador();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>

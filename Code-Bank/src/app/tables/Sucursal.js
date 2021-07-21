@@ -15,13 +15,19 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Sucursal/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Sucursal = () => {
   const emptySucursal = {
     Codigo: '',
     Nombre: '',
     Ubicacion: '',
     Correo: '',
-    Telefono: ''
+    Telefono: '',
   };
 
   const [sucursales, setSucursales] = useState([]);
@@ -42,22 +48,22 @@ const Sucursal = () => {
   };
 
   const getSucursales = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setSucursales(data);
     });
   };
 
   // eslint-disable-next-line
-  const getSucursalesById = async() => {
-    await axios.get(url+sucursal.Codigo).then(res=>{
+  const getSucursalesById = async () => {
+    await axios.get(url + sucursal.Codigo, config).then((res) => {
       const data = res.data;
       setSucursal(data);
-    })
-  }
+    });
+  };
 
   const postSucursal = async () => {
-    await axios.post(url, sucursal).then((res) => {
+    await axios.post(url, sucursal, config).then((res) => {
       const data = res.data;
       setSucursales(sucursales.concat(data));
       clearSucursal();
@@ -86,18 +92,18 @@ const Sucursal = () => {
         'error'
       );
     } else if (!sucursal.Telefono) {
-        Swal.fire(
-          'Error de ingreso de emisor',
-          'El campo de telefono esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de emisor',
+        'El campo de telefono esta vacio',
+        'error'
+      );
+    } else {
       postSucursal();
     }
   };
 
   const putSucursal = async () => {
-    await axios.put(url + sucursal.Codigo, sucursal).then((res) => {
+    await axios.put(url + sucursal.Codigo, sucursal, config).then((res) => {
       const newData = sucursales;
       newData.map((item) => {
         if (sucursal.Codigo === item.Codigo) {
@@ -135,20 +141,22 @@ const Sucursal = () => {
         'error'
       );
     } else if (!sucursal.Telefono) {
-        Swal.fire(
-          'Error de ingreso de emisor',
-          'El campo de telefono esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de emisor',
+        'El campo de telefono esta vacio',
+        'error'
+      );
+    } else {
       putSucursal();
     }
   };
 
-  const deleteSucursal = async (sucursal) => { 
+  const deleteSucursal = async (sucursal) => {
     if (sucursal.Codigo) {
-      await axios.delete(url + sucursal.Codigo).then((res) => {
-        setSucursales(sucursales.filter((item) => item.Codigo !== sucursal.Codigo));
+      await axios.delete(url + sucursal.Codigo, config).then((res) => {
+        setSucursales(
+          sucursales.filter((item) => item.Codigo !== sucursal.Codigo)
+        );
         clearSucursal();
       });
     }
@@ -174,7 +182,7 @@ const Sucursal = () => {
         );
       }
     });
-  }
+  };
 
   useEffect(() => {
     getSucursales();
@@ -201,7 +209,8 @@ const Sucursal = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {sucursales && sucursales.map((sucursal) => {
+                    {sucursales &&
+                      sucursales.map((sucursal) => {
                         return (
                           <tr key={sucursal && sucursal.Codigo}>
                             <td>{sucursal && sucursal.Codigo}</td>
@@ -210,10 +219,23 @@ const Sucursal = () => {
                             <td>{sucursal && sucursal.Correo}</td>
                             <td>{sucursal && sucursal.Telefono}</td>
                             <td>
-                              <button className="btn btn-primary" onClick={() => {setSucursal(sucursal); setModalUpdate(!modalUpdate)}}>Editar</button>
+                              <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  setSucursal(sucursal);
+                                  setModalUpdate(!modalUpdate);
+                                }}
+                              >
+                                Editar
+                              </button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteSucursal(sucursal)}>Eliminar</button>
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteSucursal(sucursal)}
+                              >
+                                Eliminar
+                              </button>
                             </td>
                           </tr>
                         );
@@ -224,7 +246,12 @@ const Sucursal = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -290,7 +317,13 @@ const Sucursal = () => {
           <Button color="primary" onClick={() => handlePostSucursal()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearSucursal()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearSucursal();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -345,7 +378,6 @@ const Sucursal = () => {
           </FormGroup>
 
           <FormGroup>
-
             <Form.Group>
               <label>Correo:</label>
               <input
@@ -376,7 +408,13 @@ const Sucursal = () => {
           <Button color="primary" onClick={() => handlePutSucursal()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearSucursal()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearSucursal();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>

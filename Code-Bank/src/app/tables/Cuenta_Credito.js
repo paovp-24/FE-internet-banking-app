@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Cuenta_Credito/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Cuenta_Credito = () => {
   const emptyCuenta_Credito = {
     Codigo: '',
@@ -27,7 +33,7 @@ const Cuenta_Credito = () => {
     FechaPago: '',
     PagoMinimo: '',
     PagoContado: '',
-    Estado: ''
+    Estado: '',
   };
 
   const [cuentas_credito, setCuentas_Credito] = useState([]);
@@ -48,22 +54,22 @@ const Cuenta_Credito = () => {
   };
 
   const getCuentas_Credito = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setCuentas_Credito(data);
     });
   };
 
   // eslint-disable-next-line
-  const getCuenta_CreditoById = async() => {
-    await axios.get(url+cuenta_credito.Codigo).then(res=>{
+  const getCuenta_CreditoById = async () => {
+    await axios.get(url + cuenta_credito.Codigo, config).then((res) => {
       const data = res.data;
       setCuenta_Credito(data);
-    })
+    });
   };
 
   const postCuenta_Credito = async () => {
-    await axios.post(url, cuenta_credito).then((res) => {
+    await axios.post(url, cuenta_credito, config).then((res) => {
       const data = res.data;
       setCuentas_Credito(cuentas_credito.concat(data));
       clearCuenta_Credito();
@@ -92,160 +98,166 @@ const Cuenta_Credito = () => {
         'error'
       );
     } else if (!cuenta_credito.CodigoTarjeta) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de codigo de tarjeta esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.Descripción) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de descripcion esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.IBAN) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de IBAN esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.Saldo) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de saldo esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.FechaPago) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de fecha de pago esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.PagoMinimo) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de pago minimo esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.PagoContado) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de pago de contado esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.Estado) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de estado esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de codigo de tarjeta esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Descripción) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de descripcion esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.IBAN) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de IBAN esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Saldo) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de saldo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.FechaPago) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de fecha de pago esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.PagoMinimo) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de pago minimo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.PagoContado) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de pago de contado esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Estado) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
       postCuenta_Credito();
     }
   };
 
   const putCuenta_Credito = async () => {
-    await axios.put(url + cuenta_credito.Codigo, cuenta_credito).then((res) => {
-      const newData = cuentas_credito;
-      newData.map((item) => {
-        if (cuenta_credito.Codigo === item.Codigo) {
-          item.CodigoUsuario = cuenta_credito.CodigoUsuario;
-          item.CodigoMoneda = cuenta_credito.CodigoMoneda;
-          item.CodigoSucursal = cuenta_credito.CodigoSucursal;
-          item.CodigoTarjeta = cuenta_credito.CodigoTarjeta;
-          item.Descripcion = cuenta_credito.Descripción;
-          item.IBAN = cuenta_credito.IBAN;
-          item.Saldo = cuenta_credito.Saldo;
-          item.FechaPago = cuenta_credito.FechaPago;
-          item.PagoMinimo = cuenta_credito.PagoMinimo;
-          item.PagoContado = cuenta_credito.PagoContado;
-          item.Estado = cuenta_credito.Estado;
-        }
-        return newData;
+    await axios
+      .put(url + cuenta_credito.Codigo, cuenta_credito, config)
+      .then((res) => {
+        const newData = cuentas_credito;
+        newData.map((item) => {
+          if (cuenta_credito.Codigo === item.Codigo) {
+            item.CodigoUsuario = cuenta_credito.CodigoUsuario;
+            item.CodigoMoneda = cuenta_credito.CodigoMoneda;
+            item.CodigoSucursal = cuenta_credito.CodigoSucursal;
+            item.CodigoTarjeta = cuenta_credito.CodigoTarjeta;
+            item.Descripcion = cuenta_credito.Descripción;
+            item.IBAN = cuenta_credito.IBAN;
+            item.Saldo = cuenta_credito.Saldo;
+            item.FechaPago = cuenta_credito.FechaPago;
+            item.PagoMinimo = cuenta_credito.PagoMinimo;
+            item.PagoContado = cuenta_credito.PagoContado;
+            item.Estado = cuenta_credito.Estado;
+          }
+          return newData;
+        });
+        setCuentas_Credito(newData);
+        clearCuenta_Credito();
+        getCuentas_Credito();
+        setModalUpdate(!modalUpdate);
       });
-      setCuentas_Credito(newData);
-      clearCuenta_Credito();
-      getCuentas_Credito();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutCuenta_Credito = () => {
     if (!cuenta_credito.CodigoUsuario) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de codigo de usuario esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.CodigoMoneda) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de codigo de moneda esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.CodigoSucursal) {
-        Swal.fire(
-          'Error de ingreso de cuenta credito',
-          'El campo de codigo de sucursal esta vacio',
-          'error'
-        );
-      } else if (!cuenta_credito.CodigoTarjeta) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de codigo de tarjeta esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.Descripción) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de descripcion esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.IBAN) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de IBAN esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.Saldo) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de saldo esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.FechaPago) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de fecha de pago esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.PagoMinimo) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de pago minimo esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.PagoContado) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de pago de contado esta vacio',
-            'error'
-          );
-        } else if (!cuenta_credito.Estado) {
-          Swal.fire(
-            'Error de ingreso de cuenta credito',
-            'El campo de estado esta vacio',
-            'error'
-          );
-        } else {
-        putCuenta_Credito();
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de codigo de usuario esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.CodigoMoneda) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de codigo de moneda esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.CodigoSucursal) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de codigo de sucursal esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.CodigoTarjeta) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de codigo de tarjeta esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Descripción) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de descripcion esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.IBAN) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de IBAN esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Saldo) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de saldo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.FechaPago) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de fecha de pago esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.PagoMinimo) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de pago minimo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.PagoContado) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de pago de contado esta vacio',
+        'error'
+      );
+    } else if (!cuenta_credito.Estado) {
+      Swal.fire(
+        'Error de ingreso de cuenta credito',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
+      putCuenta_Credito();
     }
   };
 
-  const deleteCuenta_Credito = async (cuenta_credito) => { 
+  const deleteCuenta_Credito = async (cuenta_credito) => {
     if (cuenta_credito.Codigo) {
-      await axios.delete(url + cuenta_credito.Codigo).then((res) => {
-        setCuentas_Credito(cuentas_credito.filter((item) => item.Codigo !== cuenta_credito.Codigo));
+      await axios.delete(url + cuenta_credito.Codigo, config).then((res) => {
+        setCuentas_Credito(
+          cuentas_credito.filter(
+            (item) => item.Codigo !== cuenta_credito.Codigo
+          )
+        );
         clearCuenta_Credito();
       });
     }
@@ -305,28 +317,67 @@ const Cuenta_Credito = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cuentas_credito && cuentas_credito.map((cuenta_credito) => {
-                        return (cuenta_credito.Estado === "A" &&
-                          <tr key={cuenta_credito && cuenta_credito.Codigo}>
-                            <td>{cuenta_credito && cuenta_credito.Codigo}</td>
-                            <td>{cuenta_credito && cuenta_credito.CodigoUsuario}</td>
-                            <td>{cuenta_credito && cuenta_credito.CodigoMoneda}</td>
-                            <td>{cuenta_credito && cuenta_credito.CodigoSucursal}</td>
-                            <td>{cuenta_credito && cuenta_credito.CodigoTarjeta}</td>
-                            <td>{cuenta_credito && cuenta_credito.Descripción}</td>
-                            <td>{cuenta_credito && cuenta_credito.IBAN}</td>
-                            <td>{cuenta_credito && cuenta_credito.Saldo}</td>
-                            <td>{cuenta_credito && cuenta_credito.FechaPago}</td>
-                            <td>{cuenta_credito && cuenta_credito.PagoMinimo}</td>
-                            <td>{cuenta_credito && cuenta_credito.PagoContado}</td>
-                            <td>{cuenta_credito && cuenta_credito.Estado === "A" ? "Activo" : "Inactivo"}</td>
-                            <td>
-                              <button className="btn btn-primary" onClick={() => {setCuenta_Credito(cuenta_credito); setModalUpdate(!modalUpdate)}}>Editar</button>
-                            </td>
-                            <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteCuenta_Credito(cuenta_credito)}>Eliminar</button>
-                            </td>
-                          </tr>
+                    {cuentas_credito &&
+                      cuentas_credito.map((cuenta_credito) => {
+                        return (
+                          cuenta_credito.Estado === 'A' && (
+                            <tr key={cuenta_credito && cuenta_credito.Codigo}>
+                              <td>{cuenta_credito && cuenta_credito.Codigo}</td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.CodigoUsuario}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.CodigoMoneda}
+                              </td>
+                              <td>
+                                {cuenta_credito &&
+                                  cuenta_credito.CodigoSucursal}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.CodigoTarjeta}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.Descripción}
+                              </td>
+                              <td>{cuenta_credito && cuenta_credito.IBAN}</td>
+                              <td>{cuenta_credito && cuenta_credito.Saldo}</td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.FechaPago}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.PagoMinimo}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.PagoContado}
+                              </td>
+                              <td>
+                                {cuenta_credito && cuenta_credito.Estado === 'A'
+                                  ? 'Activo'
+                                  : 'Inactivo'}
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    setCuenta_Credito(cuenta_credito);
+                                    setModalUpdate(!modalUpdate);
+                                  }}
+                                >
+                                  Editar
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() =>
+                                    handleDeleteCuenta_Credito(cuenta_credito)
+                                  }
+                                >
+                                  Eliminar
+                                </button>
+                              </td>
+                            </tr>
+                          )
                         );
                       })}
                   </tbody>
@@ -335,7 +386,12 @@ const Cuenta_Credito = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -472,9 +528,9 @@ const Cuenta_Credito = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -483,7 +539,13 @@ const Cuenta_Credito = () => {
           <Button color="primary" onClick={() => handlePostCuenta_Credito()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearCuenta_Credito()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearCuenta_Credito();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -643,9 +705,9 @@ const Cuenta_Credito = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -654,7 +716,13 @@ const Cuenta_Credito = () => {
           <Button color="primary" onClick={() => handlePutCuenta_Credito()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearCuenta_Credito()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearCuenta_Credito();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>

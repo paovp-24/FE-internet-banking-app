@@ -78,7 +78,7 @@ class Sidebar extends Component {
                 </div>
                 <div className="profile-name">
                   <h5 className="mb-0 font-weight-normal">
-                    <Trans>Karl Aase Blanco</Trans>
+                    <Trans>{localStorage.getItem('name')}</Trans>
                   </h5>
                   <span>
                     <Trans>System Admin</Trans>

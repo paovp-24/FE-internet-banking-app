@@ -24,13 +24,19 @@ const Cuenta_Debito = () => {
     Descripcion: '',
     IBAN: '',
     Saldo: '',
-    Estado: ''
+    Estado: '',
   };
 
   const [cuentas_debito, setCuentas_Debito] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [cuenta_debito, setCuenta_Debito] = useState(emptyCuenta_Debito);
+
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    },
+  };
 
   const clearCuenta_Debito = () => {
     setCuenta_Debito({ ...emptyCuenta_Debito });
@@ -45,22 +51,22 @@ const Cuenta_Debito = () => {
   };
 
   const getCuentas_Debito = async () => {
-    await axios.get(url).then((res) => {
+    await axios.get(url, config).then((res) => {
       const data = res.data;
       setCuentas_Debito(data);
     });
   };
 
   // eslint-disable-next-line
-  const getCuenta_DebitoById = async() => {
-    await axios.get(url+cuenta_debito.Codigo).then(res=>{
+  const getCuenta_DebitoById = async () => {
+    await axios.get(url + cuenta_debito.Codigo, config).then((res) => {
       const data = res.data;
       setCuenta_Debito(data);
-    })
-  }
+    });
+  };
 
   const postCuenta_Debito = async () => {
-    await axios.post(url, cuenta_debito).then((res) => {
+    await axios.post(url, cuenta_debito, config).then((res) => {
       const data = res.data;
       setCuentas_Debito(cuentas_debito.concat(data));
       clearCuenta_Debito();
@@ -89,121 +95,125 @@ const Cuenta_Debito = () => {
         'error'
       );
     } else if (!cuenta_debito.CodigoTarjeta) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de codigo de tarjeta esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.Descripcion) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de descripcion esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.IBAN) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de IBAN esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.Saldo) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de saldo esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.Estado) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de estado esta vacio',
-          'error'
-        );
-      } else {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de codigo de tarjeta esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Descripcion) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de descripcion esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.IBAN) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de IBAN esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Saldo) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de saldo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Estado) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
       postCuenta_Debito();
     }
   };
 
   const putCuenta_Debito = async () => {
-    await axios.put(url + cuenta_debito.Codigo, cuenta_debito).then((res) => {
-      const newData = cuentas_debito;
-      newData.map((item) => {
-        if (cuenta_debito.Codigo === item.Codigo) {
-          item.CodigoUsuario = cuenta_debito.CodigoUsuario;
-          item.CodigoMoneda = cuenta_debito.CodigoMoneda;
-          item.CodigoSucursal = cuenta_debito.CodigoSucursal;
-          item.CodigoTarjeta = cuenta_debito.CodigoTarjeta;
-          item.Descripcion = cuenta_debito.Descripcion;
-          item.IBAN = cuenta_debito.IBAN;
-          item.Saldo = cuenta_debito.Saldo;
-          item.Estado = cuenta_debito.Estado;
-        }
-        return newData;
+    await axios
+      .put(url + cuenta_debito.Codigo, cuenta_debito, config)
+      .then((res) => {
+        const newData = cuentas_debito;
+        newData.map((item) => {
+          if (cuenta_debito.Codigo === item.Codigo) {
+            item.CodigoUsuario = cuenta_debito.CodigoUsuario;
+            item.CodigoMoneda = cuenta_debito.CodigoMoneda;
+            item.CodigoSucursal = cuenta_debito.CodigoSucursal;
+            item.CodigoTarjeta = cuenta_debito.CodigoTarjeta;
+            item.Descripcion = cuenta_debito.Descripcion;
+            item.IBAN = cuenta_debito.IBAN;
+            item.Saldo = cuenta_debito.Saldo;
+            item.Estado = cuenta_debito.Estado;
+          }
+          return newData;
+        });
+        setCuentas_Debito(newData);
+        clearCuenta_Debito();
+        getCuentas_Debito();
+        setModalUpdate(!modalUpdate);
       });
-      setCuentas_Debito(newData);
-      clearCuenta_Debito();
-      getCuentas_Debito();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutCuenta_Debito = () => {
     if (!cuenta_debito.CodigoUsuario) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de codigo de usuario esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.CodigoMoneda) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de codigo de moneda esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.CodigoSucursal) {
-        Swal.fire(
-          'Error de ingreso de cuenta debito',
-          'El campo de codigo de sucursal esta vacio',
-          'error'
-        );
-      } else if (!cuenta_debito.CodigoTarjeta) {
-          Swal.fire(
-            'Error de ingreso de cuenta debito',
-            'El campo de codigo de tarjeta esta vacio',
-            'error'
-          );
-        } else if (!cuenta_debito.Descripcion) {
-          Swal.fire(
-            'Error de ingreso de cuenta debito',
-            'El campo de descripcion esta vacio',
-            'error'
-          );
-        } else if (!cuenta_debito.IBAN) {
-          Swal.fire(
-            'Error de ingreso de cuenta debito',
-            'El campo de IBAN esta vacio',
-            'error'
-          );
-        } else if (!cuenta_debito.Saldo) {
-          Swal.fire(
-            'Error de ingreso de cuenta debito',
-            'El campo de saldo esta vacio',
-            'error'
-          );
-        } else if (!cuenta_debito.Estado) {
-          Swal.fire(
-            'Error de ingreso de cuenta debito',
-            'El campo de estado esta vacio',
-            'error'
-          );
-        } else {
-        putCuenta_Debito();
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de codigo de usuario esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.CodigoMoneda) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de codigo de moneda esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.CodigoSucursal) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de codigo de sucursal esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.CodigoTarjeta) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de codigo de tarjeta esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Descripcion) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de descripcion esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.IBAN) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de IBAN esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Saldo) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de saldo esta vacio',
+        'error'
+      );
+    } else if (!cuenta_debito.Estado) {
+      Swal.fire(
+        'Error de ingreso de cuenta debito',
+        'El campo de estado esta vacio',
+        'error'
+      );
+    } else {
+      putCuenta_Debito();
     }
   };
 
-  const deleteCuenta_Debito = async (cuenta_debito) => { 
+  const deleteCuenta_Debito = async (cuenta_debito) => {
     if (cuenta_debito.Codigo) {
-      await axios.delete(url + cuenta_debito.Codigo).then((res) => {
-        setCuentas_Debito(cuentas_debito.filter((item) => item.Codigo !== cuenta_debito.Codigo));
+      await axios.delete(url + cuenta_debito.Codigo, config).then((res) => {
+        setCuentas_Debito(
+          cuentas_debito.filter((item) => item.Codigo !== cuenta_debito.Codigo)
+        );
         clearCuenta_Debito();
       });
     }
@@ -229,7 +239,7 @@ const Cuenta_Debito = () => {
         );
       }
     });
-  }
+  };
 
   useEffect(() => {
     getCuentas_Debito();
@@ -260,25 +270,57 @@ const Cuenta_Debito = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cuentas_debito && cuentas_debito.map((cuenta_debito) => {
-                        return (cuenta_debito.Estado === "A" &&
-                          <tr key={cuenta_debito && cuenta_debito.Codigo}>
-                            <td>{cuenta_debito && cuenta_debito.Codigo}</td>
-                            <td>{cuenta_debito && cuenta_debito.CodigoUsuario}</td>
-                            <td>{cuenta_debito && cuenta_debito.CodigoMoneda}</td>
-                            <td>{cuenta_debito && cuenta_debito.CodigoSucursal}</td>
-                            <td>{cuenta_debito && cuenta_debito.CodigoTarjeta}</td>
-                            <td>{cuenta_debito && cuenta_debito.Descripcion}</td>
-                            <td>{cuenta_debito && cuenta_debito.IBAN}</td>
-                            <td>{cuenta_debito && cuenta_debito.Saldo}</td>
-                            <td>{cuenta_debito && cuenta_debito.Estado === "A" ? "Activo" : "Inactivo"}</td>
-                            <td>
-                              <button className="btn btn-primary" onClick={() => {setCuenta_Debito(cuenta_debito); setModalUpdate(!modalUpdate)}}>Editar</button>
-                            </td>
-                            <td>
-                              <button className="btn btn-danger" onClick={() => handleDeleteCuenta_Debito(cuenta_debito)}>Eliminar</button>
-                            </td>
-                          </tr>
+                    {cuentas_debito &&
+                      cuentas_debito.map((cuenta_debito) => {
+                        return (
+                          cuenta_debito.Estado === 'A' && (
+                            <tr key={cuenta_debito && cuenta_debito.Codigo}>
+                              <td>{cuenta_debito && cuenta_debito.Codigo}</td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.CodigoUsuario}
+                              </td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.CodigoMoneda}
+                              </td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.CodigoSucursal}
+                              </td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.CodigoTarjeta}
+                              </td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.Descripcion}
+                              </td>
+                              <td>{cuenta_debito && cuenta_debito.IBAN}</td>
+                              <td>{cuenta_debito && cuenta_debito.Saldo}</td>
+                              <td>
+                                {cuenta_debito && cuenta_debito.Estado === 'A'
+                                  ? 'Activo'
+                                  : 'Inactivo'}
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    setCuenta_Debito(cuenta_debito);
+                                    setModalUpdate(!modalUpdate);
+                                  }}
+                                >
+                                  Editar
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() =>
+                                    handleDeleteCuenta_Debito(cuenta_debito)
+                                  }
+                                >
+                                  Eliminar
+                                </button>
+                              </td>
+                            </tr>
+                          )
                         );
                       })}
                   </tbody>
@@ -287,7 +329,12 @@ const Cuenta_Debito = () => {
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-secondary btn-lg btn-block" onClick={() => setModalInsert(!modalInsert)}>Ingresar</button>
+        <button
+          className="btn btn-outline-secondary btn-lg btn-block"
+          onClick={() => setModalInsert(!modalInsert)}
+        >
+          Ingresar
+        </button>
       </div>
 
       <Modal isOpen={modalInsert}>
@@ -389,9 +436,9 @@ const Cuenta_Debito = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -400,7 +447,13 @@ const Cuenta_Debito = () => {
           <Button color="primary" onClick={() => handlePostCuenta_Debito()}>
             Insertar
           </Button>
-          <Button color="danger" onClick={() => {setModalInsert(!modalInsert); clearCuenta_Debito()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalInsert(!modalInsert);
+              clearCuenta_Debito();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>
@@ -522,9 +575,9 @@ const Cuenta_Debito = () => {
               type="text"
               onChange={handleChange}
             >
-                <option value="">Seleccione un Estado</option>
-                <option value="I">Inactivo</option>
-                <option value="A">Activo</option>
+              <option value="">Seleccione un Estado</option>
+              <option value="I">Inactivo</option>
+              <option value="A">Activo</option>
             </select>
           </FormGroup>
         </ModalBody>
@@ -533,7 +586,13 @@ const Cuenta_Debito = () => {
           <Button color="primary" onClick={() => handlePutCuenta_Debito()}>
             Editar
           </Button>
-          <Button color="danger" onClick={() => {setModalUpdate(!modalUpdate); clearCuenta_Debito()}}>
+          <Button
+            color="danger"
+            onClick={() => {
+              setModalUpdate(!modalUpdate);
+              clearCuenta_Debito();
+            }}
+          >
             Cancelar
           </Button>
         </ModalFooter>

@@ -50,6 +50,7 @@ export class Login extends Component {
             console.log(response.data);
             var data1 = response.data;
             localStorage.setItem('token', data1.Token);
+            localStorage.setItem('name', data1.Username);
             this.props.history.push('/dashboard');
           }
         })
