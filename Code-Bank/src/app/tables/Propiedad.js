@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Propiedad/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Propiedad = () => {
   const emptyPropiedad = {
     Codigo: '',
@@ -40,12 +46,6 @@ const Propiedad = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   const getPropiedades = async () => {

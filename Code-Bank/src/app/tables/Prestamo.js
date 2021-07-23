@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Prestamo/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Prestamo = () => {
   const emptyPrestamo = {
     Codigo: '',
@@ -34,12 +40,6 @@ const Prestamo = () => {
 
   const clearPrestamo = () => {
     setPrestamo({ ...emptyPrestamo });
-  };
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   const handleChange = (e) => {

@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Promocion/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Promocion = () => {
   const emptyPromocion = {
     Codigo: '',
@@ -39,12 +45,6 @@ const Promocion = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   const getPromociones = async () => {

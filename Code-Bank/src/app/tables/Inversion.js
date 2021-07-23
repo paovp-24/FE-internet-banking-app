@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Inversion/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Inversion = () => {
   const emptyInversion = {
     Codigo: '',
@@ -22,12 +28,6 @@ const Inversion = () => {
     Monto: '',
     Interes: '',
     Liquidez: ''
-  };
-  
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   const [inversiones, setInversiones] = useState([]);

@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Cuenta_Debito/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Cuenta_Debito = () => {
   const emptyCuenta_Debito = {
     Codigo: '',
@@ -31,12 +37,6 @@ const Cuenta_Debito = () => {
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [cuenta_debito, setCuenta_Debito] = useState(emptyCuenta_Debito);
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
-  };
 
   const clearCuenta_Debito = () => {
     setCuenta_Debito({ ...emptyCuenta_Debito });

@@ -15,6 +15,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Emisor/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Emisor = () => {
   const emptyEmisor = {
     Codigo: '',
@@ -45,12 +51,6 @@ const Emisor = () => {
       const data = res.data;
       setEmisores(data);
     });
-  };
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   // eslint-disable-next-line

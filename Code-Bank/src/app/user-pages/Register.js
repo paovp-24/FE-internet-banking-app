@@ -19,11 +19,11 @@ export class Register extends Component {
     errorMsg: '',
   };
 
-  manejadorSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  manejadorchange = async (e) => {
+  handleChange = async (e) => {
     await this.setState({
       form: {
         ...this.state.form,
@@ -32,7 +32,7 @@ export class Register extends Component {
     });
   };
 
-  manejadorboton = () => {
+  handleButton = () => {
     var regex = new RegExp (/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     
     if (!this.state.form.Identificacion) {
@@ -126,14 +126,14 @@ export class Register extends Component {
                 <h6 className="font-weight-light">
                   ¡Complete la siguiente información!
                 </h6>
-                <form className="pt-3" onSubmit={this.manejadorSubmit}>
+                <form className="pt-3" onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <input
                       type="number"
                       className="form-control form-control-lg"
                       name="Identificacion"
                       placeholder="Número de Identificación"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -142,7 +142,7 @@ export class Register extends Component {
                       className="form-control form-control-lg"
                       name="Nombre"
                       placeholder="Nombre completo"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -151,7 +151,7 @@ export class Register extends Component {
                       className="form-control form-control-lg"
                       name="Username"
                       placeholder="Nombre de Usuario"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -160,7 +160,7 @@ export class Register extends Component {
                       className="form-control form-control-lg"
                       name="Email"
                       placeholder="Correo Electrónico"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -169,7 +169,7 @@ export class Register extends Component {
                       className="form-control form-control-lg"
                       name="Password"
                       placeholder="Contraseña"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="form-group">
@@ -179,12 +179,12 @@ export class Register extends Component {
                       className="form-control form-control-lg"
                       name="FechaNacimiento"
                       placeholder="Fecha de Nacimiento"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div className="mt-3">
                     <button
-                      onClick={this.manejadorboton}
+                      onClick={this.handleButton}
                       className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
                     >
                       Registrarse

@@ -14,6 +14,12 @@ import { Apiurl } from '../../services/apirest';
 
 const url = Apiurl + 'Marchamo/';
 
+const config = {
+  headers: {
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  },
+};
+
 const Marchamo = () => {
   const emptyMarchamo = {
     Codigo: '',
@@ -31,12 +37,6 @@ const Marchamo = () => {
 
   const clearMarchamo = () => {
     setMarchamo({ ...emptyMarchamo });
-  };
-
-  const config = {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
   };
 
   const handleChange = (e) => {

@@ -15,11 +15,11 @@ export class Login extends Component {
     errorMsg: '',
   };
 
-  manejadorSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
   };
 
-  manejadorchange = async (e) => {
+  handleChange = async (e) => {
     await this.setState({
       form: {
         ...this.state.form,
@@ -28,7 +28,7 @@ export class Login extends Component {
     });
   };
 
-  manejadorboton = () => {
+  handleButton = () => {
     if (!this.state.form.Username) {
       Swal.fire(
         'Error de inicio de sesión',
@@ -91,7 +91,7 @@ export class Login extends Component {
                 <h6 className="font-weight-light">
                   Inicia sesión en el banco de los bicho lovers.
                 </h6>
-                <Form className="pt-3" onSubmit={this.manejadorSubmit}>
+                <Form className="pt-3" onSubmit={this.handleSubmit}>
                   <Form.Group className="d-flex search-field">
                     <Form.Control
                       type="text"
@@ -99,7 +99,7 @@ export class Login extends Component {
                       name="Username"
                       size="lg"
                       className="h-auto"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </Form.Group>
                   <Form.Group className="d-flex search-field">
@@ -109,12 +109,12 @@ export class Login extends Component {
                       name="Password"
                       size="lg"
                       className="h-auto"
-                      onChange={this.manejadorchange}
+                      onChange={this.handleChange}
                     />
                   </Form.Group>
                   <div className="mt-3">
                     <button
-                      onClick={this.manejadorboton}
+                      onClick={this.handleButton}
                       className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
                     >
                       Iniciar Sesión
