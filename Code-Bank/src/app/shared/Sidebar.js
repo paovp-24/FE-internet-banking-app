@@ -405,7 +405,7 @@ class Sidebar extends Component {
                 <i className="mdi mdi-table-large"></i>
               </span>
               <span className="menu-title">
-                <Trans>Tables</Trans>
+                <Trans>Mantenimientos</Trans>
               </span>
               <i className="menu-arrow"></i>
             </div>
@@ -416,11 +416,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/basic-table')
+                        this.isPathActive('/mantenimientos/basic-table')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/basic-table"
+                      to="/mantenimientos/basic-table"
                     >
                       <Trans>Basic Table</Trans>
                     </Link>
@@ -429,11 +429,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/emisor')
+                        this.isPathActive('/mantenimientos/emisor')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/emisor"
+                      to="/mantenimientos/emisor"
                     >
                       <Trans>Emisor</Trans>
                     </Link>
@@ -442,11 +442,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/prestamo')
+                        this.isPathActive('/mantenimientos/prestamo')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/prestamo"
+                      to="/mantenimientos/prestamo"
                     >
                       <Trans>Prestamo</Trans>
                     </Link>
@@ -455,11 +455,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/promocion')
+                        this.isPathActive('/mantenimientos/promocion')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/promocion"
+                      to="/mantenimientos/promocion"
                     >
                       <Trans>Promocion</Trans>
                     </Link>
@@ -468,11 +468,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/sucursal')
+                        this.isPathActive('/mantenimientos/sucursal')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/sucursal"
+                      to="/mantenimientos/sucursal"
                     >
                       <Trans>Sucursal</Trans>
                     </Link>
@@ -481,11 +481,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/inversion')
+                        this.isPathActive('/mantenimientos/inversion')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/inversion"
+                      to="/mantenimientos/inversion"
                     >
                       <Trans>Inversion</Trans>
                     </Link>
@@ -494,11 +494,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/marchamo')
+                        this.isPathActive('/mantenimientos/marchamo')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/marchamo"
+                      to="/mantenimientos/marchamo"
                     >
                       <Trans>Marchamo</Trans>
                     </Link>
@@ -507,11 +507,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/fiador')
+                        this.isPathActive('/mantenimientos/fiador')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/fiador"
+                      to="/mantenimientos/fiador"
                     >
                       <Trans>Fiador</Trans>
                     </Link>
@@ -520,11 +520,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/tarjeta')
+                        this.isPathActive('/mantenimientos/tarjeta')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/tarjeta"
+                      to="/mantenimientos/tarjeta"
                     >
                       <Trans>Tarjeta</Trans>
                     </Link>
@@ -533,11 +533,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/propiedad')
+                        this.isPathActive('/mantenimientos/propiedad')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/propiedad"
+                      to="/mantenimientos/propiedad"
                     >
                       <Trans>Propiedad</Trans>
                     </Link>
@@ -546,11 +546,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/cuenta_debito')
+                        this.isPathActive('/mantenimientos/cuenta_debito')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/cuenta_debito"
+                      to="/mantenimientos/cuenta_debito"
                     >
                       <Trans>Cuenta Debito</Trans>
                     </Link>
@@ -559,11 +559,11 @@ class Sidebar extends Component {
                     {' '}
                     <Link
                       className={
-                        this.isPathActive('/tables/cuenta_credito')
+                        this.isPathActive('/mantenimientos/cuenta_credito')
                           ? 'nav-link active'
                           : 'nav-link'
                       }
-                      to="/tables/cuenta_credito"
+                      to="/mantenimientos/cuenta_credito"
                     >
                       <Trans>Cuenta Credito</Trans>
                     </Link>

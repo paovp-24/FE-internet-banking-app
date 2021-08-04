@@ -10,9 +10,9 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { Apiurl } from '../../services/apirest';
+import { baseUrl } from '../../services/apirest';
 
-const url = Apiurl + 'Prestamo/';
+const url = baseUrl + 'Prestamo/';
 
 const config = {
   headers: {
@@ -455,9 +455,9 @@ const Prestamo = () => {
             <label>Monto:</label>
             <input
               className="form-control"
-              placeholder="Correo"
+              placeholder="Monto"
               value={prestamo && prestamo.Monto}
-              name="Correo"
+              name="Monto"
               type="number"
               step="0.01"
               onChange={handleChange}

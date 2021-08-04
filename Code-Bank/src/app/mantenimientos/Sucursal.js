@@ -11,9 +11,9 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { Apiurl } from '../../services/apirest';
+import { baseUrl } from '../../services/apirest';
 
-const url = Apiurl + 'Emisor/';
+const url = baseUrl + 'Sucursal/';
 
 const config = {
   headers: {
@@ -21,133 +21,148 @@ const config = {
   },
 };
 
-const Emisor = () => {
-  const emptyEmisor = {
+const Sucursal = () => {
+  const emptySucursal = {
     Codigo: '',
-    Descripcion: '',
-    Prefijo: '',
-    NumeroDigitos: '',
+    Nombre: '',
+    Ubicacion: '',
+    Correo: '',
+    Telefono: '',
   };
 
-  const [emisores, setEmisores] = useState([]);
+  const [sucursales, setSucursales] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [emisor, setEmisor] = useState(emptyEmisor);
+  const [sucursal, setSucursal] = useState(emptySucursal);
 
-  const clearEmisor = () => {
-    setEmisor({ ...emptyEmisor });
+  const clearSucursal = () => {
+    setSucursal({ ...emptySucursal });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmisor((prevState) => ({
+    setSucursal((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const getEmisores = async () => {
+  const getSucursales = async () => {
     await axios.get(url, config).then((res) => {
       const data = res.data;
-      setEmisores(data);
+      setSucursales(data);
     });
   };
 
   // eslint-disable-next-line
-  const getEmisoresById = async () => {
-    console.log(localStorage.getItem('token'));
-    await axios.get(url + emisor.Codigo, config).then((res) => {
+  const getSucursalesById = async () => {
+    await axios.get(url + sucursal.Codigo, config).then((res) => {
       const data = res.data;
-      setEmisor(data);
+      setSucursal(data);
     });
   };
 
-  const postEmisor = async () => {
-    await axios.post(url, emisor, config).then((res) => {
+  const postSucursal = async () => {
+    await axios.post(url, sucursal, config).then((res) => {
       const data = res.data;
-      setEmisores(emisores.concat(data));
-      clearEmisor();
-      getEmisores();
+      setSucursales(sucursales.concat(data));
+      clearSucursal();
+      getSucursales();
       setModalInsert(!modalInsert);
     });
   };
 
-  const handlePostEmisor = () => {
-    if (!emisor.Descripcion) {
+  const handlePostSucursal = () => {
+    if (!sucursal.Nombre) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de descripcion esta vacio',
+        'El campo de nombre esta vacio',
         'error'
       );
-    } else if (!emisor.Prefijo) {
+    } else if (!sucursal.Ubicacion) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de prefijo esta vacio',
+        'El campo de ubicacion esta vacio',
         'error'
       );
-    } else if (!emisor.NumeroDigitos) {
+    } else if (!sucursal.Correo) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de numero de digitos esta vacio',
+        'El campo de correo esta vacio',
+        'error'
+      );
+    } else if (!sucursal.Telefono) {
+      Swal.fire(
+        'Error de ingreso de emisor',
+        'El campo de telefono esta vacio',
         'error'
       );
     } else {
-      postEmisor();
+      postSucursal();
     }
   };
 
-  const putEmisor = async () => {
-    await axios.put(url + emisor.Codigo, emisor, config).then((res) => {
-      const newData = emisores;
+  const putSucursal = async () => {
+    await axios.put(url + sucursal.Codigo, sucursal, config).then((res) => {
+      const newData = sucursales;
       newData.map((item) => {
-        if (emisor.Codigo === item.Codigo) {
-          item.Descripcion = emisor.Descripcion;
-          item.Prefijo = emisor.Prefijo;
-          item.NumeroDigitos = emisor.NumeroDigitos;
+        if (sucursal.Codigo === item.Codigo) {
+          item.Nombre = sucursal.Nombre;
+          item.Ubicacion = sucursal.Ubicacion;
+          item.Correo = sucursal.Correo;
+          item.Telefono = sucursal.Telefono;
         }
         return newData;
       });
-      setEmisores(newData);
-      clearEmisor();
-      getEmisores();
+      setSucursales(newData);
+      clearSucursal();
+      getSucursales();
       setModalUpdate(!modalUpdate);
     });
   };
 
-  const handlePutEmisor = () => {
-    if (!emisor.Descripcion) {
+  const handlePutSucursal = () => {
+    if (!sucursal.Nombre) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de descripcion esta vacio',
+        'El campo de nombre esta vacio',
         'error'
       );
-    } else if (!emisor.Prefijo) {
+    } else if (!sucursal.Ubicacion) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de prefijo esta vacio',
+        'El campo de ubicacion esta vacio',
         'error'
       );
-    } else if (!emisor.NumeroDigitos) {
+    } else if (!sucursal.Correo) {
       Swal.fire(
         'Error de ingreso de emisor',
-        'El campo de numero de digitos esta vacio',
+        'El campo de correo esta vacio',
+        'error'
+      );
+    } else if (!sucursal.Telefono) {
+      Swal.fire(
+        'Error de ingreso de emisor',
+        'El campo de telefono esta vacio',
         'error'
       );
     } else {
-      putEmisor();
+      putSucursal();
     }
   };
 
-  const deleteEmisor = async (emisor) => {
-    if (emisor.Codigo) {
-      await axios.delete(url + emisor.Codigo, config).then((res) => {
-        setEmisores(emisores.filter((item) => item.Codigo !== emisor.Codigo));
-        clearEmisor();
+  const deleteSucursal = async (sucursal) => {
+    if (sucursal.Codigo) {
+      await axios.delete(url + sucursal.Codigo, config).then((res) => {
+        setSucursales(
+          sucursales.filter((item) => item.Codigo !== sucursal.Codigo)
+        );
+        clearSucursal();
       });
     }
   };
 
-  const handleDeleteEmisor = (emisor) => {
+  const handleDeleteSucursal = (sucursal) => {
     Swal.fire({
       title: 'Esta seguro de eliminar?',
       text: 'Esta accion no se puede devolver!',
@@ -159,10 +174,10 @@ const Emisor = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteEmisor(emisor);
+        deleteSucursal(sucursal);
         Swal.fire(
           'Transacción Completa',
-          'El emisor se ha eliminado',
+          'La sucursal se ha eliminado',
           'success'
         );
       }
@@ -170,7 +185,7 @@ const Emisor = () => {
   };
 
   useEffect(() => {
-    getEmisores();
+    getSucursales();
   }, []);
 
   return (
@@ -179,33 +194,35 @@ const Emisor = () => {
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Mantenimiento Emisor</h4>
+              <h4 className="card-title">Mantenimiento Sucursal</h4>
               <div className="table-responsive">
                 <table className="table">
                   <thead>
                     <tr>
                       <th>Codigo</th>
-                      <th>Descripcion</th>
-                      <th>Prefijo</th>
-                      <th>Numero Digitos</th>
+                      <th>Nombre</th>
+                      <th>Ubicacion</th>
+                      <th>Correo</th>
+                      <th>Telefono</th>
                       <th>Editar</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {emisores &&
-                      emisores.map((emisor) => {
+                    {sucursales &&
+                      sucursales.map((sucursal) => {
                         return (
-                          <tr key={emisor && emisor.Codigo}>
-                            <td>{emisor && emisor.Codigo}</td>
-                            <td>{emisor && emisor.Descripcion}</td>
-                            <td>{emisor && emisor.Prefijo}</td>
-                            <td>{emisor && emisor.NumeroDigitos}</td>
+                          <tr key={sucursal && sucursal.Codigo}>
+                            <td>{sucursal && sucursal.Codigo}</td>
+                            <td>{sucursal && sucursal.Nombre}</td>
+                            <td>{sucursal && sucursal.Ubicacion}</td>
+                            <td>{sucursal && sucursal.Correo}</td>
+                            <td>{sucursal && sucursal.Telefono}</td>
                             <td>
                               <button
                                 className="btn btn-primary"
                                 onClick={() => {
-                                  setEmisor(emisor);
+                                  setSucursal(sucursal);
                                   setModalUpdate(!modalUpdate);
                                 }}
                               >
@@ -215,7 +232,7 @@ const Emisor = () => {
                             <td>
                               <button
                                 className="btn btn-danger"
-                                onClick={() => handleDeleteEmisor(emisor)}
+                                onClick={() => handleDeleteSucursal(sucursal)}
                               >
                                 Eliminar
                               </button>
@@ -240,17 +257,43 @@ const Emisor = () => {
       <Modal isOpen={modalInsert}>
         <ModalHeader>
           <div>
-            <h3>Insertar Emisor</h3>
+            <h3>Insertar Sucursal</h3>
           </div>
         </ModalHeader>
 
         <ModalBody>
           <FormGroup>
-            <label>Descripcion:</label>
+            <label>Nombre:</label>
             <input
               className="form-control"
-              placeholder="Descripcion"
-              name="Descripcion"
+              placeholder="Nombre"
+              name="Nombre"
+              type="text"
+              maxLength="100"
+              size="100"
+              onChange={handleChange}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Ubicacion:</label>
+            <input
+              className="form-control"
+              placeholder="Ubicacion"
+              name="Ubicacion"
+              type="text"
+              maxLength="100"
+              size="100"
+              onChange={handleChange}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Correo:</label>
+            <input
+              className="form-control"
+              placeholder="Correo"
+              name="Correo"
               type="text"
               maxLength="50"
               size="50"
@@ -259,24 +302,11 @@ const Emisor = () => {
           </FormGroup>
 
           <FormGroup>
-            <label>Prefijo:</label>
+            <label>Telefono:</label>
             <input
               className="form-control"
-              placeholder="Prefijo"
-              name="Prefijo"
-              type="text"
-              maxLength="10"
-              size="10"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Numero de Digitos:</label>
-            <input
-              className="form-control"
-              placeholder="Numero de Digitos"
-              name="NumeroDigitos"
+              placeholder="Telefono"
+              name="Telefono"
               type="number"
               onChange={handleChange}
             />
@@ -284,14 +314,14 @@ const Emisor = () => {
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePostEmisor()}>
+          <Button color="primary" onClick={() => handlePostSucursal()}>
             Insertar
           </Button>
           <Button
             color="danger"
             onClick={() => {
               setModalInsert(!modalInsert);
-              clearEmisor();
+              clearSucursal();
             }}
           >
             Cancelar
@@ -302,7 +332,7 @@ const Emisor = () => {
       <Modal isOpen={modalUpdate}>
         <ModalHeader>
           <div>
-            <h3>Editar Emisor</h3>
+            <h3>Editar Sucursal</h3>
           </div>
         </ModalHeader>
 
@@ -313,48 +343,61 @@ const Emisor = () => {
               className="form-control"
               readOnly
               type="text"
-              value={emisor && emisor.Codigo}
+              value={sucursal && sucursal.Codigo}
             />
           </FormGroup>
 
           <FormGroup>
             <Form.Group>
-              <label>Descripcion:</label>
+              <label>Nombre:</label>
               <input
                 className="form-control"
-                name="Descripcion"
+                name="Nombre"
                 type="text"
+                maxLength="100"
+                size="100"
+                value={sucursal && sucursal.Nombre}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </FormGroup>
+
+          <FormGroup>
+            <Form.Group>
+              <label>Ubicacion:</label>
+              <input
+                className="form-control"
+                name="Ubicacion"
+                type="text"
+                maxLength="100"
+                size="100"
+                value={sucursal && sucursal.Ubicacion}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </FormGroup>
+
+          <FormGroup>
+            <Form.Group>
+              <label>Correo:</label>
+              <input
+                className="form-control"
+                name="Correo"
+                type="text"
+                value={sucursal && sucursal.Correo}
                 maxLength="50"
                 size="50"
-                value={emisor && emisor.Descripcion}
                 onChange={handleChange}
               />
             </Form.Group>
-          </FormGroup>
 
-          <FormGroup>
             <Form.Group>
-              <label>Prefijo:</label>
+              <label>Telefono:</label>
               <input
                 className="form-control"
-                name="Prefijo"
-                type="text"
-                maxLength="10"
-                size="10"
-                value={emisor && emisor.Prefijo}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </FormGroup>
-
-          <FormGroup>
-            <Form.Group>
-              <label>Numero de Digitos:</label>
-              <input
-                className="form-control"
-                name="NumeroDigitos"
+                name="Telefono"
                 type="number"
-                value={emisor && emisor.NumeroDigitos}
+                value={sucursal && sucursal.Telefono}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -362,14 +405,14 @@ const Emisor = () => {
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePutEmisor()}>
+          <Button color="primary" onClick={() => handlePutSucursal()}>
             Editar
           </Button>
           <Button
             color="danger"
             onClick={() => {
               setModalUpdate(!modalUpdate);
-              clearEmisor();
+              clearSucursal();
             }}
           >
             Cancelar
@@ -380,4 +423,4 @@ const Emisor = () => {
   );
 };
 
-export default Emisor;
+export default Sucursal;

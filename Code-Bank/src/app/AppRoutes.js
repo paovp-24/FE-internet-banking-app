@@ -1,5 +1,5 @@
-import React, { Component, Suspense, lazy } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { Switch, Redirect } from 'react-router-dom';
 
 import Spinner from '../app/shared/Spinner';
 
@@ -11,19 +11,19 @@ const Typography = lazy(() => import('./basic-ui/Typography'));
 
 const BasicElements = lazy(() => import('./form-elements/BasicElements'));
 
-const BasicTable = lazy(() => import('./tables/BasicTable'));
+const BasicTable = lazy(() => import('./mantenimientos/BasicTable'));
 
-const Emisor = lazy(() => import('./tables/Emisor'));
-const Sucursal = lazy(() => import('./tables/Sucursal'));
-const Prestamo = lazy(() => import('./tables/Prestamo'));
-const Promocion = lazy(() => import('./tables/Promocion'));
-const Inversion = lazy(() => import('./tables/Inversion'));
-const Marchamo = lazy(() => import('./tables/Marchamo'));
-const Fiador = lazy(() => import('./tables/Fiador'));
-const Tarjeta = lazy(() => import('./tables/Tarjeta'));
-const Propiedad = lazy(() => import('./tables/Propiedad'));
-const Cuenta_Debito = lazy(() => import('./tables/Cuenta_Debito'));
-const Cuenta_Credito = lazy(() => import('./tables/Cuenta_Credito'));
+const Emisor = lazy(() => import('./mantenimientos/emisor/Emisor'));
+const Sucursal = lazy(() => import('./mantenimientos/Sucursal'));
+const Prestamo = lazy(() => import('./mantenimientos/Prestamo'));
+const Promocion = lazy(() => import('./mantenimientos/Promocion'));
+const Inversion = lazy(() => import('./mantenimientos/Inversion'));
+const Marchamo = lazy(() => import('./mantenimientos/Marchamo'));
+const Fiador = lazy(() => import('./mantenimientos/Fiador'));
+const Tarjeta = lazy(() => import('./mantenimientos/Tarjeta'));
+const Propiedad = lazy(() => import('./mantenimientos/Propiedad'));
+const Cuenta_Debito = lazy(() => import('./mantenimientos/Cuenta_Debito'));
+const Cuenta_Credito = lazy(() => import('./mantenimientos/Cuenta_Credito'));
 
 const Mdi = lazy(() => import('./icons/Mdi'));
 
@@ -33,53 +33,51 @@ const Error404 = lazy(() => import('./error-pages/Error404'));
 const Error500 = lazy(() => import('./error-pages/Error500'));
 
 const Login = lazy(() => import('./user-pages/Login'));
-const Register1 = lazy(() => import('./user-pages/Register'));
+const Register = lazy(() => import('./user-pages/Register'));
 
-class AppRoutes extends Component {
-  render() {
-    return (
-      <Suspense fallback={<Spinner />}>
-        <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
+const PublicRoute = lazy(() => import('./PublicRoute.js'));
+const PrivateRoute = lazy(() => import('./PrivateRoute'));
 
-          <Route path="/basic-ui/buttons" component={Buttons} />
-          <Route path="/basic-ui/dropdowns" component={Dropdowns} />
-          <Route path="/basic-ui/typography" component={Typography} />
+const AppRoutes = () => {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Switch>
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
-          <Route
-            path="/form-Elements/basic-elements"
-            component={BasicElements}
-          />
+        <PrivateRoute path="/basic-ui/buttons" component={Buttons} />
+        <PrivateRoute path="/basic-ui/dropdowns" component={Dropdowns} />
+        <PrivateRoute path="/basic-ui/typography" component={Typography} />
 
-          <Route path="/tables/basic-table" component={BasicTable} />
+        <PrivateRoute path="/form-Elements/basic-elements" component={BasicElements} />
 
-          <Route path="/tables/emisor" component={Emisor} />
-          <Route path="/tables/sucursal" component={Sucursal} />
-          <Route path="/tables/prestamo" component={Prestamo} />
-          <Route path="/tables/promocion" component={Promocion} />
-          <Route path="/tables/inversion" component={Inversion} />
-          <Route path="/tables/marchamo" component={Marchamo} />
-          <Route path="/tables/fiador" component={Fiador} />
-          <Route path="/tables/tarjeta" component={Tarjeta} />
-          <Route path="/tables/propiedad" component={Propiedad} />
-          <Route path="/tables/cuenta_debito" component={Cuenta_Debito} />
-          <Route path="/tables/cuenta_credito" component={Cuenta_Credito} />
+        <PrivateRoute path="/mantenimientos/basic-table" component={BasicTable} />
 
-          <Route path="/icons/mdi" component={Mdi} />
+        <PrivateRoute path="/mantenimientos/emisor" component={Emisor} />
+        <PrivateRoute path="/mantenimientos/sucursal" component={Sucursal} />
+        <PrivateRoute path="/mantenimientos/prestamo" component={Prestamo} />
+        <PrivateRoute path="/mantenimientos/promocion" component={Promocion} />
+        <PrivateRoute path="/mantenimientos/inversion" component={Inversion} />
+        <PrivateRoute path="/mantenimientos/marchamo" component={Marchamo} />
+        <PrivateRoute path="/mantenimientos/fiador" component={Fiador} />
+        <PrivateRoute path="/mantenimientos/tarjeta" component={Tarjeta} />
+        <PrivateRoute path="/mantenimientos/propiedad" component={Propiedad} />
+        <PrivateRoute path="/mantenimientos/cuenta_debito" component={Cuenta_Debito} />
+        <PrivateRoute path="/mantenimientos/cuenta_credito" component={Cuenta_Credito} />
 
-          <Route path="/charts/chart-js" component={ChartJs} />
+        <PrivateRoute path="/icons/mdi" component={Mdi} />
 
-          <Route path="/user-pages/login-1" component={Login} />
-          <Route path="/user-pages/register-1" component={Register1} />
+        <PrivateRoute path="/charts/chart-js" component={ChartJs} />
 
-          <Route path="/error-pages/error-404" component={Error404} />
-          <Route path="/error-pages/error-500" component={Error500} />
+        <PublicRoute path="/user-pages/login-1" component={Login} />
+        <PublicRoute path="/user-pages/register-1" component={Register} />
 
-          <Redirect to="/user-pages/login-1" />
-        </Switch>
-      </Suspense>
-    );
-  }
+        <PrivateRoute path="/error-pages/error-404" component={Error404} />
+        <PrivateRoute path="/error-pages/error-500" component={Error500} />
+
+        <Redirect to="/user-pages/login-1" />
+      </Switch>
+    </Suspense>
+  );
 }
 
 export default AppRoutes;

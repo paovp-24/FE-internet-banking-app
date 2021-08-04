@@ -10,9 +10,9 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { Apiurl } from '../../services/apirest';
+import { baseUrl } from '../../services/apirest';
 
-const url = Apiurl + 'Cuenta_Credito/';
+const url = baseUrl + 'Cuenta_Debito/';
 
 const config = {
   headers: {
@@ -20,250 +20,206 @@ const config = {
   },
 };
 
-const Cuenta_Credito = () => {
-  const emptyCuenta_Credito = {
+const Cuenta_Debito = () => {
+  const emptyCuenta_Debito = {
     Codigo: '',
     CodigoUsuario: '',
     CodigoMoneda: '',
     CodigoSucursal: '',
     CodigoTarjeta: '',
-    Descripción: '',
+    Descripcion: '',
     IBAN: '',
     Saldo: '',
-    FechaPago: '',
-    PagoMinimo: '',
-    PagoContado: '',
     Estado: '',
   };
 
-  const [cuentas_credito, setCuentas_Credito] = useState([]);
+  const [cuentas_debito, setCuentas_Debito] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [cuenta_credito, setCuenta_Credito] = useState(emptyCuenta_Credito);
+  const [cuenta_debito, setCuenta_Debito] = useState(emptyCuenta_Debito);
 
-  const clearCuenta_Credito = () => {
-    setCuenta_Credito({ ...emptyCuenta_Credito });
+  const clearCuenta_Debito = () => {
+    setCuenta_Debito({ ...emptyCuenta_Debito });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCuenta_Credito((prevState) => ({
+    setCuenta_Debito((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const getCuentas_Credito = async () => {
+  const getCuentas_Debito = async () => {
     await axios.get(url, config).then((res) => {
       const data = res.data;
-      setCuentas_Credito(data);
+      setCuentas_Debito(data);
     });
   };
 
   // eslint-disable-next-line
-  const getCuenta_CreditoById = async () => {
-    await axios.get(url + cuenta_credito.Codigo, config).then((res) => {
+  const getCuenta_DebitoById = async () => {
+    await axios.get(url + cuenta_debito.Codigo, config).then((res) => {
       const data = res.data;
-      setCuenta_Credito(data);
+      setCuenta_Debito(data);
     });
   };
 
-  const postCuenta_Credito = async () => {
-    await axios.post(url, cuenta_credito, config).then((res) => {
+  const postCuenta_Debito = async () => {
+    await axios.post(url, cuenta_debito, config).then((res) => {
       const data = res.data;
-      setCuentas_Credito(cuentas_credito.concat(data));
-      clearCuenta_Credito();
-      getCuentas_Credito();
+      setCuentas_Debito(cuentas_debito.concat(data));
+      clearCuenta_Debito();
+      getCuentas_Debito();
       setModalInsert(!modalInsert);
     });
   };
 
-  const handlePostCuenta_Credito = () => {
-    if (!cuenta_credito.CodigoUsuario) {
+  const handlePostCuenta_Debito = () => {
+    if (!cuenta_debito.CodigoUsuario) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de usuario esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoMoneda) {
+    } else if (!cuenta_debito.CodigoMoneda) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de moneda esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoSucursal) {
+    } else if (!cuenta_debito.CodigoSucursal) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de sucursal esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoTarjeta) {
+    } else if (!cuenta_debito.CodigoTarjeta) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de tarjeta esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.Descripción) {
+    } else if (!cuenta_debito.Descripcion) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de descripcion esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.IBAN) {
+    } else if (!cuenta_debito.IBAN) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de IBAN esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.Saldo) {
+    } else if (!cuenta_debito.Saldo) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de saldo esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.FechaPago) {
+    } else if (!cuenta_debito.Estado) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de fecha de pago esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.PagoMinimo) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de pago minimo esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.PagoContado) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de pago de contado esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.Estado) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de estado esta vacio',
         'error'
       );
     } else {
-      postCuenta_Credito();
+      postCuenta_Debito();
     }
   };
 
-  const putCuenta_Credito = async () => {
+  const putCuenta_Debito = async () => {
     await axios
-      .put(url + cuenta_credito.Codigo, cuenta_credito, config)
+      .put(url + cuenta_debito.Codigo, cuenta_debito, config)
       .then((res) => {
-        const newData = cuentas_credito;
+        const newData = cuentas_debito;
         newData.map((item) => {
-          if (cuenta_credito.Codigo === item.Codigo) {
-            item.CodigoUsuario = cuenta_credito.CodigoUsuario;
-            item.CodigoMoneda = cuenta_credito.CodigoMoneda;
-            item.CodigoSucursal = cuenta_credito.CodigoSucursal;
-            item.CodigoTarjeta = cuenta_credito.CodigoTarjeta;
-            item.Descripcion = cuenta_credito.Descripción;
-            item.IBAN = cuenta_credito.IBAN;
-            item.Saldo = cuenta_credito.Saldo;
-            item.FechaPago = cuenta_credito.FechaPago;
-            item.PagoMinimo = cuenta_credito.PagoMinimo;
-            item.PagoContado = cuenta_credito.PagoContado;
-            item.Estado = cuenta_credito.Estado;
+          if (cuenta_debito.Codigo === item.Codigo) {
+            item.CodigoUsuario = cuenta_debito.CodigoUsuario;
+            item.CodigoMoneda = cuenta_debito.CodigoMoneda;
+            item.CodigoSucursal = cuenta_debito.CodigoSucursal;
+            item.CodigoTarjeta = cuenta_debito.CodigoTarjeta;
+            item.Descripcion = cuenta_debito.Descripcion;
+            item.IBAN = cuenta_debito.IBAN;
+            item.Saldo = cuenta_debito.Saldo;
+            item.Estado = cuenta_debito.Estado;
           }
           return newData;
         });
-        setCuentas_Credito(newData);
-        clearCuenta_Credito();
-        getCuentas_Credito();
+        setCuentas_Debito(newData);
+        clearCuenta_Debito();
+        getCuentas_Debito();
         setModalUpdate(!modalUpdate);
       });
   };
 
-  const handlePutCuenta_Credito = () => {
-    if (!cuenta_credito.CodigoUsuario) {
+  const handlePutCuenta_Debito = () => {
+    if (!cuenta_debito.CodigoUsuario) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de usuario esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoMoneda) {
+    } else if (!cuenta_debito.CodigoMoneda) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de moneda esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoSucursal) {
+    } else if (!cuenta_debito.CodigoSucursal) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de sucursal esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.CodigoTarjeta) {
+    } else if (!cuenta_debito.CodigoTarjeta) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de codigo de tarjeta esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.Descripción) {
+    } else if (!cuenta_debito.Descripcion) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de descripcion esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.IBAN) {
+    } else if (!cuenta_debito.IBAN) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de IBAN esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.Saldo) {
+    } else if (!cuenta_debito.Saldo) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de saldo esta vacio',
         'error'
       );
-    } else if (!cuenta_credito.FechaPago) {
+    } else if (!cuenta_debito.Estado) {
       Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de fecha de pago esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.PagoMinimo) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de pago minimo esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.PagoContado) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
-        'El campo de pago de contado esta vacio',
-        'error'
-      );
-    } else if (!cuenta_credito.Estado) {
-      Swal.fire(
-        'Error de ingreso de cuenta credito',
+        'Error de ingreso de cuenta debito',
         'El campo de estado esta vacio',
         'error'
       );
     } else {
-      putCuenta_Credito();
+      putCuenta_Debito();
     }
   };
 
-  const deleteCuenta_Credito = async (cuenta_credito) => {
-    if (cuenta_credito.Codigo) {
-      await axios.delete(url + cuenta_credito.Codigo, config).then((res) => {
-        setCuentas_Credito(
-          cuentas_credito.filter(
-            (item) => item.Codigo !== cuenta_credito.Codigo
-          )
+  const deleteCuenta_Debito = async (cuenta_debito) => {
+    if (cuenta_debito.Codigo) {
+      await axios.delete(url + cuenta_debito.Codigo, config).then((res) => {
+        setCuentas_Debito(
+          cuentas_debito.filter((item) => item.Codigo !== cuenta_debito.Codigo)
         );
-        clearCuenta_Credito();
+        clearCuenta_Debito();
       });
     }
   };
 
-  const handleDeleteCuenta_Credito = (cuenta_credito) => {
+  const handleDeleteCuenta_Debito = (cuenta_debito) => {
     Swal.fire({
       title: 'Esta seguro de eliminar?',
       text: 'Esta accion no se puede devolver!',
@@ -275,10 +231,10 @@ const Cuenta_Credito = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteCuenta_Credito(cuenta_credito);
+        deleteCuenta_Debito(cuenta_debito);
         Swal.fire(
           'Transacción Completa',
-          'La cuenta de credito se ha eliminado',
+          'La cuenta de debito se ha eliminado',
           'success'
         );
       }
@@ -286,7 +242,7 @@ const Cuenta_Credito = () => {
   };
 
   useEffect(() => {
-    getCuentas_Credito();
+    getCuentas_Debito();
   }, []);
 
   return (
@@ -295,7 +251,7 @@ const Cuenta_Credito = () => {
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Mantenimiento Cuenta de Credito</h4>
+              <h4 className="card-title">Mantenimiento Cuenta de Debito</h4>
               <div className="table-responsive">
                 <table className="table">
                   <thead>
@@ -305,53 +261,40 @@ const Cuenta_Credito = () => {
                       <th>Codigo Moneda</th>
                       <th>Codigo Sucursal</th>
                       <th>Codigo Tarjeta</th>
-                      <th>Descripción</th>
+                      <th>Descripcion</th>
                       <th>IBAN</th>
                       <th>Saldo</th>
-                      <th>Fecha de Pago</th>
-                      <th>Pago Minimo</th>
-                      <th>Pago Contado</th>
                       <th>Estado</th>
                       <th>Editar</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {cuentas_credito &&
-                      cuentas_credito.map((cuenta_credito) => {
+                    {cuentas_debito &&
+                      cuentas_debito.map((cuenta_debito) => {
                         return (
-                          cuenta_credito.Estado === 'A' && (
-                            <tr key={cuenta_credito && cuenta_credito.Codigo}>
-                              <td>{cuenta_credito && cuenta_credito.Codigo}</td>
+                          cuenta_debito.Estado === 'A' && (
+                            <tr key={cuenta_debito && cuenta_debito.Codigo}>
+                              <td>{cuenta_debito && cuenta_debito.Codigo}</td>
                               <td>
-                                {cuenta_credito && cuenta_credito.CodigoUsuario}
+                                {cuenta_debito && cuenta_debito.CodigoUsuario}
                               </td>
                               <td>
-                                {cuenta_credito && cuenta_credito.CodigoMoneda}
+                                {cuenta_debito && cuenta_debito.CodigoMoneda}
                               </td>
                               <td>
-                                {cuenta_credito &&
-                                  cuenta_credito.CodigoSucursal}
+                                {cuenta_debito && cuenta_debito.CodigoSucursal}
                               </td>
                               <td>
-                                {cuenta_credito && cuenta_credito.CodigoTarjeta}
+                                {cuenta_debito && cuenta_debito.CodigoTarjeta}
                               </td>
                               <td>
-                                {cuenta_credito && cuenta_credito.Descripción}
+                                {cuenta_debito && cuenta_debito.Descripcion}
                               </td>
-                              <td>{cuenta_credito && cuenta_credito.IBAN}</td>
-                              <td>{cuenta_credito && cuenta_credito.Saldo}</td>
+                              <td>{cuenta_debito && cuenta_debito.IBAN}</td>
+                              <td>{cuenta_debito && cuenta_debito.Saldo}</td>
                               <td>
-                                {cuenta_credito && cuenta_credito.FechaPago}
-                              </td>
-                              <td>
-                                {cuenta_credito && cuenta_credito.PagoMinimo}
-                              </td>
-                              <td>
-                                {cuenta_credito && cuenta_credito.PagoContado}
-                              </td>
-                              <td>
-                                {cuenta_credito && cuenta_credito.Estado === 'A'
+                                {cuenta_debito && cuenta_debito.Estado === 'A'
                                   ? 'Activo'
                                   : 'Inactivo'}
                               </td>
@@ -359,7 +302,7 @@ const Cuenta_Credito = () => {
                                 <button
                                   className="btn btn-primary"
                                   onClick={() => {
-                                    setCuenta_Credito(cuenta_credito);
+                                    setCuenta_Debito(cuenta_debito);
                                     setModalUpdate(!modalUpdate);
                                   }}
                                 >
@@ -370,7 +313,7 @@ const Cuenta_Credito = () => {
                                 <button
                                   className="btn btn-danger"
                                   onClick={() =>
-                                    handleDeleteCuenta_Credito(cuenta_credito)
+                                    handleDeleteCuenta_Debito(cuenta_debito)
                                   }
                                 >
                                   Eliminar
@@ -397,7 +340,7 @@ const Cuenta_Credito = () => {
       <Modal isOpen={modalInsert}>
         <ModalHeader>
           <div>
-            <h3>Insertar Cuenta de Credito</h3>
+            <h3>Insertar Cuenta de Debito</h3>
           </div>
         </ModalHeader>
 
@@ -447,11 +390,11 @@ const Cuenta_Credito = () => {
           </FormGroup>
 
           <FormGroup>
-            <label>Descripción:</label>
+            <label>Descripcion:</label>
             <input
               className="form-control"
-              placeholder="Descripción"
-              name="Descripción"
+              placeholder="Descripcion"
+              name="Descripcion"
               type="text"
               maxLength="50"
               size="50"
@@ -485,45 +428,10 @@ const Cuenta_Credito = () => {
           </FormGroup>
 
           <FormGroup>
-            <label>Fecha de Pago:</label>
-            <input
-              className="form-control"
-              placeholder="Fecha de Pago"
-              name="FechaPago"
-              type="date"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Pago Minimo:</label>
-            <input
-              className="form-control"
-              placeholder="Pago Minimo"
-              name="PagoMinimo"
-              type="number"
-              step="0.01"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Pago Contado:</label>
-            <input
-              className="form-control"
-              placeholder="Pago Contado"
-              name="PagoContado"
-              type="number"
-              step="0.01"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
             <label>Estado:</label>
             <select
               className="form-control"
-              value={cuenta_credito && cuenta_credito.Estado}
+              value={cuenta_debito && cuenta_debito.Estado}
               name="Estado"
               type="text"
               onChange={handleChange}
@@ -536,14 +444,14 @@ const Cuenta_Credito = () => {
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePostCuenta_Credito()}>
+          <Button color="primary" onClick={() => handlePostCuenta_Debito()}>
             Insertar
           </Button>
           <Button
             color="danger"
             onClick={() => {
               setModalInsert(!modalInsert);
-              clearCuenta_Credito();
+              clearCuenta_Debito();
             }}
           >
             Cancelar
@@ -554,7 +462,7 @@ const Cuenta_Credito = () => {
       <Modal isOpen={modalUpdate}>
         <ModalHeader>
           <div>
-            <h3>Editar Cuenta de Credito</h3>
+            <h3>Editar Cuenta de Debito</h3>
           </div>
         </ModalHeader>
 
@@ -565,7 +473,7 @@ const Cuenta_Credito = () => {
               className="form-control"
               readOnly
               type="text"
-              value={cuenta_credito && cuenta_credito.Codigo}
+              value={cuenta_debito && cuenta_debito.Codigo}
             />
           </FormGroup>
 
@@ -576,7 +484,7 @@ const Cuenta_Credito = () => {
               placeholder="Codigo Usuario"
               name="CodigoUsuario"
               type="number"
-              value={cuenta_credito && cuenta_credito.CodigoUsuario}
+              value={cuenta_debito && cuenta_debito.CodigoUsuario}
               onChange={handleChange}
             />
           </FormGroup>
@@ -588,7 +496,7 @@ const Cuenta_Credito = () => {
               placeholder="Codigo Moneda"
               name="CodigoMoneda"
               type="number"
-              value={cuenta_credito && cuenta_credito.CodigoMoneda}
+              value={cuenta_debito && cuenta_debito.CodigoMoneda}
               onChange={handleChange}
             />
           </FormGroup>
@@ -600,7 +508,7 @@ const Cuenta_Credito = () => {
               placeholder="Codigo Sucursal"
               name="CodigoSucursal"
               type="number"
-              value={cuenta_credito && cuenta_credito.CodigoSucursal}
+              value={cuenta_debito && cuenta_debito.CodigoSucursal}
               onChange={handleChange}
             />
           </FormGroup>
@@ -612,21 +520,21 @@ const Cuenta_Credito = () => {
               placeholder="Codigo Tarjeta"
               name="CodigoTarjeta"
               type="number"
-              value={cuenta_credito && cuenta_credito.CodigoTarjeta}
+              value={cuenta_debito && cuenta_debito.CodigoTarjeta}
               onChange={handleChange}
             />
           </FormGroup>
 
           <FormGroup>
-            <label>Descripción:</label>
+            <label>Descripcion:</label>
             <input
               className="form-control"
-              placeholder="Descripción"
-              name="Descripción"
+              placeholder="Descripcion"
+              name="Descripcion"
               type="text"
               maxLength="50"
               size="50"
-              value={cuenta_credito && cuenta_credito.Descripción}
+              value={cuenta_debito && cuenta_debito.Descripcion}
               onChange={handleChange}
             />
           </FormGroup>
@@ -640,7 +548,7 @@ const Cuenta_Credito = () => {
               type="text"
               maxLength="22"
               size="22"
-              value={cuenta_credito && cuenta_credito.IBAN}
+              value={cuenta_debito && cuenta_debito.IBAN}
               onChange={handleChange}
             />
           </FormGroup>
@@ -653,45 +561,7 @@ const Cuenta_Credito = () => {
               name="Saldo"
               type="number"
               step="0.01"
-              value={cuenta_credito && cuenta_credito.Saldo}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Fecha de Pago:</label>
-            <input
-              className="form-control"
-              placeholder="Fecha de Pago"
-              name="FechaPago"
-              type="date"
-              value={cuenta_credito && cuenta_credito.FechaPago}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Pago Minimo:</label>
-            <input
-              className="form-control"
-              placeholder="Pago Minimo"
-              name="PagoMinimo"
-              type="number"
-              step="0.01"
-              value={cuenta_credito && cuenta_credito.PagoMinimo}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Pago Contado:</label>
-            <input
-              className="form-control"
-              placeholder="Pago Contado"
-              name="PagoContado"
-              type="number"
-              step="0.01"
-              value={cuenta_credito && cuenta_credito.PagoContado}
+              value={cuenta_debito && cuenta_debito.Saldo}
               onChange={handleChange}
             />
           </FormGroup>
@@ -700,7 +570,7 @@ const Cuenta_Credito = () => {
             <label>Estado:</label>
             <select
               className="form-control"
-              value={cuenta_credito && cuenta_credito.Estado}
+              value={cuenta_debito && cuenta_debito.Estado}
               name="Estado"
               type="text"
               onChange={handleChange}
@@ -713,14 +583,14 @@ const Cuenta_Credito = () => {
         </ModalBody>
 
         <ModalFooter>
-          <Button color="primary" onClick={() => handlePutCuenta_Credito()}>
+          <Button color="primary" onClick={() => handlePutCuenta_Debito()}>
             Editar
           </Button>
           <Button
             color="danger"
             onClick={() => {
               setModalUpdate(!modalUpdate);
-              clearCuenta_Credito();
+              clearCuenta_Debito();
             }}
           >
             Cancelar
@@ -731,4 +601,4 @@ const Cuenta_Credito = () => {
   );
 };
 
-export default Cuenta_Credito;
+export default Cuenta_Debito;

@@ -238,7 +238,7 @@ class Navbar extends Component {
                   <div className="preview-item-content">
                     <p className="preview-subject mb-1">
                       {' '}
-                      <Link className={'nav-link'} to="/user-pages/Login">
+                      <Link className={'nav-link'} to="/user-pages/Login" onClick={() => {localStorage.removeItem("token"); localStorage.removeItem("name")}}>
                         <Trans>Cerrar Sesión</Trans>
                       </Link>
                     </p>

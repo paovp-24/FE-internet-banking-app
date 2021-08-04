@@ -10,9 +10,9 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { Apiurl } from '../../services/apirest';
+import { baseUrl } from '../../services/apirest';
 
-const url = Apiurl + 'Propiedad/';
+const url = baseUrl + 'Propiedad/';
 
 const config = {
   headers: {

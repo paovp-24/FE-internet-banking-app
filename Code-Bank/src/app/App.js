@@ -9,13 +9,17 @@ import { withTranslation } from "react-i18next";
 
 class App extends Component {
   state = {}
+
   componentDidMount() {
     this.onRouteChanged();
   }
+
   render () {
-    let navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
-    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
-    let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
+    
+    const navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
+    const sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
+    const footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
+
     return (
       <div className="container-scroller">
         { sidebarComponent }
