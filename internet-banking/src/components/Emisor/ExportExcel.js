@@ -7,7 +7,7 @@ const ExcelColumn = ExcelExport.ExcelFile.ExcelColumn;
 
 const ExportExcel = ({ emisores }) => {
   return (
-    <ExcelFile element={<button className="btn btn-outline-secondary btn-lg btn-block">Exportar a Excel</button>} filename="Emisores">
+    <ExcelFile className="btn btn-outline-secondary btn-lg btn-block" element="Exportar a Excel" filename="Emisores">
       <ExcelSheet data={emisores} name="Emisor">
         <ExcelColumn label="Codigo" value="Codigo" />
         <ExcelColumn label="Descripcion" value="Descripcion" />

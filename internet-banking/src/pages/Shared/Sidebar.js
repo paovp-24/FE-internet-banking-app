@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
+import Profile from './Profile';
 
 class Sidebar extends Component {
-  state = {};
+  state = {
+    modalProfile: false,
+  };
 
   toggleMenuState(menuState) {
     if (this.state[menuState]) {
@@ -69,11 +72,15 @@ class Sidebar extends Component {
             <div className="profile-desc">
               <div className="profile-pic">
                 <div className="count-indicator">
-                  <img
-                    className="img-xs rounded-circle "
-                    src={require('../../assets/images/faces/face0.jpg')}
+                  <input
+                    type="image"
+                    className="img-xs rounded-circle"
+                    src={localStorage.getItem("image") ? localStorage.getItem("image") : require('../../assets/images/faces/face0.jpg')}
+                    // src={require('../../assets/images/faces/face0.jpg')}
+                    onClick={() => this.setState({modalProfile: true})}
                     alt="profile"
                   />
+                  {this.state.modalProfile && <Profile modalProfile={this.state.modalProfile} setModalProfile={() => this.setState({modalProfile: false})} />}
                   <span className="count bg-success"></span>
                 </div>
                 <div className="profile-name">

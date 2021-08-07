@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-!/react-export-excel
+!node_modules/react-export-excel
 /.pnp
 .pnp.js
 

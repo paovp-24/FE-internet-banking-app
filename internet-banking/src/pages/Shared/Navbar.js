@@ -211,7 +211,7 @@ class Navbar extends Component {
                 <div className="navbar-profile">
                   <img
                     className="img-xs rounded-circle"
-                    src={require('../../assets/images/faces/face0.jpg')}
+                    src={localStorage.getItem("image") ? localStorage.getItem("image") : require('../../assets/images/faces/face0.jpg')}
                     alt="profile"
                   />
                   <p className="mb-0 d-none d-sm-block navbar-profile-name">
@@ -238,7 +238,7 @@ class Navbar extends Component {
                   <div className="preview-item-content">
                     <p className="preview-subject mb-1">
                       {' '}
-                      <Link className={'nav-link'} to="/user-pages/Login" onClick={() => {localStorage.removeItem("token"); localStorage.removeItem("name")}}>
+                      <Link className={'nav-link'} to="/user-pages/Login" onClick={() => localStorage.clear()}>
                         <Trans>Cerrar Sesión</Trans>
                       </Link>
                     </p>

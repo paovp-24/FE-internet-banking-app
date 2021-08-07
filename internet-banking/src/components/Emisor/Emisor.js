@@ -223,9 +223,9 @@ const Emisor = () => {
             Guardar en PDF
           </button>
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={emisores} filename="Emisores.csv">Exportar a CSV</CSVLink>
-
           <ExportExcel emisores={emisores} />
+
+          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={emisores} filename="Emisores.csv">Exportar a CSV</CSVLink>
         </div>
       )}
 
