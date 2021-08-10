@@ -575,6 +575,19 @@ class Sidebar extends Component {
                       <Trans>Cuenta Credito</Trans>
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/mantenimiento/sesion')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/mantenimiento/sesion"
+                    >
+                      <Trans>Sesion</Trans>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </Collapse>

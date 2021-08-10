@@ -226,9 +226,9 @@ class Navbar extends Component {
                   <Trans>Perfil de Usuario</Trans>
                 </h6>
                 <Dropdown.Divider />
-                <Dropdown.Item
+                <div
                   onClick={(evt) => evt.preventDefault()}
-                  className="preview-item"
+                  className="preview-item dropdown-item"
                 >
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-dark rounded-circle">
@@ -243,7 +243,7 @@ class Navbar extends Component {
                       </Link>
                     </p>
                   </div>
-                </Dropdown.Item>
+                </div>
                 <Dropdown.Divider />
               </Dropdown.Menu>
             </Dropdown>

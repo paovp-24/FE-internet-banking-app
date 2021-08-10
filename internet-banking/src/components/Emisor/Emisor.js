@@ -7,7 +7,8 @@ import PrintEmisor from "./PrintEmisor";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
-import { baseUrl, config } from "../../services/API/APIRest";
+import { baseUrl, getToken, getConfig } from "../../services/API/APIRest";
+
 const url = baseUrl + "Emisor/";
 
 const Emisor = () => {
@@ -51,14 +52,18 @@ const Emisor = () => {
   };
 
   const getEmisores = async () => {
+    const token = getToken();
+    const config = getConfig(token);
     await axios.get(url, config).then((response) => {
       const { data } = response;
       setEmisores(data);
-    });
+    }).catch((err) => console.log(err))
   };
 
   // eslint-disable-next-line
   const getEmisoresById = async () => {
+    const token = getToken();
+    const config = getConfig(token);
     await axios.get(url + emisor.Codigo, config).then((response) => {
       const { data } = response;
       setEmisor(data);
@@ -66,6 +71,8 @@ const Emisor = () => {
   };
 
   const postEmisor = async () => {
+    const token = getToken();
+    const config = getConfig(token);
     await axios.post(url, emisor, config).then((response) => {
       const { data } = response;
       setEmisores(emisores.concat(data));
@@ -88,6 +95,8 @@ const Emisor = () => {
   };
 
   const putEmisor = async () => {
+    const token = getToken();
+    const config = getConfig(token);
     await axios.put(url + emisor.Codigo, emisor, config).then((response) => {
       const newData = emisores;
       newData.map((item) => {
@@ -118,6 +127,8 @@ const Emisor = () => {
   };
 
   const deleteEmisor = async (emisor) => {
+    const token = getToken();
+    const config = getConfig(token);
     if (emisor.Codigo) {
       await axios.delete(url + emisor.Codigo, config).then((res) => {
         const newData = emisores.filter(

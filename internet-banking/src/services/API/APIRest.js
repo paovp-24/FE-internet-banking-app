@@ -1,7 +1,7 @@
 export const baseUrl = 'http://localhost:49220/api/';
 
-export const config = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-};
+export const getToken = () => localStorage.getItem("token");
+
+export const getConfig = (token) => {
+  return {headers: {Authorization: "Bearer " + token}}
+}

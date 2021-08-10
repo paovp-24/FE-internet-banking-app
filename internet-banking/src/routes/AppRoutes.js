@@ -36,6 +36,7 @@ const Tarjeta = lazy(() => import('../components/Tarjeta'));
 const Propiedad = lazy(() => import('../components/Propiedad'));
 const Cuenta_Debito = lazy(() => import('../components/Cuenta_Debito'));
 const Cuenta_Credito = lazy(() => import('../components/Cuenta_Credito'));
+const Sesion = lazy(() => import('../components/Sesion/Sesion'));
 
 /* Routes */
 
@@ -73,6 +74,7 @@ const AppRoutes = () => {
         <PrivateRoute path="/mantenimiento/propiedad" component={Propiedad} />
         <PrivateRoute path="/mantenimiento/cuenta_debito" component={Cuenta_Debito} />
         <PrivateRoute path="/mantenimiento/cuenta_credito" component={Cuenta_Credito} />
+        <PrivateRoute path="/mantenimiento/sesion" component={Sesion} />
 
         <PrivateRoute path="/error-pages/error-404" component={Error404} />
         <PrivateRoute path="/error-pages/error-500" component={Error500} />

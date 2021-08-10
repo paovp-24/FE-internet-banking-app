@@ -85,6 +85,7 @@ const Login = () => {
                     size="lg"
                     className="h-auto"
                     onChange={handleChange}
+                    autoComplete="on"
                   />
                 </Form.Group>
                 <div className="mt-3">
