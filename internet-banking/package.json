@@ -21,7 +21,10 @@
     "font-awesome": "^4.7.0",
     "i18next": "^19.9.2",
     "i18next-browser-languagedetector": "^4.3.1",
+<<<<<<< Updated upstream
     "jwt-decode": "^3.1.2",
+=======
+>>>>>>> Stashed changes
     "namor": "^1.1.3",
     "node-sass": "^4.14.1",
     "nouislider-react": "^3.4.0",
@@ -35,7 +38,12 @@
     "react-clipboard.js": "^2.0.16",
     "react-color": "^2.19.3",
     "react-csv": "^2.0.3",
+<<<<<<< Updated upstream
     "react-datepicker": "^4.2.0",
+=======
+    "react-datepicker": "^4.1.1",
+    "react-device-detect": "^1.17.0",
+>>>>>>> Stashed changes
     "react-dnd": "^9.5.1",
     "react-dnd-html5-backend": "^9.5.1",
     "react-dnd-multi-backend": "^3.2.2",
@@ -43,6 +51,10 @@
     "react-dom": "^16.14.0",
     "react-dragula": "^1.1.17",
     "react-dropzone": "^10.2.2",
+<<<<<<< Updated upstream
+=======
+    "react-export-excel": "^0.5.3",
+>>>>>>> Stashed changes
     "react-i18next": "^11.11.4",
     "react-images": "^1.1.7",
     "react-input-mask": "^3.0.0-alpha.2",

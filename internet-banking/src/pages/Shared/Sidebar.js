@@ -75,12 +75,23 @@ class Sidebar extends Component {
                   <input
                     type="image"
                     className="img-xs rounded-circle"
-                    src={localStorage.getItem("image") ? localStorage.getItem("image") : require('../../assets/images/faces/face0.jpg')}
+                    src={
+                      localStorage.getItem('image')
+                        ? localStorage.getItem('image')
+                        : require('../../assets/images/faces/face0.jpg')
+                    }
                     // src={require('../../assets/images/faces/face0.jpg')}
-                    onClick={() => this.setState({modalProfile: true})}
+                    onClick={() => this.setState({ modalProfile: true })}
                     alt="profile"
                   />
-                  {this.state.modalProfile && <Profile modalProfile={this.state.modalProfile} setModalProfile={() => this.setState({modalProfile: false})} />}
+                  {this.state.modalProfile && (
+                    <Profile
+                      modalProfile={this.state.modalProfile}
+                      setModalProfile={() =>
+                        this.setState({ modalProfile: false })
+                      }
+                    />
+                  )}
                   <span className="count bg-success"></span>
                 </div>
                 <div className="profile-name">
@@ -443,6 +454,19 @@ class Sidebar extends Component {
                       to="/mantenimiento/emisor"
                     >
                       <Trans>Emisor</Trans>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/mantenimiento/estadistica')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/mantenimiento/estadistica"
+                    >
+                      <Trans>Estadistica</Trans>
                     </Link>
                   </li>
                   <li className="nav-item">

@@ -1,13 +1,32 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Form } from "react-bootstrap";
-import { logIn } from "../../services/Login/index";
-
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
+import { logIn, postEstadistica } from '../../services/Login/index';
+import { browserName } from 'react-device-detect';
+import Swal from 'sweetalert2';
+import { osName, mobileVendor } from 'react-device-detect';
 
 const Login = () => {
-  const [form, setForm] = useState({ Username: "", Password: "" });
+  //Date
+  var currentdate = new Date();
+  var datetime =
+    currentdate.getDate() +
+    '/' +
+    (currentdate.getMonth() + 1) +
+    '/' +
+    currentdate.getFullYear() +
+    ', ' +
+    currentdate.getHours() +
+    ':' +
+    currentdate.getMinutes() +
+    ':' +
+    currentdate.getSeconds();
+
+  
+  const [form, setForm] = useState({ Username: '', Password: '' });
   const history = useHistory();
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,32 +41,57 @@ const Login = () => {
   };
 
   const handleError = (option, campo) => {
-    option === 1 ? Swal.fire("Error de inicio de sesión", `El campo de ${campo} está vacio`, "error") :
-    Swal.fire("Error de inicio de sesión", "Verifique sus credenciales", "error");
+    option === 1
+      ? Swal.fire(
+          'Error de inicio de sesión',
+          `El campo de ${campo} está vacio`,
+          'error'
+        )
+      : Swal.fire(
+          'Error de inicio de sesión',
+          'Verifique sus credenciales',
+          'error'
+        );
   };
 
-  const onLogIn = async() => {
+  const onLogIn = async () => {
     await logIn(form)
-    .then((response) => {
-      const { data, status } = response;
-      if (status === 200) {
-        const { Token, Nombre } = data;
-        const name = Nombre.split(" ");
-        localStorage.setItem("token", Token);
-        localStorage.setItem("name", name[0]);
-        history.push("/dashboard");
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-      handleError(2);
-    })
+      .then((response) => {
+        const { data, status } = response;
+        if (status === 200) {
+          const { Token, Nombre } = data;
+          const name = Nombre.split(' ');
+          localStorage.setItem('token', Token);
+          localStorage.setItem('name', name[0]);
+          const { Codigo } = data;
+          console.log(Codigo);
+          const estadistica = {
+            CodigoUsuario: `${Codigo}`,
+            FechaHora: `${datetime}`,
+            Navegador: `${browserName}`,
+            PlataformaDispositivo: `${osName}`,
+            FabricanteDispositivo: `${mobileVendor}`,
+            Vista: 'Login',
+            Accion: 'Iniciar Sesión',
+          };
+          postEstadistica(estadistica);
+          history.push('/dashboard');
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        handleError(2);
+      });
   };
 
   const handleLogIn = () => {
     const { Username, Password } = form;
 
-    !Username ? handleError(1,"nombre de usuario") : !Password ? handleError(1,"contraseña") : onLogIn();
+    !Username
+      ? handleError(1, 'nombre de usuario')
+      : !Password
+      ? handleError(1, 'contraseña')
+      : onLogIn();
   };
 
   return (
@@ -58,7 +102,7 @@ const Login = () => {
             <div className="card text-left py-5 px-4 px-sm-5">
               <div className="brand-logo">
                 <img
-                  src={require("../../assets/images/logo2.svg")}
+                  src={require('../../assets/images/logo2.svg')}
                   alt="logo"
                 />
               </div>

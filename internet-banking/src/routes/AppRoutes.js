@@ -7,7 +7,9 @@ import Spinner from '../pages/Shared/Spinner';
 const Buttons = lazy(() => import('../ExtraUI/basic-ui/Buttons'));
 const Dropdowns = lazy(() => import('../ExtraUI/basic-ui/Dropdowns'));
 const Typography = lazy(() => import('../ExtraUI/basic-ui/Typography'));
-const BasicElements = lazy(() => import('../ExtraUI/form-elements/BasicElements'));
+const BasicElements = lazy(() =>
+  import('../ExtraUI/form-elements/BasicElements')
+);
 const Mdi = lazy(() => import('../ExtraUI/icons/Mdi'));
 const ChartJs = lazy(() => import('../ExtraUI/charts/ChartJs'));
 
@@ -36,7 +38,11 @@ const Tarjeta = lazy(() => import('../components/Tarjeta'));
 const Propiedad = lazy(() => import('../components/Propiedad'));
 const Cuenta_Debito = lazy(() => import('../components/Cuenta_Debito'));
 const Cuenta_Credito = lazy(() => import('../components/Cuenta_Credito'));
+<<<<<<< Updated upstream
 const Sesion = lazy(() => import('../components/Sesion/Sesion'));
+=======
+const Estadistica = lazy(() => import('../components/Estadistica/Estadistica'));
+>>>>>>> Stashed changes
 
 /* Routes */
 
@@ -51,7 +57,10 @@ const AppRoutes = () => {
         <PrivateRoute path="/basic-ui/dropdowns" component={Dropdowns} />
         <PrivateRoute path="/basic-ui/typography" component={Typography} />
 
-        <PrivateRoute path="/form-Elements/basic-elements" component={BasicElements} />
+        <PrivateRoute
+          path="/form-Elements/basic-elements"
+          component={BasicElements}
+        />
 
         <PrivateRoute path="/icons/mdi" component={Mdi} />
         <PrivateRoute path="/charts/chart-js" component={ChartJs} />
@@ -61,9 +70,17 @@ const AppRoutes = () => {
 
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
-        <PrivateRoute path="/mantenimiento/basic-table" component={BasicTable} />
+        <PrivateRoute
+          path="/mantenimiento/basic-table"
+          component={BasicTable}
+        />
 
         <PrivateRoute path="/mantenimiento/emisor" component={Emisor} />
+        <PrivateRoute
+          path="/mantenimiento/estadistica"
+          component={Estadistica}
+        />
+
         <PrivateRoute path="/mantenimiento/sucursal" component={Sucursal} />
         <PrivateRoute path="/mantenimiento/prestamo" component={Prestamo} />
         <PrivateRoute path="/mantenimiento/promocion" component={Promocion} />
@@ -72,9 +89,20 @@ const AppRoutes = () => {
         <PrivateRoute path="/mantenimiento/fiador" component={Fiador} />
         <PrivateRoute path="/mantenimiento/tarjeta" component={Tarjeta} />
         <PrivateRoute path="/mantenimiento/propiedad" component={Propiedad} />
+<<<<<<< Updated upstream
         <PrivateRoute path="/mantenimiento/cuenta_debito" component={Cuenta_Debito} />
         <PrivateRoute path="/mantenimiento/cuenta_credito" component={Cuenta_Credito} />
         <PrivateRoute path="/mantenimiento/sesion" component={Sesion} />
+=======
+        <PrivateRoute
+          path="/mantenimiento/cuenta_debito"
+          component={Cuenta_Debito}
+        />
+        <PrivateRoute
+          path="/mantenimiento/cuenta_credito"
+          component={Cuenta_Credito}
+        />
+>>>>>>> Stashed changes
 
         <PrivateRoute path="/error-pages/error-404" component={Error404} />
         <PrivateRoute path="/error-pages/error-500" component={Error500} />
@@ -83,6 +111,6 @@ const AppRoutes = () => {
       </Switch>
     </Suspense>
   );
-}
+};
 
 export default AppRoutes;
