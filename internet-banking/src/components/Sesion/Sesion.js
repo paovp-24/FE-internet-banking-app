@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import PrintSesion from "./PrintSesion";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
-import { baseUrl, getToken, getConfig } from "../../services/API/APIRest";
-
-const url = baseUrl + "Sesion/";
+import { useSesion } from "../../hooks/useSesion";
 
 const Sesion = () => {
-  const [sesiones, setSesiones] = useState([]);
+  const { sesiones } = useSesion();
   const [isPDF, setIsPDF] = useState(false);
-
-  const getSesiones = async () => {
-    const token = getToken();
-    const config = getConfig(token);
-    await axios.get(url, config).then((response) => {
-      const { data } = response;
-      setSesiones(data);
-    }).catch((err) => console.log(err))
-  };
-
-  useEffect(() => {
-    getSesiones();
-  }, []);
 
   return (
     <>

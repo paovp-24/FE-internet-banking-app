@@ -13,9 +13,9 @@ const PrivateRoute = ({component: Component, ...rest}) => {
             if (token) {
                 const decodedToken = jwt_decode(token);
                 const currentDate = new Date();
-                console.log(decodedToken.exp)
-                //console.log(decodedToken.exp / 6e+7)
-                const isValidToken = decodedToken.exp * 1000 < currentDate.getTime() ? false : true;
+                const expiryDate = new Date(decodedToken.exp * 1000)
+                
+                const isValidToken = expiryDate < currentDate.getTime() ? false : true;
                 if (!isValidToken) {
                     localStorage.clear();
                     console.log("Token Expired");
@@ -27,7 +27,6 @@ const PrivateRoute = ({component: Component, ...rest}) => {
             }
         }
         checkToken();
-
     }, [])
 
     return (

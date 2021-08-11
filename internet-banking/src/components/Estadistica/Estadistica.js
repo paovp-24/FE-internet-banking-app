@@ -1,45 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import PrintEstadistica from './PrintEstadistica';
-import ExportExcel from './ExportExcel';
-import { CSVLink } from 'react-csv';
+import React, { useState } from "react";
+import PrintEstadistica from "./PrintEstadistica";
+import ExportExcel from "./ExportExcel";
+import { CSVLink } from "react-csv";
 
-
-import { baseUrl, config } from '../../services/API/APIRest';
-const url = baseUrl + 'Estadistica/';
-
+import { useEstadistica } from "../../hooks/useEstadistica";
 
 const Estadistica = () => {
-
-
-  function portapapeles() {
-    var urlField = document.querySelector('table');
-    window.getSelection().removeAllRanges(); 
-    var range = document.createRange();  
-    range.selectNode(urlField);
-    window.getSelection().addRange(range);
-    document.execCommand('copy');
-  }
-  
-  const [Estadisticaes, setEstadisticaes] = useState([]);
+  const { estadisticas } = useEstadistica();
   const [isPDF, setIsPDF] = useState(false);
 
-  const getEstadisticaes = async () => {
-    await axios.get(url, config).then((response) => {
-      const { data } = response;
-      setEstadisticaes(data);
-    });
+  const clipboard = () => {
+    const urlField = document.querySelector("table");
+    window.getSelection().removeAllRanges();
+    const range = document.createRange();
+    range.selectNode(urlField);
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
   };
-
-  useEffect(() => {
-    getEstadisticaes();
-  }, []);
 
   return (
     <>
       {isPDF ? (
         <PrintEstadistica
-          Estadisticaes={Estadisticaes}
+          estadisticas={estadisticas}
           isPDF={isPDF}
           setIsPDF={setIsPDF}
         />
@@ -50,7 +33,7 @@ const Estadistica = () => {
               <div className="card-body">
                 <h4 className="card-title">Mantenimiento Estadistica</h4>
                 <div className="table-responsive">
-                  <table className="table" id="table">
+                  <table className="table" id="table" style={{textAlign: 'center'}}>  
                     <thead>
                       <tr>
                         <th>Codigo de Usuario</th>
@@ -63,8 +46,8 @@ const Estadistica = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {Estadisticaes &&
-                        Estadisticaes.map((Estadistica) => {
+                      {estadisticas &&
+                        estadisticas.map((Estadistica) => {
                           return (
                             <tr key={Estadistica && Estadistica.Codigo}>
                               <td>
@@ -76,10 +59,7 @@ const Estadistica = () => {
                                 {Estadistica &&
                                   Estadistica.PlataformaDispositivo}
                               </td>
-                              <td>
-                                {Estadistica &&
-                                  Estadistica.FabricanteDispositivo}
-                              </td>
+                              <td>{Estadistica && Estadistica.FabricanteDispositivo === "none" ? "Sin Fabricante" : Estadistica.FabricanteDispositivo}</td>
                               <td>{Estadistica && Estadistica.Vista}</td>
                               <td>{Estadistica && Estadistica.Accion}</td>
                             </tr>
@@ -97,17 +77,20 @@ const Estadistica = () => {
           >
             Guardar en PDF
           </button>
-     
-          <button  className="btn btn-outline-secondary btn-lg btn-block" onClick={portapapeles}>
-      Guardar en Portapapeles
-    </button>
 
-          <ExportExcel Estadisticaes={Estadisticaes} />
+          <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={clipboard}
+          >
+            Guardar en Portapapeles
+          </button>
+
+          <ExportExcel estadisticas={estadisticas} />
 
           <CSVLink
             className="btn btn-outline-secondary btn-lg btn-block"
-            data={Estadisticaes}
-            filename="Estadisticaes.csv"
+            data={estadisticas}
+            filename="Estadisticas.csv"
           >
             Exportar a CSV
           </CSVLink>

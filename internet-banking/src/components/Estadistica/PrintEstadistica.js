@@ -2,7 +2,7 @@ import React, { useRef, forwardRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 const ContentToPrint = forwardRef((props, ref) => {
-  const { Estadisticaes, isPDF, setIsPDF, handlePrint } = props;
+  const { estadisticas, isPDF, setIsPDF, handlePrint } = props;
 
   return (
     <div className="row">
@@ -30,21 +30,21 @@ const ContentToPrint = forwardRef((props, ref) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Estadisticaes &&
-                    Estadisticaes.map((Estadistica) => {
+                  {estadisticas &&
+                    estadisticas.map((estadistica) => {
                       return (
-                        <tr key={Estadistica && Estadistica.Codigo}>
-                          <td>{Estadistica && Estadistica.CodigoUsuario}</td>
-                          <td>{Estadistica && Estadistica.FechaHora}</td>
-                          <td>{Estadistica && Estadistica.Navegador}</td>
+                        <tr key={estadistica && estadistica.Codigo}>
+                          <td>{estadistica && estadistica.CodigoUsuario}</td>
+                          <td>{estadistica && estadistica.FechaHora}</td>
+                          <td>{estadistica && estadistica.Navegador}</td>
                           <td>
-                            {Estadistica && Estadistica.PlataformaDispositivo}
+                            {estadistica && estadistica.PlataformaDispositivo}
                           </td>
                           <td>
-                            {Estadistica && Estadistica.FabricanteDispositivo}
+                            {estadistica && estadistica.FabricanteDispositivo === "none" ? "Sin Fabricante" : estadistica.FabricanteDispositivo}
                           </td>
-                          <td>{Estadistica && Estadistica.Vista}</td>
-                          <td>{Estadistica && Estadistica.Accion}</td>
+                          <td>{estadistica && estadistica.Vista}</td>
+                          <td>{estadistica && estadistica.Accion}</td>
                         </tr>
                       );
                     })}
@@ -70,7 +70,7 @@ const ContentToPrint = forwardRef((props, ref) => {
   );
 });
 
-const PrintEmisor = ({ Estadisticaes, isPDF, setIsPDF }) => {
+const PrintEmisor = ({ estadisticas, isPDF, setIsPDF }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -80,7 +80,7 @@ const PrintEmisor = ({ Estadisticaes, isPDF, setIsPDF }) => {
   return (
     <div>
       <ContentToPrint
-        Estadisticaes={Estadisticaes}
+        estadisticas={estadisticas}
         isPDF={isPDF}
         setIsPDF={setIsPDF}
         handlePrint={handlePrint}

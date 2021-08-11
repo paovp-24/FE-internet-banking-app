@@ -188,6 +188,22 @@ class Sidebar extends Component {
               </span>
             </Link>
           </li>
+          <li
+            className={
+              this.isPathActive('/charts/chart-js')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/charts/chart-js">
+              <span className="menu-icon">
+                <i className="mdi mdi-chart-bar"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Chart JS</Trans>
+              </span>
+            </Link>
+          </li>
 
           <li className="nav-item nav-category">
             <span className="nav-link">
@@ -196,90 +212,209 @@ class Sidebar extends Component {
           </li>
           <li
             className={
-              this.isPathActive('/Propiedades')
+              this.isPathActive('/mantenimiento/sesion')
                 ? 'nav-item menu-items active'
                 : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/Propiedades">
+            <Link className="nav-link" to="/mantenimiento/sesion">
               <span className="menu-icon">
-                <i className="mdi mdi-speedometer"></i>
+                <i className="mdi mdi-application"></i>
               </span>
               <span className="menu-title">
-                <Trans>Propiedades</Trans>
+                <Trans>Sesion</Trans>
               </span>
             </Link>
           </li>
           <li
             className={
-              this.isPathActive('/error-pages')
+              this.isPathActive('/mantenimiento/estadistica')
                 ? 'nav-item menu-items active'
                 : 'nav-item menu-items'
             }
           >
-            <div
-              className={
-                this.state.cuentasPagesMenuOpen
-                  ? 'nav-link menu-expanded'
-                  : 'nav-link'
-              }
-              onClick={() => this.toggleMenuState('cuentasPagesMenuOpen')}
-              data-toggle="collapse"
-            >
+            <Link className="nav-link" to="/mantenimiento/estadistica">
               <span className="menu-icon">
-                <i className="mdi mdi-lock"></i>
+                <i className="mdi mdi-chart-line"></i>
               </span>
               <span className="menu-title">
-                <Trans>Cuentas</Trans>
+                <Trans>Estadistica</Trans>
               </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.cuentasPagesMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/error-pages/error-404')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/error-pages/error-404"
-                    >
-                      Cuentas de Debito
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/error-pages/error-500')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/error-pages/error-500"
-                    >
-                      Cuentas de Credito
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
+            </Link>
           </li>
           <li
             className={
-              this.isPathActive('/error-pages/error-404')
+              this.isPathActive('/mantenimiento/emisor')
                 ? 'nav-item menu-items active'
                 : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/error-pages/error-404">
+            <Link className="nav-link" to="/mantenimiento/emisor">
               <span className="menu-icon">
-                <i className="mdi mdi-speedometer"></i>
+                <i className="mdi mdi-bank"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Emisor</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/prestamo')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/prestamo">
+              <span className="menu-icon">
+                <i className="mdi mdi-cash-multiple"></i>
               </span>
               <span className="menu-title">
                 <Trans>Prestamo</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/promocion')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/promocion">
+              <span className="menu-icon">
+                <i className="mdi mdi-currency-usd-off"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Promocion</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/sucursal')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/sucursal">
+              <span className="menu-icon">
+                <i className="mdi mdi-office-building"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Sucursal</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/inversion')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/inversion">
+              <span className="menu-icon">
+                <i className="mdi mdi-cash"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Inversion</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/marchamo')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/marchamo">
+              <span className="menu-icon">
+                <i className="mdi mdi-credit-card-marker-outline"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Marchamo</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/fiador')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/fiador">
+              <span className="menu-icon">
+                <i className="mdi mdi-account-lock-outline"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Fiador</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/tarjeta')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/tarjeta">
+              <span className="menu-icon">
+                <i className="mdi mdi-card-text-outline"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Tarjeta</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/propiedad')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/propiedad">
+              <span className="menu-icon">
+                <i className="mdi mdi-home"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Propiedad</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/cuenta_debito')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/cuenta_debito">
+              <span className="menu-icon">
+                <i className="mdi mdi-account-card-details-outline"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Cuenta Debito</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive('/mantenimiento/cuenta_credito')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
+            }
+          >
+            <Link className="nav-link" to="/mantenimiento/cuenta_credito">
+              <span className="menu-icon">
+                <i className="mdi mdi-account-card-details"></i>
+              </span>
+              <span className="menu-title">
+                <Trans>Cuenta Credito</Trans>
               </span>
             </Link>
           </li>
@@ -316,6 +451,19 @@ class Sidebar extends Component {
             <Collapse in={this.state.basicUiMenuOpen}>
               <div>
                 <ul className="nav flex-column sub-menu">
+                <li className="nav-item">
+                    {' '}
+                    <Link
+                      className={
+                        this.isPathActive('/basic-ui/basic-table')
+                          ? 'nav-link active'
+                          : 'nav-link'
+                      }
+                      to="/basic-ui/basic-table"
+                    >
+                      <Trans>Basic Table</Trans>
+                    </Link>
+                  </li>
                   <li className="nav-item">
                     {' '}
                     <Link
@@ -405,263 +553,6 @@ class Sidebar extends Component {
           </li>
           <li
             className={
-              this.isPathActive('/tables')
-                ? 'nav-item menu-items active'
-                : 'nav-item menu-items'
-            }
-          >
-            <div
-              className={
-                this.state.tablesMenuOpen
-                  ? 'nav-link menu-expanded'
-                  : 'nav-link'
-              }
-              onClick={() => this.toggleMenuState('tablesMenuOpen')}
-              data-toggle="collapse"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-table-large"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Mantenimientos</Trans>
-              </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.tablesMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/basic-table')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/basic-table"
-                    >
-                      <Trans>Basic Table</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/emisor')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/emisor"
-                    >
-                      <Trans>Emisor</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/estadistica')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/estadistica"
-                    >
-                      <Trans>Estadistica</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/prestamo')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/prestamo"
-                    >
-                      <Trans>Prestamo</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/promocion')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/promocion"
-                    >
-                      <Trans>Promocion</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/sucursal')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/sucursal"
-                    >
-                      <Trans>Sucursal</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/inversion')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/inversion"
-                    >
-                      <Trans>Inversion</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/marchamo')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/marchamo"
-                    >
-                      <Trans>Marchamo</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/fiador')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/fiador"
-                    >
-                      <Trans>Fiador</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/tarjeta')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/tarjeta"
-                    >
-                      <Trans>Tarjeta</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/propiedad')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/propiedad"
-                    >
-                      <Trans>Propiedad</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/cuenta_debito')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/cuenta_debito"
-                    >
-                      <Trans>Cuenta Debito</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/cuenta_credito')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/cuenta_credito"
-                    >
-                      <Trans>Cuenta Credito</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/mantenimiento/sesion')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/mantenimiento/sesion"
-                    >
-                      <Trans>Sesion</Trans>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
-          </li>
-          <li
-            className={
-              this.isPathActive('/charts')
-                ? 'nav-item menu-items active'
-                : 'nav-item menu-items'
-            }
-          >
-            <div
-              className={
-                this.state.chartsMenuOpen
-                  ? 'nav-link menu-expanded'
-                  : 'nav-link'
-              }
-              onClick={() => this.toggleMenuState('chartsMenuOpen')}
-              data-toggle="collapse"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-chart-bar"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Charts</Trans>
-              </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.chartsMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/charts/chart-js')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/charts/chart-js"
-                    >
-                      <Trans>Chart Js</Trans>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
-          </li>
-          <li
-            className={
               this.isPathActive('/icons')
                 ? 'nav-item menu-items active'
                 : 'nav-item menu-items'
@@ -696,63 +587,6 @@ class Sidebar extends Component {
                       to="/icons/mdi"
                     >
                       <Trans>Material</Trans>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </Collapse>
-          </li>
-          <li
-            className={
-              this.isPathActive('/user-pages')
-                ? 'nav-item menu-items active'
-                : 'nav-item menu-items'
-            }
-          >
-            <div
-              className={
-                this.state.userPagesMenuOpen
-                  ? 'nav-link menu-expanded'
-                  : 'nav-link'
-              }
-              onClick={() => this.toggleMenuState('userPagesMenuOpen')}
-              data-toggle="collapse"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-security"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>User Pages</Trans>
-              </span>
-              <i className="menu-arrow"></i>
-            </div>
-            <Collapse in={this.state.userPagesMenuOpen}>
-              <div>
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/user-pages/login-1')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/user-pages/login-1"
-                    >
-                      <Trans>Login</Trans>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    {' '}
-                    <Link
-                      className={
-                        this.isPathActive('/user-pages/register-1')
-                          ? 'nav-link active'
-                          : 'nav-link'
-                      }
-                      to="/user-pages/register-1"
-                    >
-                      <Trans>Register</Trans>
                     </Link>
                   </li>
                 </ul>
@@ -815,21 +649,6 @@ class Sidebar extends Component {
                 </ul>
               </div>
             </Collapse>
-          </li>
-          <li className="nav-item menu-items">
-            <a
-              className="nav-link"
-              href="http://bootstrapdash.com/demo/corona-react-free/documentation/documentation.html"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <span className="menu-icon">
-                <i className="mdi mdi-file-document-box"></i>
-              </span>
-              <span className="menu-title">
-                <Trans>Documentation</Trans>
-              </span>
-            </a>
           </li>
         </ul>
       </nav>

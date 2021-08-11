@@ -1,32 +1,57 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { logIn, postEstadistica } from '../../services/Login/index';
+import { logIn } from '../../services/Login/index';
 import { browserName } from 'react-device-detect';
 import Swal from 'sweetalert2';
 import { osName, mobileVendor } from 'react-device-detect';
+import jwt_decode from 'jwt-decode'
+import { getToken } from '../../services/API/APIRest';
+
+import { useEstadistica } from '../../hooks/useEstadistica';
+import { useSesion } from '../../hooks/useSesion';
 
 const Login = () => {
-  //Date
-  var currentdate = new Date();
-  var datetime =
-    currentdate.getDate() +
-    '/' +
-    (currentdate.getMonth() + 1) +
-    '/' +
-    currentdate.getFullYear() +
-    ', ' +
-    currentdate.getHours() +
-    ':' +
-    currentdate.getMinutes() +
-    ':' +
-    currentdate.getSeconds();
-
-  
   const [form, setForm] = useState({ Username: '', Password: '' });
   const history = useHistory();
+  // eslint-disable-next-line
+  const { postEstadistica } = useEstadistica();
+  const { postSesion } = useSesion();
 
+  const currentdate = new Date();
+  const getDatetime = (date) => {
+    const datetime = 
+    (date.getMonth() + 1) +
+    '/' +
+    date.getDate() +
+    '/' +
+    date.getFullYear() +
+    ', ' +
+    date.getHours() +
+    ':' +
+    date.getMinutes() +
+    ':' +
+    date.getSeconds();
+    return datetime;
+  }
   
+  // eslint-disable-next-line
+  const estadistica = {
+    CodigoUsuario: "",
+    FechaHora: `${getDatetime(currentdate)}`,
+    Navegador: `${browserName}`,
+    PlataformaDispositivo: `${osName}`,
+    FabricanteDispositivo: `${mobileVendor}`,
+    Vista: 'Login',
+    Accion: 'Iniciar Sesión',
+  }
+
+  const sesion = {
+    CodigoUsuario: "",
+    FechaInicio: `${getDatetime(currentdate)}`,
+    FechaExpiracion: "",
+    Estado: "A"
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,26 +88,25 @@ const Login = () => {
           const name = Nombre.split(' ');
           localStorage.setItem('token', Token);
           localStorage.setItem('name', name[0]);
-          const { Codigo } = data;
-          console.log(Codigo);
-          const estadistica = {
-            CodigoUsuario: `${Codigo}`,
-            FechaHora: `${datetime}`,
-            Navegador: `${browserName}`,
-            PlataformaDispositivo: `${osName}`,
-            FabricanteDispositivo: `${mobileVendor}`,
-            Vista: 'Login',
-            Accion: 'Iniciar Sesión',
-          };
-          postEstadistica(estadistica);
-          history.push('/dashboard');
+          history.push('/dashboard')
+          //const { Codigo } = data;
+          //estadistica.CodigoUsuario = Codigo; 
+          //postEstadistica(estadistica)
+          //sesion.CodigoUsuario = Codigo;
+          //handlePostSesion();
         }
       })
-      .catch((e) => {
-        console.log(e);
-        handleError(2);
-      });
+      .catch(() => handleError(2));
   };
+
+  // eslint-disable-next-line
+  const handlePostSesion = async () => {
+    const token = getToken();
+    const decodedToken = jwt_decode(token);
+    const expiryDate = new Date(decodedToken.exp * 1000);
+    sesion.FechaExpiracion = getDatetime(expiryDate);
+    await postSesion(sesion);
+  }
 
   const handleLogIn = () => {
     const { Username, Password } = form;

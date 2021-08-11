@@ -1,5 +1,5 @@
 import React from "react";
-import ExcelExport from "react-export-excel";
+import ExcelExport from "../../modules/react-export-excel";
 
 const ExcelFile = ExcelExport.ExcelFile;
 const ExcelSheet = ExcelExport.ExcelFile.ExcelSheet;

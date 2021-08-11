@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Fiador/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { useFiador } from '../../hooks/useFiador';
 
 const Fiador = () => {
   const emptyFiador = {
@@ -30,7 +21,7 @@ const Fiador = () => {
     Ocupacion: '',
   };
 
-  const [fiadores, setFiadores] = useState([]);
+  const { fiadores, postFiador, putFiador, deleteFiador } = useFiador();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [fiador, setFiador] = useState(emptyFiador);
@@ -47,29 +38,10 @@ const Fiador = () => {
     }));
   };
 
-  const getFiadores = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setFiadores(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getFiadorById = async () => {
-    await axios.get(url + fiador.Codigo, config).then((res) => {
-      const data = res.data;
-      setFiador(data);
-    });
-  };
-
-  const postFiador = async () => {
-    await axios.post(url, fiador, config).then((res) => {
-      const data = res.data;
-      setFiadores(fiadores.concat(data));
-      clearFiador();
-      getFiadores();
-      setModalInsert(!modalInsert);
-    });
+  const handleError = (option, campo) => {
+    option === 1 ? Swal.fire("Error de ingreso de fiador", `El campo de ${campo} está vacio`,"error") :
+    option === 2 ? Swal.fire("Error de eliminación de fiador", "El fiador no se ha podido eliminar", "error") :
+    Swal.fire("Transacción Completa", "El fiador se ha eliminado", "success")
   };
 
   const handlePostFiador = () => {
@@ -104,28 +76,10 @@ const Fiador = () => {
         'error'
       );
     } else {
-      postFiador();
+      postFiador(fiador)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearFiador());
     }
-  };
-
-  const putFiador = async () => {
-    await axios.put(url + fiador.Codigo, fiador, config).then((res) => {
-      const newData = fiadores;
-      newData.map((item) => {
-        if (fiador.Codigo === item.Codigo) {
-          item.CodigoPrestamo = fiador.CodigoPrestamo;
-          item.Cedula = fiador.Cedula;
-          item.Nombre = fiador.Nombre;
-          item.Apellidos = fiador.Apellidos;
-          item.Ocupacion = fiador.Ocupacion;
-        }
-        return newData;
-      });
-      setFiadores(newData);
-      clearFiador();
-      getFiadores();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutFiador = () => {
@@ -160,16 +114,9 @@ const Fiador = () => {
         'error'
       );
     } else {
-      putFiador();
-    }
-  };
-
-  const deleteFiador = async (fiador) => {
-    if (fiador.Codigo) {
-      await axios.delete(url + fiador.Codigo, config).then((res) => {
-        setFiadores(fiadores.filter((item) => item.Codigo !== fiador.Codigo));
-        clearFiador();
-      });
+      putFiador(fiador)
+      .then(() => setModalUpdate(!modalUpdate))
+      .then(() => clearFiador());
     }
   };
 
@@ -185,7 +132,8 @@ const Fiador = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteFiador(fiador);
+        deleteFiador(fiador)
+        .then(() => clearFiador());
         Swal.fire(
           'Transacción Completa',
           'El fiador se ha eliminado',
@@ -194,10 +142,6 @@ const Fiador = () => {
       }
     });
   };
-
-  useEffect(() => {
-    getFiadores();
-  }, []);
 
   return (
     <div>

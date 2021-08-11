@@ -4,6 +4,7 @@ import Spinner from '../pages/Shared/Spinner';
 
 /* Extra UI Elements */
 
+const BasicTable = lazy(() => import('../ExtraUI/basic-ui/BasicTable'));
 const Buttons = lazy(() => import('../ExtraUI/basic-ui/Buttons'));
 const Dropdowns = lazy(() => import('../ExtraUI/basic-ui/Dropdowns'));
 const Typography = lazy(() => import('../ExtraUI/basic-ui/Typography'));
@@ -25,24 +26,19 @@ const Error500 = lazy(() => import('../pages/Error/Error500'));
 
 /* Components */
 
-const BasicTable = lazy(() => import('../components/BasicTable'));
-
 const Emisor = lazy(() => import('../components/Emisor/Emisor'));
 const Sucursal = lazy(() => import('../components/Sucursal'));
 const Prestamo = lazy(() => import('../components/Prestamo'));
 const Promocion = lazy(() => import('../components/Promocion'));
 const Inversion = lazy(() => import('../components/Inversion'));
 const Marchamo = lazy(() => import('../components/Marchamo'));
-const Fiador = lazy(() => import('../components/Fiador'));
+const Fiador = lazy(() => import('../components/Fiador/Fiador'));
 const Tarjeta = lazy(() => import('../components/Tarjeta'));
 const Propiedad = lazy(() => import('../components/Propiedad'));
 const Cuenta_Debito = lazy(() => import('../components/Cuenta_Debito'));
 const Cuenta_Credito = lazy(() => import('../components/Cuenta_Credito'));
-<<<<<<< Updated upstream
 const Sesion = lazy(() => import('../components/Sesion/Sesion'));
-=======
 const Estadistica = lazy(() => import('../components/Estadistica/Estadistica'));
->>>>>>> Stashed changes
 
 /* Routes */
 
@@ -53,6 +49,7 @@ const AppRoutes = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
+        <PrivateRoute path="/basic-ui/basic-table" component={BasicTable} />
         <PrivateRoute path="/basic-ui/buttons" component={Buttons} />
         <PrivateRoute path="/basic-ui/dropdowns" component={Dropdowns} />
         <PrivateRoute path="/basic-ui/typography" component={Typography} />
@@ -70,11 +67,6 @@ const AppRoutes = () => {
 
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
-        <PrivateRoute
-          path="/mantenimiento/basic-table"
-          component={BasicTable}
-        />
-
         <PrivateRoute path="/mantenimiento/emisor" component={Emisor} />
         <PrivateRoute
           path="/mantenimiento/estadistica"
@@ -89,20 +81,10 @@ const AppRoutes = () => {
         <PrivateRoute path="/mantenimiento/fiador" component={Fiador} />
         <PrivateRoute path="/mantenimiento/tarjeta" component={Tarjeta} />
         <PrivateRoute path="/mantenimiento/propiedad" component={Propiedad} />
-<<<<<<< Updated upstream
         <PrivateRoute path="/mantenimiento/cuenta_debito" component={Cuenta_Debito} />
         <PrivateRoute path="/mantenimiento/cuenta_credito" component={Cuenta_Credito} />
         <PrivateRoute path="/mantenimiento/sesion" component={Sesion} />
-=======
-        <PrivateRoute
-          path="/mantenimiento/cuenta_debito"
-          component={Cuenta_Debito}
-        />
-        <PrivateRoute
-          path="/mantenimiento/cuenta_credito"
-          component={Cuenta_Credito}
-        />
->>>>>>> Stashed changes
+        <PrivateRoute path="/mantenimiento/estadistica" component={Estadistica} />
 
         <PrivateRoute path="/error-pages/error-404" component={Error404} />
         <PrivateRoute path="/error-pages/error-500" component={Error500} />
