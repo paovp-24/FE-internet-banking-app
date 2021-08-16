@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Propiedad/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { usePropiedad } from '../../hooks/usePropiedad';
 
 const Propiedad = () => {
   const emptyPropiedad = {
@@ -31,7 +22,7 @@ const Propiedad = () => {
     PrecioFiscal: ''
   };
 
-  const [propiedades, setPropiedades] = useState([]);
+  const { propiedades, postPropiedad, putPropiedad, deletePropiedad } = usePropiedad();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [propiedad, setPropiedad] = useState(emptyPropiedad);
@@ -46,31 +37,6 @@ const Propiedad = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const getPropiedades = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setPropiedades(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getPropiedadById = async() => {
-    await axios.get(url+propiedad.Codigo, config).then(res=>{
-      const data = res.data;
-      setPropiedad(data);
-    })
-  }
-
-  const postPropiedad = async () => {
-    await axios.post(url, propiedad, config).then((res) => {
-      const data = res.data;
-      setPropiedades(propiedades.concat(data));
-      clearPropiedad();
-      getPropiedades();
-      setModalInsert(!modalInsert);
-    })
   };
 
   const handlePostPropiedad = () => {
@@ -111,29 +77,10 @@ const Propiedad = () => {
           'error'
         );
       } else {
-      postPropiedad();
+      postPropiedad(propiedad)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearPropiedad());
     }
-  };
-
-  const putPropiedad = async () => {
-    await axios.put(url + propiedad.Codigo, propiedad, config).then((res) => {
-      const newData = propiedades;
-      newData.map((item) => {
-        if (propiedad.Codigo === item.Codigo) {
-          item.CodigoUsuario = propiedad.CodigoUsuario;
-          item.Ubicacion = propiedad.Ubicacion;
-          item.Dimension = propiedad.Dimension;
-          item.Descripcion = propiedad.Descripcion;
-          item.Estado = propiedad.Estado;
-          item.PrecioFiscal = propiedad.PrecioFiscal;
-        }
-        return newData;
-      });
-      setPropiedades(newData);
-      clearPropiedad();
-      getPropiedades();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutPropiedad = () => {
@@ -174,16 +121,9 @@ const Propiedad = () => {
           'error'
         );
       } else {
-        putPropiedad();
-    }
-  };
-
-  const deletePropiedad = async (propiedad) => { 
-    if (propiedad.Codigo) {
-      await axios.delete(url + propiedad.Codigo, config).then((res) => {
-        setPropiedades(propiedades.filter((item) => item.Codigo !== propiedad.Codigo));
-        clearPropiedad();
-      });
+        putPropiedad(propiedad)
+        .then(() => setModalUpdate(!modalUpdate))
+        .then(() => clearPropiedad());
     }
   };
 
@@ -199,7 +139,8 @@ const Propiedad = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deletePropiedad(propiedad);
+        deletePropiedad(propiedad)
+        .then(() => clearPropiedad());
         Swal.fire(
           'Transacción Completa',
           'La propiedad se ha eliminado',
@@ -208,10 +149,6 @@ const Propiedad = () => {
       }
     });
   }
-
-  useEffect(() => {
-    getPropiedades();
-  }, []);
 
   return (
     <div>

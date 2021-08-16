@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import axios from 'axios';
 import {
   Button,
   Modal,
@@ -11,15 +10,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Sucursal/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { useSucursal } from '../../hooks/useSucursal';
 
 const Sucursal = () => {
   const emptySucursal = {
@@ -30,7 +21,7 @@ const Sucursal = () => {
     Telefono: '',
   };
 
-  const [sucursales, setSucursales] = useState([]);
+  const { sucursales, postSucursal, putSucursal, deleteSucursal } = useSucursal();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [sucursal, setSucursal] = useState(emptySucursal);
@@ -45,31 +36,6 @@ const Sucursal = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const getSucursales = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setSucursales(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getSucursalesById = async () => {
-    await axios.get(url + sucursal.Codigo, config).then((res) => {
-      const data = res.data;
-      setSucursal(data);
-    });
-  };
-
-  const postSucursal = async () => {
-    await axios.post(url, sucursal, config).then((res) => {
-      const data = res.data;
-      setSucursales(sucursales.concat(data));
-      clearSucursal();
-      getSucursales();
-      setModalInsert(!modalInsert);
-    });
   };
 
   const handlePostSucursal = () => {
@@ -98,27 +64,10 @@ const Sucursal = () => {
         'error'
       );
     } else {
-      postSucursal();
+      postSucursal(sucursal)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearSucursal());
     }
-  };
-
-  const putSucursal = async () => {
-    await axios.put(url + sucursal.Codigo, sucursal, config).then((res) => {
-      const newData = sucursales;
-      newData.map((item) => {
-        if (sucursal.Codigo === item.Codigo) {
-          item.Nombre = sucursal.Nombre;
-          item.Ubicacion = sucursal.Ubicacion;
-          item.Correo = sucursal.Correo;
-          item.Telefono = sucursal.Telefono;
-        }
-        return newData;
-      });
-      setSucursales(newData);
-      clearSucursal();
-      getSucursales();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutSucursal = () => {
@@ -147,18 +96,9 @@ const Sucursal = () => {
         'error'
       );
     } else {
-      putSucursal();
-    }
-  };
-
-  const deleteSucursal = async (sucursal) => {
-    if (sucursal.Codigo) {
-      await axios.delete(url + sucursal.Codigo, config).then((res) => {
-        setSucursales(
-          sucursales.filter((item) => item.Codigo !== sucursal.Codigo)
-        );
-        clearSucursal();
-      });
+      putSucursal(sucursal)
+      .then(() => setModalUpdate(!modalUpdate))
+      .then(() => clearSucursal());
     }
   };
 
@@ -174,7 +114,8 @@ const Sucursal = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteSucursal(sucursal);
+        deleteSucursal(sucursal)
+        .then(() => clearSucursal());
         Swal.fire(
           'Transacción Completa',
           'La sucursal se ha eliminado',
@@ -183,10 +124,6 @@ const Sucursal = () => {
       }
     });
   };
-
-  useEffect(() => {
-    getSucursales();
-  }, []);
 
   return (
     <div>

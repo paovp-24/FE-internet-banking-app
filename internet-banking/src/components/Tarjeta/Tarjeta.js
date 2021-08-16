@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Tarjeta/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { useTarjeta } from '../../hooks/useTarjeta';
 
 const Tarjeta = () => {
   const emptyTarjeta = {
@@ -30,7 +21,7 @@ const Tarjeta = () => {
     Estado: '',
   };
 
-  const [tarjetas, setTarjetas] = useState([]);
+  const { tarjetas, postTarjeta, putTarjeta, deleteTarjeta } = useTarjeta();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [tarjeta, setTarjeta] = useState(emptyTarjeta);
@@ -45,31 +36,6 @@ const Tarjeta = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const getTarjetas = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setTarjetas(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getTarjetaById = async () => {
-    await axios.get(url + tarjeta.Codigo, config).then((res) => {
-      const data = res.data;
-      setTarjeta(data);
-    });
-  };
-
-  const postTarjeta = async () => {
-    await axios.post(url, tarjeta, config).then((res) => {
-      const data = res.data;
-      setTarjetas(tarjetas.concat(data));
-      clearTarjeta();
-      getTarjetas();
-      setModalInsert(!modalInsert);
-    });
   };
 
   const handlePostTarjeta = () => {
@@ -104,28 +70,10 @@ const Tarjeta = () => {
         'error'
       );
     } else {
-      postTarjeta();
+      postTarjeta(tarjeta)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearTarjeta());
     }
-  };
-
-  const putTarjeta = async () => {
-    await axios.put(url + tarjeta.Codigo, tarjeta, config).then((res) => {
-      const newData = tarjetas;
-      newData.map((item) => {
-        if (tarjeta.Codigo === item.Codigo) {
-          item.CodigoEmisor = tarjeta.CodigoEmisor;
-          item.Numero = tarjeta.Numero;
-          item.FechaEmision = tarjeta.FechaEmision;
-          item.FechaVencimiento = tarjeta.FechaVencimiento;
-          item.Estado = tarjeta.Estado;
-        }
-        return newData;
-      });
-      setTarjetas(newData);
-      clearTarjeta();
-      getTarjetas();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutTarjeta = () => {
@@ -160,16 +108,9 @@ const Tarjeta = () => {
         'error'
       );
     } else {
-      putTarjeta();
-    }
-  };
-
-  const deleteTarjeta = async (tarjeta) => {
-    if (tarjeta.Codigo) {
-      await axios.delete(url + tarjeta.Codigo, config).then((res) => {
-        setTarjetas(tarjetas.filter((item) => item.Codigo !== tarjeta.Codigo));
-        clearTarjeta();
-      });
+      putTarjeta(tarjeta)
+      .then(() => setModalUpdate(!modalUpdate))
+      .then(() => clearTarjeta());
     }
   };
 
@@ -185,7 +126,8 @@ const Tarjeta = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteTarjeta(tarjeta);
+        deleteTarjeta(tarjeta)
+        .then(() => clearTarjeta());
         Swal.fire(
           'Transacción Completa',
           'La tarjeta se ha eliminado',
@@ -194,10 +136,6 @@ const Tarjeta = () => {
       }
     });
   };
-
-  useEffect(() => {
-    getTarjetas();
-  }, []);
 
   return (
     <div>

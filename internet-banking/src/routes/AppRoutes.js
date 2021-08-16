@@ -27,16 +27,16 @@ const Error500 = lazy(() => import('../pages/Error/Error500'));
 /* Components */
 
 const Emisor = lazy(() => import('../components/Emisor/Emisor'));
-const Sucursal = lazy(() => import('../components/Sucursal'));
-const Prestamo = lazy(() => import('../components/Prestamo'));
-const Promocion = lazy(() => import('../components/Promocion'));
-const Inversion = lazy(() => import('../components/Inversion'));
-const Marchamo = lazy(() => import('../components/Marchamo'));
+const Sucursal = lazy(() => import('../components/Sucursal/Sucursal'));
+const Prestamo = lazy(() => import('../components/Prestamo/Prestamo'));
+const Promocion = lazy(() => import('../components/Promocion/Promocion'));
+const Inversion = lazy(() => import('../components/Inversion/Inversion'));
+const Marchamo = lazy(() => import('../components/Marchamo/Marchamo'));
 const Fiador = lazy(() => import('../components/Fiador/Fiador'));
-const Tarjeta = lazy(() => import('../components/Tarjeta'));
-const Propiedad = lazy(() => import('../components/Propiedad'));
-const Cuenta_Debito = lazy(() => import('../components/Cuenta_Debito'));
-const Cuenta_Credito = lazy(() => import('../components/Cuenta_Credito'));
+const Tarjeta = lazy(() => import('../components/Tarjeta/Tarjeta'));
+const Propiedad = lazy(() => import('../components/Propiedad/Propiedad'));
+const Cuenta_Debito = lazy(() => import('../components/Cuenta_Debito/Cuenta_Debito'));
+const Cuenta_Credito = lazy(() => import('../components/Cuenta_Credito/Cuenta_Credito'));
 const Sesion = lazy(() => import('../components/Sesion/Sesion'));
 const Estadistica = lazy(() => import('../components/Estadistica/Estadistica'));
 

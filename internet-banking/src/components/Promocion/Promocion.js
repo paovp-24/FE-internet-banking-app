@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Promocion/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { usePromocion } from '../../hooks/usePromocion';
 
 const Promocion = () => {
   const emptyPromocion = {
@@ -30,7 +21,7 @@ const Promocion = () => {
     Descuento: ''
   };
 
-  const [promociones, setPromociones] = useState([]);
+  const { promociones, postPromocion, putPromocion, deletePromocion } = usePromocion();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [promocion, setPromocion] = useState(emptyPromocion);
@@ -45,31 +36,6 @@ const Promocion = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const getPromociones = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setPromociones(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getPromocionById = async() => {
-    await axios.get(url+promocion.Codigo, config).then(res=>{
-      const data = res.data;
-      setPromocion(data);
-    })
-  }
-
-  const postPromocion = async () => {
-    await axios.post(url, promocion, config).then((res) => {
-      const data = res.data;
-      setPromociones(promociones.concat(data));
-      clearPromocion();
-      getPromociones();
-      setModalInsert(!modalInsert);
-    })
   };
 
   const handlePostPromocion = () => {
@@ -104,28 +70,10 @@ const Promocion = () => {
           'error'
         );
       } else {
-      postPromocion();
+      postPromocion(promocion)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearPromocion());
     }
-  };
-
-  const putPromocion = async () => {
-    await axios.put(url + promocion.Codigo, promocion, config).then((res) => {
-      const newData = promociones;
-      newData.map((item) => {
-        if (promocion.Codigo === item.Codigo) {
-          item.CodigoEmisor = promocion.CodigoEmisor;
-          item.Empresa = promocion.Empresa;
-          item.FechaInicio = promocion.FechaInicio;
-          item.FechaFinalizacion = promocion.FechaFinalizacion;
-          item.Descuento = promocion.Descuento;
-        }
-        return newData;
-      });
-      setPromociones(newData);
-      clearPromocion();
-      getPromociones();
-      setModalUpdate(!modalUpdate);
-    });
   };
 
   const handlePutPromocion = () => {
@@ -160,16 +108,9 @@ const Promocion = () => {
           'error'
         );
       } else {
-        putPromocion();
-    }
-  };
-
-  const deletePromocion = async (promocion) => { 
-    if (promocion.Codigo) {
-      await axios.delete(url + promocion.Codigo, config).then((res) => {
-        setPromociones(promociones.filter((item) => item.Codigo !== promocion.Codigo));
-        clearPromocion();
-      });
+        putPromocion(promocion)
+        .then(() => setModalUpdate(!modalUpdate))
+        .then(() => clearPromocion());
     }
   };
 
@@ -185,7 +126,8 @@ const Promocion = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deletePromocion(promocion);
+        deletePromocion(promocion)
+        .then(() => clearPromocion());
         Swal.fire(
           'Transacción Completa',
           'La promocion se ha eliminado',
@@ -194,10 +136,6 @@ const Promocion = () => {
       }
     });
   }
-
-  useEffect(() => {
-    getPromociones();
-  }, []);
 
   return (
     <div>

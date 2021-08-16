@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  FormGroup,
-  ModalFooter,
-} from 'reactstrap';
 import Swal from 'sweetalert2';
+import ModalUpdate from "./ModalUpdate";
+import ModalInsert from "./ModalInsert";
+import PrintFiador from "./PrintFiador";
+import ExportExcel from "./ExportExcel";
+import { CSVLink } from "react-csv";
 
 import { useFiador } from '../../hooks/useFiador';
 
@@ -25,6 +22,7 @@ const Fiador = () => {
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [fiador, setFiador] = useState(emptyFiador);
+  const [isPDF, setIsPDF] = useState(false);
 
   const clearFiador = () => {
     setFiador({ ...emptyFiador });
@@ -45,79 +43,39 @@ const Fiador = () => {
   };
 
   const handlePostFiador = () => {
-    if (!fiador.CodigoPrestamo) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de codigo de prestamo esta vacio',
-        'error'
-      );
-    } else if (!fiador.Cedula) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de cedula esta vacio',
-        'error'
-      );
-    } else if (!fiador.Nombre) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de nombre esta vacio',
-        'error'
-      );
-    } else if (!fiador.Apellidos) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de apellidos esta vacio',
-        'error'
-      );
-    } else if (!fiador.Ocupacion) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de ocupacion esta vacio',
-        'error'
-      );
-    } else {
-      postFiador(fiador)
-      .then(() => setModalInsert(!modalInsert))
-      .then(() => clearFiador());
-    }
+    const { CodigoPrestamo, Cedula, Nombre, Apellidos, Ocupacion } = fiador;
+
+    !CodigoPrestamo 
+    ? handleError(1, "codigo de prestamo") 
+    : !Cedula 
+    ? handleError(1, "cedula")
+    : !Nombre 
+    ? handleError(1, "nombre")
+    : !Apellidos
+    ? handleError(1, "apellidos")
+    : !Ocupacion
+    ? handleError(1, "ocupacion")
+    : postFiador(fiador)
+    .then(() => setModalInsert(!modalInsert))
+    .then(() => clearFiador());
   };
 
   const handlePutFiador = () => {
-    if (!fiador.CodigoPrestamo) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de codigo de prestamo esta vacio',
-        'error'
-      );
-    } else if (!fiador.Cedula) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de cedula esta vacio',
-        'error'
-      );
-    } else if (!fiador.Nombre) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de nombre esta vacio',
-        'error'
-      );
-    } else if (!fiador.Apellidos) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de apellidos esta vacio',
-        'error'
-      );
-    } else if (!fiador.Ocupacion) {
-      Swal.fire(
-        'Error de ingreso de fiador',
-        'El campo de ocupacion esta vacio',
-        'error'
-      );
-    } else {
-      putFiador(fiador)
-      .then(() => setModalUpdate(!modalUpdate))
-      .then(() => clearFiador());
-    }
+    const { CodigoPrestamo, Cedula, Nombre, Apellidos, Ocupacion } = fiador;
+
+    !CodigoPrestamo 
+    ? handleError(1, "codigo de prestamo") 
+    : !Cedula 
+    ? handleError(1, "cedula")
+    : !Nombre 
+    ? handleError(1, "nombre")
+    : !Apellidos
+    ? handleError(1, "apellidos")
+    : !Ocupacion
+    ? handleError(1, "ocupacion")
+    : putFiador(fiador)
+    .then(() => setModalUpdate(!modalUpdate))
+    .then(() => clearFiador());
   };
 
   const handleDeleteFiador = (fiador) => {
@@ -133,19 +91,19 @@ const Fiador = () => {
     }).then((result) => {
       if (result.value) {
         deleteFiador(fiador)
-        .then(() => clearFiador());
-        Swal.fire(
-          'Transacción Completa',
-          'El fiador se ha eliminado',
-          'success'
-        );
+        .then(() => clearFiador())
+        .then(() => handleError(3))
+        .catch(() => handleError(2));
       }
     });
   };
 
   return (
-    <div>
-      <div className="row">
+    <>
+      {isPDF ? (
+        <PrintFiador fiadores={fiadores} isPDF={isPDF} setIsPDF={setIsPDF} />
+      ) : (
+        <div className="row">
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
@@ -209,199 +167,36 @@ const Fiador = () => {
         >
           Ingresar
         </button>
+        <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={() => setIsPDF(!isPDF)}
+          >
+            Guardar en PDF
+          </button>
+
+          <ExportExcel fiadores={fiadores} />
+
+          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={fiadores} filename="Fiadores.csv">Exportar a CSV</CSVLink>
       </div>
+      )}
 
-      <Modal isOpen={modalInsert}>
-        <ModalHeader>
-          <div>
-            <h3>Insertar Fiador</h3>
-          </div>
-        </ModalHeader>
+      <ModalInsert
+        modalInsert={modalInsert}
+        handleChange={handleChange}
+        handlePostFiador={handlePostFiador}
+        setModalInsert={setModalInsert}
+        clearFiador={clearFiador}
+      />
 
-        <ModalBody>
-          <FormGroup>
-            <label>Codigo de Prestamo:</label>
-            <input
-              className="form-control"
-              placeholder="Codigo de Prestamo"
-              name="CodigoPrestamo"
-              type="number"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Cedula:</label>
-            <input
-              className="form-control"
-              placeholder="Cedula"
-              name="Cedula"
-              type="text"
-              maxLength="50"
-              size="50"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Nombre:</label>
-            <input
-              className="form-control"
-              placeholder="Nombre"
-              name="Nombre"
-              type="text"
-              maxLength="50"
-              size="50"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Apellidos:</label>
-            <input
-              className="form-control"
-              placeholder="Apellidos"
-              name="Apellidos"
-              type="text"
-              maxLength="50"
-              size="50"
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Ocupacion:</label>
-            <input
-              className="form-control"
-              placeholder="Ocupacion"
-              name="Ocupacion"
-              type="text"
-              maxLength="50"
-              size="50"
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button color="primary" onClick={() => handlePostFiador()}>
-            Insertar
-          </Button>
-          <Button
-            color="danger"
-            onClick={() => {
-              setModalInsert(!modalInsert);
-              clearFiador();
-            }}
-          >
-            Cancelar
-          </Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal isOpen={modalUpdate}>
-        <ModalHeader>
-          <div>
-            <h3>Editar Fiador</h3>
-          </div>
-        </ModalHeader>
-
-        <ModalBody>
-          <FormGroup>
-            <label>Codigo:</label>
-            <input
-              className="form-control"
-              readOnly
-              type="text"
-              value={fiador && fiador.Codigo}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Codigo de Prestamo:</label>
-            <input
-              className="form-control"
-              placeholder="Codigo de Prestamo"
-              name="CodigoPrestamo"
-              type="number"
-              value={fiador && fiador.CodigoPrestamo}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Cedula:</label>
-            <input
-              className="form-control"
-              placeholder="Cedula"
-              name="Cedula"
-              type="text"
-              maxLength="50"
-              size="50"
-              value={fiador && fiador.Cedula}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Nombre:</label>
-            <input
-              className="form-control"
-              placeholder="Nombre"
-              name="Nombre"
-              type="text"
-              maxLength="50"
-              size="50"
-              value={fiador && fiador.Nombre}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Apellidos:</label>
-            <input
-              className="form-control"
-              placeholder="Apellidos"
-              name="Apellidos"
-              type="text"
-              maxLength="50"
-              size="50"
-              value={fiador && fiador.Apellidos}
-              onChange={handleChange}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <label>Ocupacion:</label>
-            <input
-              className="form-control"
-              placeholder="Ocupacion"
-              name="Ocupacion"
-              type="text"
-              maxLength="50"
-              size="50"
-              value={fiador && fiador.Ocupacion}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button color="primary" onClick={() => handlePutFiador()}>
-            Editar
-          </Button>
-          <Button
-            color="danger"
-            onClick={() => {
-              setModalUpdate(!modalUpdate);
-              clearFiador();
-            }}
-          >
-            Cancelar
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
+      <ModalUpdate
+        modalUpdate={modalUpdate}
+        fiador={fiador}
+        handleChange={handleChange}
+        handlePutFiador={handlePutFiador}
+        setModalUpdate={setModalUpdate}
+        clearFiador={clearFiador}
+      />
+    </>
   );
 };
 

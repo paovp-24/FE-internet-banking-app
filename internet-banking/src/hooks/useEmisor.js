@@ -11,11 +11,10 @@ export const useEmisor = () => {
   const getEmisores = async () => {
     const token = getToken();
     const config = getConfig(token);
-    await axios.get(url, config)
-      .then((response) => {
-        const { data } = response;
-        setEmisores(data);
-      });
+    await axios.get(url, config).then((response) => {
+      const { data } = response;
+      setEmisores(data);
+    });
   };
 
   // eslint-disable-next-line
@@ -35,29 +34,33 @@ export const useEmisor = () => {
   const postEmisor = async (emisor) => {
     const token = getToken();
     const config = getConfig(token);
-    await axios.post(url, emisor, config).then((response) => {
-      const { data } = response;
-      setEmisores(emisores.concat(data));
-    })
-    .then(() => getEmisores());
+    await axios
+      .post(url, emisor, config)
+      .then((response) => {
+        const { data } = response;
+        setEmisores(emisores.concat(data));
+      })
+      .then(() => getEmisores());
   };
 
   const putEmisor = async (emisor) => {
     const token = getToken();
     const config = getConfig(token);
-    await axios.put(url + emisor.Codigo, emisor, config).then((response) => {
-      const newData = emisores;
-      newData.map((item) => {
-        if (emisor.Codigo === item.Codigo) {
-          item.Descripcion = emisor.Descripcion;
-          item.Prefijo = emisor.Prefijo;
-          item.NumeroDigitos = emisor.NumeroDigitos;
-        }
-        return newData;
-      });
-      setEmisores(newData);
-    })
-    .then(() => getEmisores());
+    await axios
+      .put(url + emisor.Codigo, emisor, config)
+      .then((response) => {
+        const newData = emisores;
+        newData.map((item) => {
+          if (emisor.Codigo === item.Codigo) {
+            item.Descripcion = emisor.Descripcion;
+            item.Prefijo = emisor.Prefijo;
+            item.NumeroDigitos = emisor.NumeroDigitos;
+          }
+          return newData;
+        });
+        setEmisores(newData);
+      })
+      .then(() => getEmisores());
   };
 
   const deleteEmisor = async (emisor) => {

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import {
   Button,
   Modal,
@@ -10,15 +9,7 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-import { baseUrl } from '../services/API/APIRest';
-
-const url = baseUrl + 'Marchamo/';
-
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  },
-};
+import { useMarchamo } from '../../hooks/useMarchamo';
 
 const Marchamo = () => {
   const emptyMarchamo = {
@@ -30,7 +21,7 @@ const Marchamo = () => {
     Estado: ''
   };
 
-  const [marchamos, setMarchamos] = useState([]);
+  const { marchamos, postMarchamo, putMarchamo, deleteMarchamo } = useMarchamo();
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [marchamo, setMarchamo] = useState(emptyMarchamo);
@@ -45,31 +36,6 @@ const Marchamo = () => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const getMarchamos = async () => {
-    await axios.get(url, config).then((res) => {
-      const data = res.data;
-      setMarchamos(data);
-    });
-  };
-
-  // eslint-disable-next-line
-  const getMarchamoById = async() => {
-    await axios.get(url+marchamo.Codigo, config).then(res=>{
-      const data = res.data;
-      setMarchamo(data);
-    })
-  }
-
-  const postMarchamo = async () => {
-    await axios.post(url, marchamo, config).then((res) => {
-      const data = res.data;
-      setMarchamos(marchamos.concat(data));
-      clearMarchamo();
-      getMarchamos();
-      setModalInsert(!modalInsert);
-    })
   };
 
   const handlePostMarchamo = () => {
@@ -104,30 +70,13 @@ const Marchamo = () => {
           'error'
         );
       } else {
-      postMarchamo();
+      postMarchamo(marchamo)
+      .then(() => setModalInsert(!modalInsert))
+      .then(() => clearMarchamo());
     }
   };
 
-  const putMarchamo = async () => {
-    await axios.put(url + marchamo.Codigo, marchamo, config).then((res) => {
-      const newData = marchamos;
-      newData.map((item) => {
-        if (marchamo.Codigo === item.Codigo) {
-          item.CodigoUsuario = marchamo.CodigoUsuario;
-          item.Placa = marchamo.Placa;
-          item.Monto = marchamo.Monto;
-          item.FechaLimite = marchamo.FechaLimite;
-          item.Estado = marchamo.Estado;
-        }
-        return newData;
-      });
-      setMarchamos(newData);
-      clearMarchamo();
-      getMarchamos();
-      setModalUpdate(!modalUpdate);
-    });
-  };
-
+  
   const handlePutMarchamo = () => {
     if (!marchamo.CodigoUsuario) {
       Swal.fire(
@@ -160,16 +109,9 @@ const Marchamo = () => {
           'error'
         );
       } else {
-        putMarchamo();
-    }
-  };
-
-  const deleteMarchamo = async (marchamo) => { 
-    if (marchamo.Codigo) {
-      await axios.delete(url + marchamo.Codigo, config).then((res) => {
-        setMarchamos(marchamos.filter((item) => item.Codigo !== marchamo.Codigo));
-        clearMarchamo();
-      });
+        putMarchamo(marchamo)
+        .then(() => setModalUpdate(!modalUpdate))
+        .then(() => clearMarchamo());
     }
   };
 
@@ -185,7 +127,8 @@ const Marchamo = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        deleteMarchamo(marchamo);
+        deleteMarchamo(marchamo)
+        .then(() => clearMarchamo());
         Swal.fire(
           'Transacción Completa',
           'El marchamo se ha eliminado',
@@ -194,10 +137,6 @@ const Marchamo = () => {
       }
     });
   }
-
-  useEffect(() => {
-    getMarchamos();
-  }, []);
 
   return (
     <div>
