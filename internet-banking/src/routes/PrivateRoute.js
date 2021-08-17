@@ -30,7 +30,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     }, [])
 
     return (
-        <Route {...rest} >{isAuth ? <Component /> : <Redirect to="/user-pages/login-1" />}</Route>
+        <Route {...rest} >{isAuth ? <Component /> : <Redirect to="/login" />}</Route>
     );
 };
 

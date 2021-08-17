@@ -40,7 +40,7 @@ const Register = () => {
     await register(form)
     .then((status) => {
       if (status === 200) {
-        history.push("/user-pages/login-1");
+        history.push("/login");
       }
       handleError(4)
     })
@@ -145,7 +145,7 @@ const Register = () => {
                 </div>
                 <div className="text-center mt-4 font-weight-light">
                   ¿Ya eres un bicho lover? <br />
-                  <Link to="/user-pages/login" className="text-primary">
+                  <Link to="/login" className="text-primary">
                     iniciar Sesión
                   </Link>
                 </div>

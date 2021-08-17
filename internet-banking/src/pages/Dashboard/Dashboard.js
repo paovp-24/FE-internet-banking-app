@@ -1,5 +1,8 @@
 import React from "react";
-import { Doughnut, Pie, Bar, Line } from "react-chartjs-2";
+import PieChart from "../../components/ChartJS/PieChart";
+import DoughnutChart from "../../components/ChartJS/DoughnutChart";
+import LineChart from "../../components/ChartJS/LineChart";
+import BarChart from "../../components/ChartJS/BarChart";
 import { useEmisor } from "../../hooks/useEmisor";
 import { useSesion } from "../../hooks/useSesion";
 import { useMarchamo } from "../../hooks/useMarchamo";
@@ -17,51 +20,6 @@ import { useCuenta_Debito } from "../../hooks/useCuenta_Debito";
 import { useCharts } from "../../hooks/useCharts";
 
 const Dashboard = () => {
-  const doughnutPieOptions = {
-    responsive: true,
-    animation: {
-      animateScale: true,
-      animateRotate: true,
-    },
-  };
-
-  const barOptions = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-          gridLines: {
-            color: "rgba(204, 204, 204,0.1)",
-          },
-        },
-      ],
-      xAxes: [
-        {
-          gridLines: {
-            color: "rgba(204, 204, 204,0.1)",
-          },
-        },
-      ],
-    },
-    legend: {
-      display: true,
-    },
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-  };
-
-  const lineOptions = {
-    type: 'line',
-    options: {
-      responsive: true
-    },
-  };
-
   //#region Emisor
 
   const { emisores } = useEmisor();
@@ -281,130 +239,31 @@ const Dashboard = () => {
         <h3 className="page-title">Dashboard</h3>
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Tarjeta</h4>
-              <Pie data={tarjetaDoughnutPie} options={doughnutPieOptions} />
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Promoción</h4>
-              <Pie data={promocionDoughnutPie} options={doughnutPieOptions} />
-            </div>
-          </div>
-        </div>
+        <PieChart title="Tarjeta" data={tarjetaDoughnutPie} />
+        <PieChart title="Promoción" data={promocionDoughnutPie} />
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Emisor</h4>
-              <h5 className="card-text">Número de digitos</h5>
-              <Doughnut data={emisorDoughnutPie} options={doughnutPieOptions} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sesión</h4>
-              <Doughnut data={sesionDoughnutPie} options={doughnutPieOptions} />
-            </div>
-          </div>
-        </div>
+        <DoughnutChart title="Emisor" descripcion="Número de digitos" data={emisorDoughnutPie} />
+        <DoughnutChart title="Sesión" descripcion="" data={sesionDoughnutPie} />
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Marchamo</h4>
-              <Doughnut
-                data={marchamoDoughnutPie}
-                options={doughnutPieOptions}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Fiador</h4>
-              <Doughnut
-                data={fiadorDoughnutPie}
-                options={doughnutPieOptions}
-              />
-            </div>
-          </div>
-        </div>
+        <DoughnutChart title="Marchamo" descripcion="" data={marchamoDoughnutPie} />
+        <DoughnutChart title="Fiador" descripcion="" data={fiadorDoughnutPie} />
       </div>
       <div className="row">
-        <div className="col-md-12 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Préstamo</h4>
-              <Line data={lineData} options={lineOptions} />
-            </div>
-          </div>
-        </div>
+        <LineChart title="Préstamo" data={lineData} />
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Inversión</h4>
-              <Bar data={inversionDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Estadística</h4>
-              <Bar data={estadisticaDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
+        <BarChart title="Inversión" data={inversionDoughnutPie} />
+        <BarChart title="Estadística" data={estadisticaDoughnutPie} />
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Sucursal</h4>
-              <Bar data={sucursalDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Propiedad</h4>
-              <Bar data={propiedadDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
+        <BarChart title="Sucursal" data={sucursalDoughnutPie} />
+        <BarChart title="Propiedad" data={propiedadDoughnutPie} />
       </div>
       <div className="row">
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Cuenta Crédito</h4>
-              <Bar data={cuenta_creditoDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Cuenta Débito</h4>
-              <Bar data={cuenta_debitoDoughnutPie} options={barOptions} />
-            </div>
-          </div>
-        </div>
+        <BarChart title="Cuenta Crédito" data={cuenta_creditoDoughnutPie} />
+        <BarChart title="Cuenta Débito" data={cuenta_debitoDoughnutPie} />
       </div>
     </div>
   );

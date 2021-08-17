@@ -119,7 +119,7 @@ const Login = () => {
                 <div className="text-center mt-4 font-weight-light">
                   ¿Estás registrado en banco de los bicholovers?
                   <br />
-                  <Link to="/user-pages/register-1" className="text-primary">
+                  <Link to="/register" className="text-primary">
                     Registrarse
                   </Link>
                 </div>

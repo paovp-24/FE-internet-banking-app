@@ -2,18 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import Spinner from '../pages/Shared/Spinner';
 
-/* Extra UI Elements */
-
-const BasicTable = lazy(() => import('../ExtraUI/basic-ui/BasicTable'));
-const Buttons = lazy(() => import('../ExtraUI/basic-ui/Buttons'));
-const Dropdowns = lazy(() => import('../ExtraUI/basic-ui/Dropdowns'));
-const Typography = lazy(() => import('../ExtraUI/basic-ui/Typography'));
-const BasicElements = lazy(() =>
-  import('../ExtraUI/form-elements/BasicElements')
-);
-const Mdi = lazy(() => import('../ExtraUI/icons/Mdi'));
-const ChartJs = lazy(() => import('../ExtraUI/charts/ChartJs'));
-
 /* Pages */
 
 const Login = lazy(() => import('../pages/Login/Login'));
@@ -49,21 +37,8 @@ const AppRoutes = () => {
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        <PrivateRoute path="/basic-ui/basic-table" component={BasicTable} />
-        <PrivateRoute path="/basic-ui/buttons" component={Buttons} />
-        <PrivateRoute path="/basic-ui/dropdowns" component={Dropdowns} />
-        <PrivateRoute path="/basic-ui/typography" component={Typography} />
-
-        <PrivateRoute
-          path="/form-Elements/basic-elements"
-          component={BasicElements}
-        />
-
-        <PrivateRoute path="/icons/mdi" component={Mdi} />
-        <PrivateRoute path="/charts/chart-js" component={ChartJs} />
-
-        <PublicRoute path="/user-pages/login-1" component={Login} />
-        <PublicRoute path="/user-pages/register-1" component={Register} />
+        <PublicRoute path="/login" component={Login} />
+        <PublicRoute path="/register" component={Register} />
 
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
@@ -89,7 +64,7 @@ const AppRoutes = () => {
         <PrivateRoute path="/error-pages/error-404" component={Error404} />
         <PrivateRoute path="/error-pages/error-500" component={Error500} />
 
-        <Redirect to="/user-pages/login-1" />
+        <Redirect to="/login" />
       </Switch>
     </Suspense>
   );
