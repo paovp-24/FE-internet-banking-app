@@ -1,4 +1,4 @@
-export const baseUrl = ' https://api-internet-banking.azurewebsites.net/api/';
+export const baseUrl = 'http://localhost:49220/api/';
 
 export const getToken = () => localStorage.getItem("token");
 

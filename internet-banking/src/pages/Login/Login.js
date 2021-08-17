@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { logIn } from '../../services/Login/index';
-import { browserName } from 'react-device-detect';
 import Swal from 'sweetalert2';
-import { osName, mobileVendor } from 'react-device-detect';
-import jwt_decode from 'jwt-decode'
-import { getToken } from '../../services/API/APIRest';
 
 import { useEstadistica } from '../../hooks/useEstadistica';
 import { useSesion } from '../../hooks/useSesion';
@@ -16,42 +12,9 @@ const Login = () => {
   const history = useHistory();
   // eslint-disable-next-line
   const { postEstadistica } = useEstadistica();
-  const { postSesion } = useSesion();
-
-  const currentdate = new Date();
-  const getDatetime = (date) => {
-    const datetime = 
-    (date.getMonth() + 1) +
-    '/' +
-    date.getDate() +
-    '/' +
-    date.getFullYear() +
-    ', ' +
-    date.getHours() +
-    ':' +
-    date.getMinutes() +
-    ':' +
-    date.getSeconds();
-    return datetime;
-  }
-  
   // eslint-disable-next-line
-  const estadistica = {
-    CodigoUsuario: "",
-    FechaHora: `${getDatetime(currentdate)}`,
-    Navegador: `${browserName}`,
-    PlataformaDispositivo: `${osName}`,
-    FabricanteDispositivo: `${mobileVendor}`,
-    Vista: 'Login',
-    Accion: 'Iniciar Sesión',
-  }
-
-  const sesion = {
-    CodigoUsuario: "",
-    FechaInicio: `${getDatetime(currentdate)}`,
-    FechaExpiracion: "",
-    Estado: "A"
-  }
+  const { postSesion } = useSesion();
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,29 +47,18 @@ const Login = () => {
       .then((response) => {
         const { data, status } = response;
         if (status === 200) {
-          const { Token, Nombre } = data;
+          const { Token, Nombre, Codigo } = data;
           const name = Nombre.split(' ');
           localStorage.setItem('token', Token);
           localStorage.setItem('name', name[0]);
-          history.push('/dashboard')
-          //const { Codigo } = data;
-          //estadistica.CodigoUsuario = Codigo; 
-          //postEstadistica(estadistica)
-          //sesion.CodigoUsuario = Codigo;
-          //handlePostSesion();
+          localStorage.setItem('Codigo', Codigo);
+          //postEstadistica(localStorage.getItem("Codigo"),'Login', 'Iniciar Sesion')
+          //postSesion(localStorage.getItem("Codigo"));
+          history.push('/dashboard');
         }
       })
       .catch(() => handleError(2));
   };
-
-  // eslint-disable-next-line
-  const handlePostSesion = async () => {
-    const token = getToken();
-    const decodedToken = jwt_decode(token);
-    const expiryDate = new Date(decodedToken.exp * 1000);
-    sesion.FechaExpiracion = getDatetime(expiryDate);
-    await postSesion(sesion);
-  }
 
   const handleLogIn = () => {
     const { Username, Password } = form;
