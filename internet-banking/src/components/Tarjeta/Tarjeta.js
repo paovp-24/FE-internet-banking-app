@@ -6,10 +6,13 @@ import PrintTarjeta from "./PrintTarjeta";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
+import { useEstadistica } from '../../hooks/useEstadistica';
 import { useTarjeta } from "../../hooks/useTarjeta";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Tarjeta = () => {
+  const { postEstadistica } = useEstadistica();
+
   const emptyTarjeta = {
     Codigo: "",
     CodigoEmisor: "",
@@ -58,6 +61,7 @@ const Tarjeta = () => {
     : !Estado
     ? handleError(1, "estado")
     : postTarjeta(tarjeta)
+    .then(() => postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Ingresar Tarjeta'))
     .then(() => setModalInsert(!modalInsert))
     .then(() => clearTarjeta());
   };
@@ -76,6 +80,7 @@ const Tarjeta = () => {
     : !Estado
     ? handleError(1, "estado")
     : putTarjeta(tarjeta)
+    .then(() => postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Editar Tarjeta'))
     .then(() => setModalUpdate(!modalUpdate))
     .then(() => clearTarjeta());
   };
@@ -93,6 +98,7 @@ const Tarjeta = () => {
     }).then((result) => {
       if (result.value) {
         deleteTarjeta(tarjeta)
+        .then(() => postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Eliminar Tarjeta'))
         .then(() => clearTarjeta())
         .then(() => handleError(3))
         .catch(() => handleError(2));
@@ -177,21 +183,21 @@ const Tarjeta = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Exportar a PDF')}}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={() => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
           <ExportExcel tarjetas={tarjetas} />
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={tarjetas} filename="Tarjetas.csv">Exportar a CSV</CSVLink>
+          <CSVLink onClick = {() => postEstadistica(localStorage.getItem("Codigo"),'Tarjeta', 'Exportar a CSV')} className="btn btn-outline-secondary btn-lg btn-block" data={tarjetas} filename="Tarjetas.csv">Exportar a CSV</CSVLink>
         </div>
       )}
 
