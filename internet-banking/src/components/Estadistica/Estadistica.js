@@ -4,19 +4,12 @@ import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
 import { useEstadistica } from "../../hooks/useEstadistica";
+import { useClipboard } from "../../hooks/useClipboard";
 
 const Estadistica = () => {
   const { estadisticas } = useEstadistica();
+  const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
-
-  const clipboard = () => {
-    const urlField = document.querySelector("table");
-    window.getSelection().removeAllRanges();
-    const range = document.createRange();
-    range.selectNode(urlField);
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-  };
 
   return (
     <>

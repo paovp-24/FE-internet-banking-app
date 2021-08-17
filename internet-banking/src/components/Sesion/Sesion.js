@@ -4,9 +4,11 @@ import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
 import { useSesion } from "../../hooks/useSesion";
+import { useClipboard } from "../../hooks/useClipboard";
 
 const Sesion = () => {
   const { sesiones } = useSesion();
+  const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
 
   return (
@@ -33,14 +35,20 @@ const Sesion = () => {
                     <tbody>
                       {sesiones &&
                         sesiones.map((sesion) => {
-                          return (sesion.Estado === "A" &&
-                            <tr key={sesion && sesion.Codigo}>
-                              <td>{sesion && sesion.Codigo}</td>
-                              <td>{sesion && sesion.CodigoUsuario}</td>
-                              <td>{sesion && sesion.FechaInicio}</td>
-                              <td>{sesion && sesion.FechaExpiracion}</td>
-                              <td>{sesion && sesion.Estado === "A" ? "Activo" : "Inactivo"}</td>
-                            </tr>
+                          return (
+                            sesion.Estado === "A" && (
+                              <tr key={sesion && sesion.Codigo}>
+                                <td>{sesion && sesion.Codigo}</td>
+                                <td>{sesion && sesion.CodigoUsuario}</td>
+                                <td>{sesion && sesion.FechaInicio}</td>
+                                <td>{sesion && sesion.FechaExpiracion}</td>
+                                <td>
+                                  {sesion && sesion.Estado === "A"
+                                    ? "Activo"
+                                    : "Inactivo"}
+                                </td>
+                              </tr>
+                            )
                           );
                         })}
                     </tbody>
@@ -56,9 +64,22 @@ const Sesion = () => {
             Guardar en PDF
           </button>
 
+          <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={clipboard}
+          >
+            Guardar en Portapapeles
+          </button>
+
           <ExportExcel sesiones={sesiones} />
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={sesiones} filename="Sesiones.csv">Exportar a CSV</CSVLink>
+          <CSVLink
+            className="btn btn-outline-secondary btn-lg btn-block"
+            data={sesiones}
+            filename="Sesiones.csv"
+          >
+            Exportar a CSV
+          </CSVLink>
         </div>
       )}
     </>

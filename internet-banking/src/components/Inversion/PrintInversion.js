@@ -2,33 +2,37 @@ import React, { useRef, forwardRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const ContentToPrint = forwardRef((props, ref) => {
-  const { emisores, isPDF, setIsPDF, handlePrint } = props;
+  const { inversiones, isPDF, setIsPDF, handlePrint } = props;
 
   return (
     <div className="row">
       <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h4 className="card-title">Guardar Emisores en .PDF</h4>
+            <h4 className="card-title">Guardar Inversiones en .PDF</h4>
             <div className="table-responsive">
               <table className="table" ref={ref}>
                 <thead>
                   <tr>
                     <th>Codigo</th>
-                    <th>Descripcion</th>
-                    <th>Prefijo</th>
-                    <th>Numero Digitos</th>
+                    <th>Codigo de Usuario</th>
+                    <th>Codigo de Moneda</th>
+                    <th>Monto</th>
+                    <th>Interes</th>
+                    <th>Liquidez</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {emisores &&
-                    emisores.map((emisor) => {
+                  {inversiones &&
+                    inversiones.map((inversion) => {
                       return (
-                        <tr key={emisor && emisor.Codigo}>
-                          <td>{emisor && emisor.Codigo}</td>
-                          <td>{emisor && emisor.Descripcion}</td>
-                          <td>{emisor && emisor.Prefijo}</td>
-                          <td>{emisor && emisor.NumeroDigitos}</td>
+                        <tr key={inversion && inversion.Codigo}>
+                          <td>{inversion && inversion.Codigo}</td>
+                          <td>{inversion && inversion.CodigoUsuario}</td>
+                          <td>{inversion && inversion.CodigoMoneda}</td>
+                          <td>{inversion && inversion.Monto}</td>
+                          <td>{inversion && inversion.Interes + "%"}</td>
+                          <td>{inversion && inversion.Liquidez}</td>
                         </tr>
                       );
                     })}
@@ -54,7 +58,7 @@ const ContentToPrint = forwardRef((props, ref) => {
   );
 });
 
-const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
+const PrintInversion = ({ inversiones, isPDF, setIsPDF }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -64,7 +68,7 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   return (
     <div>
       <ContentToPrint
-        emisores={emisores}
+        inversiones={inversiones}
         isPDF={isPDF}
         setIsPDF={setIsPDF}
         handlePrint={handlePrint}
@@ -74,4 +78,4 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   );
 };
 
-export default PrintEmisor;
+export default PrintInversion;

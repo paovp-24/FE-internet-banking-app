@@ -2,48 +2,44 @@ import React, { useRef, forwardRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const ContentToPrint = forwardRef((props, ref) => {
-  const { prestamos, isPDF, setIsPDF, handlePrint } = props;
+  const { propiedades, isPDF, setIsPDF, handlePrint } = props;
 
   return (
     <div className="row">
       <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h4 className="card-title">Guardar Prestamos en .PDF</h4>
+            <h4 className="card-title">Guardar Propiedades en .PDF</h4>
             <div className="table-responsive">
               <table className="table" ref={ref}>
                 <thead>
                   <tr>
                     <th>Codigo</th>
-                    <th>Codigo Usuario</th>
-                    <th>Codigo Moneda</th>
-                    <th>Monto</th>
-                    <th>Saldo Pendiente</th>
-                    <th>Tasa de Interes</th>
-                    <th>Fecha Emision</th>
-                    <th>Fecha Vencimiento</th>
+                    <th>Codigo de Usuario</th>
+                    <th>Ubicacion</th>
+                    <th>Dimension</th>
+                    <th>Descripcion</th>
                     <th>Estado</th>
+                    <th>Precio Fiscal</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {prestamos &&
-                    prestamos.map((prestamo) => {
+                  {propiedades &&
+                    propiedades.map((propiedad) => {
                       return (
-                        prestamo.Estado === "A" && (
-                          <tr key={prestamo && prestamo.Codigo}>
-                            <td>{prestamo && prestamo.Codigo}</td>
-                            <td>{prestamo && prestamo.CodigoUsuario}</td>
-                            <td>{prestamo && prestamo.CodigoMoneda}</td>
-                            <td>{prestamo && prestamo.Monto}</td>
-                            <td>{prestamo && prestamo.SaldoPendiente}</td>
-                            <td>{prestamo && prestamo.TasaInteres + "%"}</td>
-                            <td>{prestamo && prestamo.FechaEmision}</td>
-                            <td>{prestamo && prestamo.FechaVencimiento}</td>
+                        propiedad.Estado === "A" && (
+                          <tr key={propiedad && propiedad.Codigo}>
+                            <td>{propiedad && propiedad.Codigo}</td>
+                            <td>{propiedad && propiedad.CodigoUsuario}</td>
+                            <td>{propiedad && propiedad.Ubicacion}</td>
+                            <td>{propiedad && propiedad.Dimension}</td>
+                            <td>{propiedad && propiedad.Descripcion}</td>
                             <td>
-                              {prestamo && prestamo.Estado === "A"
+                              {propiedad && propiedad.Estado === "A"
                                 ? "Activo"
                                 : "Inactivo"}
                             </td>
+                            <td>{propiedad && propiedad.PrecioFiscal}</td>
                           </tr>
                         )
                       );
@@ -70,7 +66,7 @@ const ContentToPrint = forwardRef((props, ref) => {
   );
 });
 
-const PrintPrestamo = ({ prestamos, isPDF, setIsPDF }) => {
+const PrintPropiedad = ({ propiedades, isPDF, setIsPDF }) => {
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
       content: () => componentRef.current,
@@ -79,9 +75,15 @@ const PrintPrestamo = ({ prestamos, isPDF, setIsPDF }) => {
   
     return (
       <div>
-        <ContentToPrint prestamos={prestamos} isPDF={isPDF} setIsPDF={setIsPDF} handlePrint={handlePrint} ref={componentRef} />
+        <ContentToPrint
+          propiedades={propiedades}
+          isPDF={isPDF}
+          setIsPDF={setIsPDF}
+          handlePrint={handlePrint}
+          ref={componentRef}
+        />
       </div>
     );
   };
   
-  export default PrintPrestamo;
+  export default PrintPropiedad;

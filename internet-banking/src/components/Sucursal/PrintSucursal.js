@@ -2,33 +2,35 @@ import React, { useRef, forwardRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const ContentToPrint = forwardRef((props, ref) => {
-  const { emisores, isPDF, setIsPDF, handlePrint } = props;
+  const { sucursales, isPDF, setIsPDF, handlePrint } = props;
 
   return (
     <div className="row">
       <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h4 className="card-title">Guardar Emisores en .PDF</h4>
+            <h4 className="card-title">Guardar Sucursales en .PDF</h4>
             <div className="table-responsive">
               <table className="table" ref={ref}>
                 <thead>
                   <tr>
                     <th>Codigo</th>
-                    <th>Descripcion</th>
-                    <th>Prefijo</th>
-                    <th>Numero Digitos</th>
+                    <th>Nombre</th>
+                    <th>Ubicacion</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {emisores &&
-                    emisores.map((emisor) => {
+                  {sucursales &&
+                    sucursales.map((sucursal) => {
                       return (
-                        <tr key={emisor && emisor.Codigo}>
-                          <td>{emisor && emisor.Codigo}</td>
-                          <td>{emisor && emisor.Descripcion}</td>
-                          <td>{emisor && emisor.Prefijo}</td>
-                          <td>{emisor && emisor.NumeroDigitos}</td>
+                        <tr key={sucursal && sucursal.Codigo}>
+                          <td>{sucursal && sucursal.Codigo}</td>
+                          <td>{sucursal && sucursal.Nombre}</td>
+                          <td>{sucursal && sucursal.Ubicacion}</td>
+                          <td>{sucursal && sucursal.Correo}</td>
+                          <td>{sucursal && sucursal.Telefono}</td>
                         </tr>
                       );
                     })}
@@ -54,7 +56,7 @@ const ContentToPrint = forwardRef((props, ref) => {
   );
 });
 
-const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
+const PrintSucursal = ({ sucursales, isPDF, setIsPDF }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -64,7 +66,7 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   return (
     <div>
       <ContentToPrint
-        emisores={emisores}
+        sucursales={sucursales}
         isPDF={isPDF}
         setIsPDF={setIsPDF}
         handlePrint={handlePrint}
@@ -74,4 +76,4 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   );
 };
 
-export default PrintEmisor;
+export default PrintSucursal;

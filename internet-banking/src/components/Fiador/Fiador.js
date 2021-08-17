@@ -7,6 +7,7 @@ import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
 import { useFiador } from '../../hooks/useFiador';
+import { useClipboard } from "../../hooks/useClipboard";
 
 const Fiador = () => {
   const emptyFiador = {
@@ -22,6 +23,7 @@ const Fiador = () => {
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [fiador, setFiador] = useState(emptyFiador);
+  const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
 
   const clearFiador = () => {
@@ -172,6 +174,13 @@ const Fiador = () => {
             onClick={() => setIsPDF(!isPDF)}
           >
             Guardar en PDF
+          </button>
+
+          <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={clipboard}
+          >
+            Guardar en Portapapeles
           </button>
 
           <ExportExcel fiadores={fiadores} />

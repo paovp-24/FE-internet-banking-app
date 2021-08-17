@@ -2,34 +2,44 @@ import React, { useRef, forwardRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const ContentToPrint = forwardRef((props, ref) => {
-  const { emisores, isPDF, setIsPDF, handlePrint } = props;
+  const { tarjetas, isPDF, setIsPDF, handlePrint } = props;
 
   return (
     <div className="row">
       <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h4 className="card-title">Guardar Emisores en .PDF</h4>
+            <h4 className="card-title">Guardar Tarjetas en .PDF</h4>
             <div className="table-responsive">
               <table className="table" ref={ref}>
                 <thead>
                   <tr>
                     <th>Codigo</th>
-                    <th>Descripcion</th>
-                    <th>Prefijo</th>
-                    <th>Numero Digitos</th>
+                    <th>Codigo de Emisor</th>
+                    <th>Numero</th>
+                    <th>Fecha de Emision</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Estado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {emisores &&
-                    emisores.map((emisor) => {
+                  {tarjetas &&
+                    tarjetas.map((tarjeta) => {
                       return (
-                        <tr key={emisor && emisor.Codigo}>
-                          <td>{emisor && emisor.Codigo}</td>
-                          <td>{emisor && emisor.Descripcion}</td>
-                          <td>{emisor && emisor.Prefijo}</td>
-                          <td>{emisor && emisor.NumeroDigitos}</td>
-                        </tr>
+                        tarjeta.Estado === "A" && (
+                          <tr key={tarjeta && tarjeta.Codigo}>
+                            <td>{tarjeta && tarjeta.Codigo}</td>
+                            <td>{tarjeta && tarjeta.CodigoEmisor}</td>
+                            <td>{tarjeta && tarjeta.Numero}</td>
+                            <td>{tarjeta && tarjeta.FechaEmision}</td>
+                            <td>{tarjeta && tarjeta.FechaVencimiento}</td>
+                            <td>
+                              {tarjeta && tarjeta.Estado === "A"
+                                ? "Activo"
+                                : "Inactivo"}
+                            </td>
+                          </tr>
+                        )
                       );
                     })}
                 </tbody>
@@ -54,7 +64,7 @@ const ContentToPrint = forwardRef((props, ref) => {
   );
 });
 
-const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
+const PrintTarjeta = ({ tarjetas, isPDF, setIsPDF }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -64,7 +74,7 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   return (
     <div>
       <ContentToPrint
-        emisores={emisores}
+        tarjetas={tarjetas}
         isPDF={isPDF}
         setIsPDF={setIsPDF}
         handlePrint={handlePrint}
@@ -74,4 +84,4 @@ const PrintEmisor = ({ emisores, isPDF, setIsPDF }) => {
   );
 };
 
-export default PrintEmisor;
+export default PrintTarjeta;

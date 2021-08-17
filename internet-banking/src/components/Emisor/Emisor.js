@@ -7,6 +7,7 @@ import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
 import { useEmisor } from "../../hooks/useEmisor";
+import { useClipboard } from "../../hooks/useClipboard";
 
 const Emisor = () => {
   const emptyEmisor = {
@@ -20,6 +21,7 @@ const Emisor = () => {
   const [emisor, setEmisor] = useState(emptyEmisor);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
+  const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
 
   const clearEmisor = () => {
@@ -158,6 +160,13 @@ const Emisor = () => {
             onClick={() => setIsPDF(!isPDF)}
           >
             Guardar en PDF
+          </button>
+
+          <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={clipboard}
+          >
+            Guardar en Portapapeles
           </button>
 
           <ExportExcel emisores={emisores} />

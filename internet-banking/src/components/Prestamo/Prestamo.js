@@ -7,6 +7,7 @@ import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
 import { usePrestamo } from "../../hooks/usePrestamo";
+import { useClipboard } from "../../hooks/useClipboard";
 
 const Prestamo = () => {
   const emptyPrestamo = {
@@ -26,6 +27,7 @@ const Prestamo = () => {
   const [prestamo, setPrestamo] = useState(emptyPrestamo);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
+  const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
 
   const clearPrestamo = () => {
@@ -240,6 +242,13 @@ const Prestamo = () => {
             onClick={() => setIsPDF(!isPDF)}
           >
             Guardar en PDF
+          </button>
+
+          <button
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={clipboard}
+          >
+            Guardar en Portapapeles
           </button>
 
           <ExportExcel prestamos={prestamos} />
