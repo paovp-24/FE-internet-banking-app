@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import PrintSesion from "./PrintSesion";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
-
+import { useEstadistica } from '../../hooks/useEstadistica';
 import { useSesion } from "../../hooks/useSesion";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Sesion = () => {
+  const { postEstadistica } = useEstadistica();
   const { sesiones } = useSesion();
   const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
@@ -59,27 +60,21 @@ const Sesion = () => {
           </div>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Sesion', 'Exportar pdf') }}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={ () => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Sesion', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
-          <ExportExcel sesiones={sesiones} />
+          <ExportExcel sesiones={sesiones} onClick ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Sesion', 'Exportar excel') }/>
 
-          <CSVLink
-            className="btn btn-outline-secondary btn-lg btn-block"
-            data={sesiones}
-            filename="Sesiones.csv"
-          >
-            Exportar a CSV
-          </CSVLink>
+<CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={sesiones} onClick  ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Sesion', 'Exportar csv') } filename="Sesion.csv">Exportar a CSV</CSVLink>
         </div>
       )}
     </>
