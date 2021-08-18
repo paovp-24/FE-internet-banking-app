@@ -8,6 +8,7 @@ import { CSVLink } from "react-csv";
 
 import { usePropiedad } from "../../hooks/usePropiedad";
 import { useClipboard } from "../../hooks/useClipboard";
+import { useEstadistica } from "../../hooks/useEstadistica";
 
 const Propiedad = () => {
   const emptyPropiedad = {
@@ -26,6 +27,7 @@ const Propiedad = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   const [propiedad, setPropiedad] = useState(emptyPropiedad);
   const { clipboard } = useClipboard();
+  const { postEstadistica } = useEstadistica();
   const [isPDF, setIsPDF] = useState(false);
 
   const clearPropiedad = () => {
@@ -83,6 +85,13 @@ const Propiedad = () => {
       : !PrecioFiscal
       ? handleError(1, "precio fiscal")
       : postPropiedad(propiedad)
+          .then(() =>
+            postEstadistica(
+              localStorage.getItem("Codigo"),
+              "Propiedad",
+              "Insertar Propiedad"
+            )
+          )
           .then(() => setModalInsert(!modalInsert))
           .then(() => clearPropiedad());
   };
@@ -110,6 +119,13 @@ const Propiedad = () => {
       : !PrecioFiscal
       ? handleError(1, "precio fiscal")
       : putPropiedad(propiedad)
+          .then(() =>
+            postEstadistica(
+              localStorage.getItem("Codigo"),
+              "Propiedad",
+              "Actualizar Propiedad"
+            )
+          )
           .then(() => setModalUpdate(!modalUpdate))
           .then(() => clearPropiedad());
   };
@@ -127,6 +143,13 @@ const Propiedad = () => {
     }).then((result) => {
       if (result.value) {
         deletePropiedad(propiedad)
+          .then(() =>
+            postEstadistica(
+              localStorage.getItem("Codigo"),
+              "Propiedad",
+              "Eliminar Propiedad"
+            )
+          )
           .then(() => clearPropiedad())
           .then(() => handleError(3))
           .catch(() => handleError(2));
@@ -137,7 +160,11 @@ const Propiedad = () => {
   return (
     <>
       {isPDF ? (
-        <PrintPropiedad propiedades={propiedades} isPDF={isPDF} setIsPDF={setIsPDF} />
+        <PrintPropiedad
+          propiedades={propiedades}
+          isPDF={isPDF}
+          setIsPDF={setIsPDF}
+        />
       ) : (
         <div className="row">
           <div className="col-lg-12 grid-margin stretch-card">
@@ -215,21 +242,28 @@ const Propiedad = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Propiedad', 'Guardar en PDF')}}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={() => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Propiedad', 'Copiar al Portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
           <ExportExcel propiedades={propiedades} />
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={propiedades} filename="Propiedades.csv">Exportar a CSV</CSVLink>
+          <CSVLink
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={() => postEstadistica(localStorage.getItem("Codigo"),'Propiedad', 'Exportar a CSV')}
+            data={propiedades}
+            filename="Propiedades.csv"
+          >
+            Exportar a CSV
+          </CSVLink>
         </div>
       )}
 

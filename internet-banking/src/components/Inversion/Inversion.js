@@ -8,6 +8,7 @@ import { CSVLink } from "react-csv";
 
 import { useInversion } from "../../hooks/useInversion";
 import { useClipboard } from "../../hooks/useClipboard";
+import { useEstadistica } from "../../hooks/useEstadistica";
 
 const Inversion = () => {
   const emptyInversion = {
@@ -25,6 +26,7 @@ const Inversion = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   const [inversion, setInversion] = useState(emptyInversion);
   const { clipboard } = useClipboard();
+  const { postEstadistica } = useEstadistica();
   const [isPDF, setIsPDF] = useState(false);
 
   const clearInversion = () => {
@@ -73,6 +75,7 @@ const Inversion = () => {
       : !Liquidez
       ? handleError(1, "liquidez")
       : postInversion(inversion)
+          .then(() => postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Insertar Inversion'))
           .then(() => setModalInsert(!modalInsert))
           .then(() => clearInversion());
   };
@@ -91,6 +94,7 @@ const Inversion = () => {
       : !Liquidez
       ? handleError(1, "liquidez")
       : putInversion(inversion)
+          .then(() => postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Actualizar Inversion'))
           .then(() => setModalUpdate(!modalUpdate))
           .then(() => clearInversion());
   };
@@ -108,6 +112,7 @@ const Inversion = () => {
     }).then((result) => {
       if (result.value) {
         deleteInversion(inversion)
+          .then(() => postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Eliminar Inversion'))
           .then(() => clearInversion())
           .then(() => handleError(3))
           .catch(() => handleError(2));
@@ -118,7 +123,11 @@ const Inversion = () => {
   return (
     <>
       {isPDF ? (
-        <PrintInversion inversiones={inversiones} isPDF={isPDF} setIsPDF={setIsPDF} />
+        <PrintInversion
+          inversiones={inversiones}
+          isPDF={isPDF}
+          setIsPDF={setIsPDF}
+        />
       ) : (
         <div className="row">
           <div className="col-lg-12 grid-margin stretch-card">
@@ -188,21 +197,28 @@ const Inversion = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Exportar a PDF')}}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={() => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Copiar al Portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
           <ExportExcel inversiones={inversiones} />
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={inversiones} filename="Inversiones.csv">Exportar a CSV</CSVLink>
+          <CSVLink
+            className="btn btn-outline-secondary btn-lg btn-block"
+            onClick={() => postEstadistica(localStorage.getItem("Codigo"),'Inversion', 'Exportar a CSV')}
+            data={inversiones}
+            filename="Inversiones.csv"
+          >
+            Exportar a CSV
+          </CSVLink>
         </div>
       )}
 
