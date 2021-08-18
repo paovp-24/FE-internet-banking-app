@@ -6,10 +6,13 @@ import PrintSucursal from "./PrintSucursal";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
 
+import { useEstadistica } from '../../hooks/useEstadistica';
 import { useSucursal } from "../../hooks/useSucursal";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Sucursal = () => {
+  const { postEstadistica } = useEstadistica();
+
   const emptySucursal = {
     Codigo: "",
     Nombre: "",
@@ -70,6 +73,7 @@ const Sucursal = () => {
       : !Telefono
       ? handleError(1, "telefono")
       : postSucursal(sucursal)
+          .then(() => postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Ingresar Sucursal'))
           .then(() => setModalInsert(!modalInsert))
           .then(() => clearSucursal());
   };
@@ -86,6 +90,7 @@ const Sucursal = () => {
       : !Telefono
       ? handleError(1, "telefono")
       : putSucursal(sucursal)
+      .then(() => postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Editar Sucursal'))
           .then(() => setModalUpdate(!modalUpdate))
           .then(() => clearSucursal());
   };
@@ -103,6 +108,7 @@ const Sucursal = () => {
     }).then((result) => {
       if (result.value) {
         deleteSucursal(sucursal)
+        .then(() => postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Eliminar Sucursal'))
           .then(() => clearSucursal())
           .then(() => handleError(3))
           .catch(() => handleError(2));
@@ -179,21 +185,21 @@ const Sucursal = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF);postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Exportar a PDF') }}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={() => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
-          <ExportExcel sucursales={sucursales} />
+          <ExportExcel  sucursales={sucursales} />
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={sucursales} filename="Sucursales.csv">Exportar a CSV</CSVLink>
+          <CSVLink onClick = {() => postEstadistica(localStorage.getItem("Codigo"),'Sucursal', 'Exportar a CSV')} className="btn btn-outline-secondary btn-lg btn-block" data={sucursales} filename="Sucursales.csv">Exportar a CSV</CSVLink>
         </div>
       )}
 
