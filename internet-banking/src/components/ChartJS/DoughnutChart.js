@@ -11,10 +11,6 @@ const DoughnutChart = ({ title, descripcion, data }) => {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Chart.js Doughnut Chart',
-        }
       };
 
     return (

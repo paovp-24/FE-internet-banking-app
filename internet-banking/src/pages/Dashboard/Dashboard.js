@@ -239,31 +239,31 @@ const Dashboard = () => {
         <h3 className="page-title">Dashboard</h3>
       </div>
       <div className="row">
-        <PieChart title="Tarjeta" data={tarjetaDoughnutPie} />
-        <PieChart title="Promoción" data={promocionDoughnutPie} />
+        <PieChart title="Tarjeta" descripcion="Estado" data={tarjetaDoughnutPie} />
+        <PieChart title="Promoción" descripcion="Código Emisor" data={promocionDoughnutPie} />
       </div>
       <div className="row">
         <DoughnutChart title="Emisor" descripcion="Número de digitos" data={emisorDoughnutPie} />
-        <DoughnutChart title="Sesión" descripcion="" data={sesionDoughnutPie} />
+        <DoughnutChart title="Sesión" descripcion="Código de Usuario" data={sesionDoughnutPie} />
       </div>
       <div className="row">
-        <DoughnutChart title="Marchamo" descripcion="" data={marchamoDoughnutPie} />
-        <DoughnutChart title="Fiador" descripcion="" data={fiadorDoughnutPie} />
+        <DoughnutChart title="Marchamo" descripcion="Código de Usuario" data={marchamoDoughnutPie} />
+        <DoughnutChart title="Fiador" descripcion="Ocupación" data={fiadorDoughnutPie} />
       </div>
       <div className="row">
-        <LineChart title="Préstamo" data={lineData} />
+        <LineChart title="Préstamo" descripcion="Monto y Saldo Pendiente" data={lineData} />
       </div>
       <div className="row">
-        <BarChart title="Inversión" data={inversionDoughnutPie} />
-        <BarChart title="Estadística" data={estadisticaDoughnutPie} />
+        <BarChart title="Inversión" descripcion="Interés" data={inversionDoughnutPie} />
+        <BarChart title="Estadística" descripcion="Navegador" data={estadisticaDoughnutPie} />
       </div>
       <div className="row">
-        <BarChart title="Sucursal" data={sucursalDoughnutPie} />
-        <BarChart title="Propiedad" data={propiedadDoughnutPie} />
+        <BarChart title="Sucursal" descripcion="Ubicación" data={sucursalDoughnutPie} />
+        <BarChart title="Propiedad" descripcion="Ubicación" data={propiedadDoughnutPie} />
       </div>
       <div className="row">
-        <BarChart title="Cuenta Crédito" data={cuenta_creditoDoughnutPie} />
-        <BarChart title="Cuenta Débito" data={cuenta_debitoDoughnutPie} />
+        <BarChart title="Cuenta Crédito" descripcion="Código de Moneda" data={cuenta_creditoDoughnutPie} />
+        <BarChart title="Cuenta Débito" descripcion="Código de Moneda" data={cuenta_debitoDoughnutPie} />
       </div>
     </div>
   );

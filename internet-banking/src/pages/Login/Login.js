@@ -52,8 +52,8 @@ const Login = () => {
           localStorage.setItem('token', Token);
           localStorage.setItem('name', name[0]);
           localStorage.setItem('Codigo', Codigo);
-          //postEstadistica(localStorage.getItem("Codigo"),'Login', 'Iniciar Sesion')
-          //postSesion(localStorage.getItem("Codigo"));
+          postEstadistica(localStorage.getItem("Codigo"),'Login', 'Iniciar Sesion')
+          postSesion(localStorage.getItem("Codigo"));
           history.push('/dashboard');
         }
       })
