@@ -7,7 +7,7 @@ import { useEstadistica } from "../../hooks/useEstadistica";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Estadistica = () => {
-  const { estadisticas } = useEstadistica();
+  const { postEstadistica, estadisticas } = useEstadistica();
   const { clipboard } = useClipboard();
   const [isPDF, setIsPDF] = useState(false);
 
@@ -66,14 +66,14 @@ const Estadistica = () => {
           </div>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Estadistica', 'Exportar PDF')}}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={() => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Estadistica', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
@@ -81,6 +81,7 @@ const Estadistica = () => {
           <ExportExcel estadisticas={estadisticas} />
 
           <CSVLink
+           onClick={() =>  postEstadistica(localStorage.getItem("Codigo"),'Estadistica', 'Copiar al portapapeles')}
             className="btn btn-outline-secondary btn-lg btn-block"
             data={estadisticas}
             filename="Estadisticas.csv"
