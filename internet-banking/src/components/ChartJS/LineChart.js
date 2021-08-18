@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from "react-chartjs-2";
 
-const LineChart = ({ title, data }) => {
+const LineChart = ({ title, descripcion, data }) => {
     const lineChartOptions = {
       responsive: true,
       animation: {
@@ -11,10 +11,6 @@ const LineChart = ({ title, data }) => {
       legend: {
           position: 'top',
       },
-      title: {
-          display: true,
-          text: 'Chart.js Line Chart',
-      }
     };
 
     return (
@@ -22,6 +18,7 @@ const LineChart = ({ title, data }) => {
           <div className="card">
             <div className="card-body">
               <h4 className="card-title">{title}</h4>
+              <h5 className="card-text">{descripcion}</h5>
               <Line data={data} options={lineChartOptions} />
             </div>
           </div>

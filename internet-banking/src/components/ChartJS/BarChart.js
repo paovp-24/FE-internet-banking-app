@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bar } from "react-chartjs-2";
 
-const BarChart = ({ title, data }) => {
+const BarChart = ({ title, descripcion, data }) => {
     const barChartOptions = {
         scales: {
           yAxes: [
@@ -25,10 +25,6 @@ const BarChart = ({ title, data }) => {
         legend: {
           display: false,
         },
-        title: {
-            display: true,
-            text: 'Chart.js Bar Chart',
-        },
         elements: {
           point: {
             radius: 0,
@@ -41,6 +37,7 @@ const BarChart = ({ title, data }) => {
           <div className="card">
             <div className="card-body">
               <h4 className="card-title">{title}</h4>
+              <h5 className="card-text">{descripcion}</h5>
               <Bar data={data} options={barChartOptions} />
             </div>
           </div>

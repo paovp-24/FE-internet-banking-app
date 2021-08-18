@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pie } from "react-chartjs-2";
 
-const PieChart = ({ title, data }) => {
+const PieChart = ({ title, descripcion, data }) => {
     const pieChartOptions = {
         responsive: true,
         animation: {
@@ -11,10 +11,6 @@ const PieChart = ({ title, data }) => {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Chart.js Pie Chart',
-        }
       };
 
     return (
@@ -22,6 +18,7 @@ const PieChart = ({ title, data }) => {
           <div className="card">
             <div className="card-body">
               <h4 className="card-title">{title}</h4>
+              <h5 className="card-text">{descripcion}</h5>
               <Pie data={data} options={pieChartOptions} />
             </div>
           </div>
