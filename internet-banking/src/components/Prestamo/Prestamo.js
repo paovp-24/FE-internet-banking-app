@@ -5,11 +5,12 @@ import ModalInsert from "./ModalInsert";
 import PrintPrestamo from "./PrintPrestamo";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
-
+import { useEstadistica } from '../../hooks/useEstadistica';
 import { usePrestamo } from "../../hooks/usePrestamo";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Prestamo = () => {
+  const { postEstadistica } = useEstadistica();
   const emptyPrestamo = {
     Codigo: "",
     CodigoUsuario: "",
@@ -91,6 +92,7 @@ const Prestamo = () => {
       : !Estado
       ? handleError(1, "estado")
       : postPrestamo(prestamo)
+      .then(() => postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Ingresar prestamo'))
           .then(() => setModalInsert(!modalInsert))
           .then(() => clearPrestamo());
   };
@@ -124,6 +126,7 @@ const Prestamo = () => {
       : !Estado
       ? handleError(1, "estado")
       : putPrestamo(prestamo)
+      .then(() => postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Actualizar prestamo'))
           .then(() => setModalUpdate(!modalUpdate))
           .then(() => clearPrestamo());
   };
@@ -141,6 +144,7 @@ const Prestamo = () => {
     }).then((result) => {
       if (result.value) {
         deletePrestamo(prestamo)
+        .then(() => postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Eliminar prestamo'))
           .then(() => clearPrestamo())
           .then(() => handleError(3))
           .catch(() => handleError(2));
@@ -239,21 +243,21 @@ const Prestamo = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Exportar pdf') }}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={ () => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
-          <ExportExcel prestamos={prestamos} />
+          <ExportExcel prestamos={prestamos} onClick ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Exportar excel') }/>
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={prestamos} filename="Prestamos.csv">Exportar a CSV</CSVLink>
+          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={prestamos} onClick  ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Prestamo', 'Exportar csv') } filename="Prestamos.csv">Exportar a CSV</CSVLink>
         </div>
       )}
 

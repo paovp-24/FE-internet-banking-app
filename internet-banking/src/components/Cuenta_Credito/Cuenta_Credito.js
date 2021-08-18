@@ -5,11 +5,13 @@ import ModalInsert from "./ModalInsert";
 import PrintCuentaCredito from "./PrintCuentaCredito";
 import ExportExcel from "./ExportExcel";
 import { CSVLink } from "react-csv";
+import { useEstadistica } from '../../hooks/useEstadistica';
 
 import { useCuenta_Credito } from "../../hooks/useCuenta_Credito";
 import { useClipboard } from "../../hooks/useClipboard";
 
 const Cuenta_Credito = () => {
+  const { postEstadistica } = useEstadistica();
   const emptyCuenta_Credito = {
     Codigo: "",
     CodigoUsuario: "",
@@ -107,6 +109,7 @@ const Cuenta_Credito = () => {
       : !Estado
       ? handleError(1, "estado")
       : postCuenta_Credito(cuenta_credito)
+      .then(() => postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Ingresar Cuenta Credito'))
           .then(() => setModalInsert(!modalInsert))
           .then(() => clearCuenta_Credito());
   };
@@ -149,6 +152,7 @@ const Cuenta_Credito = () => {
       : !Estado
       ? handleError(1, "estado")
       : putCuenta_Credito(cuenta_credito)
+      .then(() => postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Actualizar Cuenta Credito'))
           .then(() => setModalUpdate(!modalUpdate))
           .then(() => clearCuenta_Credito());
   };
@@ -166,6 +170,7 @@ const Cuenta_Credito = () => {
     }).then((result) => {
       if (result.value) {
         deleteCuenta_Credito(cuenta_credito)
+        .then(() => postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Eliminar Cuenta Credito'))
           .then(() => clearCuenta_Credito())
           .then(() => handleError(3))
           .catch(() => handleError(2));
@@ -289,21 +294,21 @@ const Cuenta_Credito = () => {
           </button>
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={() => setIsPDF(!isPDF)}
+            onClick={() => {setIsPDF(!isPDF); postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Exportar excel') }}
           >
             Guardar en PDF
           </button>
 
           <button
             className="btn btn-outline-secondary btn-lg btn-block"
-            onClick={clipboard}
+            onClick={ () => {clipboard(); postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Copiar al portapapeles')}}
           >
             Guardar en Portapapeles
           </button>
 
-          <ExportExcel cuentas_credito={cuentas_credito} />
+          <ExportExcel cuentas_credito={cuentas_credito} onClick ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Exportar excel') }/>
 
-          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={cuentas_credito} filename="Cuentas_Credito.csv">Exportar a CSV</CSVLink>
+          <CSVLink className="btn btn-outline-secondary btn-lg btn-block" data={cuentas_credito} onClick  ={() =>  postEstadistica(localStorage.getItem("Codigo"),'Cuenta_Credito', 'Exportar csv') } filename="Cuenta_Credito.csv">Exportar a CSV</CSVLink>
         </div>
       )}
 
